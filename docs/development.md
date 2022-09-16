@@ -27,7 +27,7 @@ Crenata를 작업 하려면 먼저 git에서 소스코드를 가져와야 합니
 
 ```sh
 git clone https://github.com/team-crescendo/Crenata
-cd Rena
+cd Crenata
 ```
 
 ## 개발 환경
