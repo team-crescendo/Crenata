@@ -10,6 +10,7 @@ readme = "README.md"
 python = "^3.10"
 "discord.py" = "^2.0.1"
 neispy = "^4.0.3"
+pydantic = "^1.10.2"
 
 [tool.poetry.group.style.dependencies]
 black = "^22.8.0"
