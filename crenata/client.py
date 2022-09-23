@@ -9,6 +9,7 @@ from discord.flags import Intents
 from discord.object import Object
 
 from crenata.config import CrenataConfig
+from crenata.crenataneispy import CrenataNeispy
 
 
 class Crenata(Client):
@@ -18,6 +19,7 @@ class Crenata(Client):
         super().__init__(intents=intents, *args, **kwargs)
         self.tree = CommandTree(self)
         self.config = config
+        self.crenata_neispy = CrenataNeispy.create("")
 
     async def setup_hook(self) -> None:
         if self.config.PRODUCTION:

@@ -32,6 +32,7 @@ def create_client(config: CrenataConfig) -> Crenata:
     명령어를 추가하고, Config값을 사용해서 Crenata 클라이언트를 반환합니다.
     """
     crenata = Crenata(config, intents=Intents.default())
+    
     # for command in commands:
     #     if config.PRODUCTION:
     #         crenata.tree.add_command(command)
