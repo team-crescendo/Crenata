@@ -11,6 +11,7 @@ python = "^3.10"
 "discord.py" = "^2.0.1"
 neispy = "^4.2.0"
 pydantic = "^1.10.2"
+SQLAlchemy = {extras = ["mypy"], version = "^1.4.41"}
 
 [tool.poetry.group.style.dependencies]
 black = "^22.8.0"
