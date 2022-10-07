@@ -10,6 +10,7 @@ from discord.object import Object
 
 from crenata.config import CrenataConfig
 from crenata.crenataneispy import CrenataNeispy
+from crenata.database import ORM
 
 
 class Crenata(Client):
@@ -26,6 +27,7 @@ class Crenata(Client):
             await self.tree.sync()
         else:
             await self.tree.sync(guild=Object(self.config.TEST_GUILD_ID))
+        self.orm = await ORM.setup(self.config.DB_URL)
 
     def run(self, *args: Any, **kwargs: Any) -> None:
         """

@@ -34,8 +34,8 @@ class CrenataNeispy(Neispy):
         meal_time: Literal["조식", "중식", "석식"],
         edu_office_code: str,
         standard_school_code: str,
-        /,
-        date: Optional[str] = None,
+        *,
+        date: Optional[str],
     ) -> Optional[Any]:
         if results := await self.mealServiceDietInfo(
             ATPT_OFCDC_SC_CODE=edu_office_code,

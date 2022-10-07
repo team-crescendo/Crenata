@@ -1,3 +1,4 @@
+from functools import cached_property
 from typing import Any, Optional
 
 from discord.embeds import Embed
@@ -6,19 +7,31 @@ from discord.interactions import Interaction
 from discord.ui.button import button
 from discord.ui.view import View
 
+from crenata.typing import EmbedMaker
+
 
 class Paginator(View):
     def __init__(
-        self, executor_id: int, embeds: list[Embed], timeout: Optional[float] = 60
+        self,
+        executor_id: int,
+        data: list[Any],
+        embed_maker: EmbedMaker,
+        timeout: Optional[float] = 60,
     ):
         super().__init__(timeout=timeout)
-        self.embeds = embeds
+        self.data = data
+        self.embed_maker: EmbedMaker = embed_maker
         self.executor_id = executor_id
         self.index = 0
+        self.selected = False
 
-    @property
+    @cached_property
     def total(self) -> int:
-        return len(self.embeds)
+        return len(self.data)
+
+    @cached_property
+    def embeds(self) -> list[Embed]:
+        return [self.embed_maker(d, i, self.total) for i, d in enumerate(self.data, 1)]
 
     async def interaction_check(self, interaction: Interaction) -> bool:
         if user := interaction.user:
@@ -51,12 +64,15 @@ class Paginator(View):
 
     @button(label="확인", style=ButtonStyle.success, emoji="✅")
     async def ok(self, interaction: Interaction, _: Any) -> None:
-        if message := interaction.message:
+        if interaction.message:
+            self.selected = True
+            await interaction.response.defer()
             self.stop()
-            await message.delete()
 
     @button(label="닫기", style=ButtonStyle.danger, emoji="❌")
     async def close(self, interaction: Interaction, _: Any) -> None:
-        if message := interaction.message:
+        if interaction.message:
             self.stop()
-            await message.delete()
+            await interaction.response.edit_message(
+                content="취소했어요 :(", embed=None, view=None
+            )

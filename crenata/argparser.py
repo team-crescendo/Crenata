@@ -31,8 +31,8 @@ def parse_args(parser: ArgumentParser, argv: list[str]) -> Namespace:
     config.add_argument(
         "--db-url",
         type=str,
-        default="",
-        help="SQLAlchemy 에서 사용하는 DB URL입니다. (기본값: '')",
+        default="sqlite+aiosqlite:///:memory:",
+        help="SQLAlchemy 에서 사용하는 DB URL입니다. (기본값: 'aiosqlite+sqlite://:memory:')",
     )
 
     config.add_argument(

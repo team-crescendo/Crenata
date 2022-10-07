@@ -10,7 +10,7 @@ def use_current_date(
     f: Callable[P, Coroutine[Any, Any, T]]
 ) -> Callable[P, Coroutine[Any, Any, T]]:
     async def decorator(*args: P.args, **kwargs: P.kwargs) -> T:
-        if not kwargs["date"]:
+        if not kwargs.get("date"):
             kwargs.update({"date": now()})
         return await f(*args, **kwargs)
 
