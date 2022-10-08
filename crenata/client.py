@@ -29,6 +29,12 @@ class Crenata(Client):
             await self.tree.sync(guild=Object(self.config.TEST_GUILD_ID))
         self.orm = await ORM.setup(self.config.DB_URL)
 
+    async def close(self) -> None:
+        if self.crenata_neispy.session and not self.crenata_neispy.session.closed:
+            await self.crenata_neispy.session.close()
+        await self.orm.engine.dispose()
+        return await super().close()
+
     def run(self, *args: Any, **kwargs: Any) -> None:
         """
         Crenata를 실행합니다.

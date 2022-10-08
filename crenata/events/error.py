@@ -1,22 +1,44 @@
 from traceback import format_exception
 
-import discord
-from discord import TextChannel, app_commands
+from discord import NotFound, TextChannel, app_commands
+from neispy.error import DataNotFound
+
+from crenata.exception import UserCanceled, ViewTimeout
+from crenata.typing import CrenataInteraction
 
 
-def joined_format_exception(error: BaseException):
+def joined_format_exception(error: BaseException) -> str:
     return "".join(format_exception(type(error), error, error.__traceback__))
 
 
 async def on_error(
-    interaction: discord.Interaction, error: app_commands.AppCommandError
+    interaction: CrenataInteraction, error: app_commands.AppCommandError
 ) -> None:
-    if isinstance(interaction.channel, TextChannel):
-        if error.__cause__:
-            await interaction.channel.send(
-                content=f"```{joined_format_exception(error.__cause__)}```"
+    if original_exception := error.__cause__:
+        if isinstance(original_exception, DataNotFound):
+            try:
+                message = await interaction.original_response()
+            except NotFound:
+                await interaction.followup.send("해당하는 정보를 찾을수 없었어요.")
+            else:
+                await message.edit(content="해당하는 정보를 찾을수 없었어요.", embed=None, view=None)
+
+        elif isinstance(original_exception, UserCanceled):
+            await interaction.edit_original_response(
+                content="취소했어요 :(", embed=None, view=None
             )
-            return None
-        await interaction.channel.send(
-            content=f"```{joined_format_exception(error)}```"
-        )
+            return
+        elif isinstance(original_exception, ViewTimeout):
+            await interaction.edit_original_response(
+                content="시간이 초과되었어요.", embed=None, view=None
+            )
+            return
+        # NOTE: for debug
+        else:
+            if (
+                isinstance(interaction.channel, TextChannel)
+                and not interaction.client.config.PRODUCTION
+            ):
+                await interaction.channel.send(
+                    content=f"```{joined_format_exception(original_exception)}```"
+                )

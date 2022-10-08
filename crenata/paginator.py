@@ -64,15 +64,11 @@ class Paginator(View):
 
     @button(label="확인", style=ButtonStyle.success, emoji="✅")
     async def ok(self, interaction: Interaction, _: Any) -> None:
-        if interaction.message:
-            self.selected = True
-            await interaction.response.defer()
-            self.stop()
+        self.selected = True
+        await interaction.response.defer()
+        self.stop()
 
     @button(label="닫기", style=ButtonStyle.danger, emoji="❌")
     async def close(self, interaction: Interaction, _: Any) -> None:
-        if interaction.message:
-            self.stop()
-            await interaction.response.edit_message(
-                content="취소했어요 :(", embed=None, view=None
-            )
+        await interaction.response.defer()
+        self.stop()
