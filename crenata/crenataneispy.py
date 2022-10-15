@@ -47,3 +47,44 @@ class CrenataNeispy(Neispy):
                     return result
 
         return None
+
+    @use_current_date
+    async def get_time_table(
+        self,
+        edu_office_code: str,
+        standard_school_code: str,
+        school_name: str,
+        grade: int,
+        class_num: int,
+        *,
+        date: Optional[str],
+    ) -> Optional[Any]:
+        assert date
+        func = None
+
+        if school_name.endswith("초등학교"):
+            func = self.elsTimetable
+        elif school_name.endswith("중학교"):
+            func = self.misTimetable
+        elif school_name.endswith("고등학교"):
+            func = self.hisTimetable
+        else:
+            return None
+
+        year = int(date[0:4])
+        month = int(date[4:6])
+
+        ay = year if month > 2 else year - 1
+        sem = 1 if month > 2 and month < 8 else 2
+
+        print(year, month, ay, sem, grade, class_num)
+
+        return await func(
+            ATPT_OFCDC_SC_CODE=edu_office_code,
+            SD_SCHUL_CODE=standard_school_code,
+            AY=ay,
+            SEM=sem,
+            ALL_TI_YMD=int(date),
+            GRADE=grade,
+            CLASS_NM=str(class_num),
+        )

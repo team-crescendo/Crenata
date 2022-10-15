@@ -9,13 +9,17 @@ from crenata.typing import CrenataInteraction
     name="등록", description="학교를 등록합니다."
 )  # pyright: ignore [reportGeneralTypeIssues]
 @app_commands.describe(school_name="등록할 학교 이름입니다.")
-async def register(interaction: CrenataInteraction, school_name: str) -> None:
+async def register(
+    interaction: CrenataInteraction, school_name: str, grade: int, class_num: int
+) -> None:
     await interaction.response.defer()
     data = await school_page(interaction, school_name)
     await interaction.client.orm.create_user(
         User(
             id=interaction.user.id,
             school_name=data.SCHUL_NM,
+            grade=grade,
+            class_num=class_num,
             ATPT_OFCDC_SC_CODE=data.ATPT_OFCDC_SC_CODE,
             SD_SCHUL_CODE=data.SD_SCHUL_CODE,
         )
