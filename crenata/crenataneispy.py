@@ -37,6 +37,9 @@ class CrenataNeispy(Neispy):
         *,
         date: Optional[str],
     ) -> Optional[Any]:
+        """
+        학교 급식 정보를 가져옵니다.
+        """
         if results := await self.mealServiceDietInfo(
             ATPT_OFCDC_SC_CODE=edu_office_code,
             SD_SCHUL_CODE=standard_school_code,
@@ -59,6 +62,9 @@ class CrenataNeispy(Neispy):
         *,
         date: Optional[str],
     ) -> Optional[Any]:
+        """
+        학교 시간표 정보를 가져옵니다.
+        """
         assert date
         func = None
 
