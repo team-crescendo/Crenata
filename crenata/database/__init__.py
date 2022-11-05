@@ -3,12 +3,13 @@ from typing import Optional
 from sqlalchemy.ext.asyncio.engine import AsyncEngine, create_async_engine
 from sqlalchemy.ext.asyncio.session import AsyncSession
 
+from crenata.abc.database import AbstractDatabase
 from crenata.database.registry import mapper_registry
 from crenata.database.table import *
 from crenata.domain.user import User
 
 
-class ORM:
+class ORM(AbstractDatabase):
     def __init__(self, engine: AsyncEngine) -> None:
         self.engine = engine
 
