@@ -1,9 +1,11 @@
+from datetime import datetime
 from typing import Optional
 
 from discord import app_commands
 
 from crenata.interaction import school_page
 from crenata.typing import CrenataInteraction
+from crenata.utils import ToDatetime
 
 
 @app_commands.command(
@@ -18,7 +20,7 @@ async def time_table(
     school_name: Optional[str] = None,
     grade: Optional[int] = None,
     class_num: Optional[int] = None,
-    date: Optional[str] = None,
+    date: Optional[app_commands.Transform[datetime, ToDatetime]] = None,
 ) -> None:
     await interaction.response.defer()
     if school_name:

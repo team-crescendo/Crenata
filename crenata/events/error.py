@@ -33,6 +33,10 @@ async def on_error(
                 content="시간이 초과되었어요.", embed=None, view=None
             )
             return
+        elif isinstance(original_exception, ValueError):
+            await interaction.response.send_message(
+                "날짜를 잘못 입력한것 같아요. YYYYMMDD 형식으로 입력해주세요. 예: 20220110"
+            )
         # NOTE: for debug
         else:
             if (
