@@ -1,9 +1,11 @@
+from datetime import datetime
 from typing import Literal, Optional
 
 from discord import app_commands
 
 from crenata.interaction import school_page
 from crenata.typing import CrenataInteraction
+from crenata.utils import ToDatetime
 
 
 @app_commands.command(
@@ -15,8 +17,8 @@ from crenata.typing import CrenataInteraction
 async def meal(
     interaction: CrenataInteraction,
     school_name: Optional[str] = None,
-    meal_time: Literal["조식", "중식", "석식"] = "중식",
-    date: Optional[str] = None,
+    meal_time: Optional[Literal["조식", "중식", "석식"]] = None,
+    date: Optional[app_commands.Transform[datetime, ToDatetime]] = None,
 ) -> None:
     await interaction.response.defer()
     if school_name:
@@ -31,7 +33,7 @@ async def meal(
         standard_school_code = user.SD_SCHUL_CODE
 
     meal_info = await interaction.client.crenata_neispy.get_meal(
-        meal_time, edu_office_code, standard_school_code, date=date
+        edu_office_code, standard_school_code, meal_time, date=date
     )
 
     if not meal_info:
