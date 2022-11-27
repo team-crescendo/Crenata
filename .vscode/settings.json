@@ -33,4 +33,5 @@
         "pyright",
         "sqlalchemy"
     ],
+    "python.linting.enabled": false,
 }
