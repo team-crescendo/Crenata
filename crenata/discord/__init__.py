@@ -23,24 +23,24 @@ class Crenata(Client):
         self, cls: type[AbstractCrenataCommand], interaction: "CrenataInteraction"
     ) -> AbstractCrenataCommand:
         for overload_command_cls in self.overload_commands:
-            if issubclass(cls, overload_command_cls):
+            if issubclass(overload_command_cls, cls):
                 cls = overload_command_cls
                 break
 
         return cls(interaction)
 
     async def setup_hook(self) -> None:
+        self.ctx.orm = await ORM.setup(self.ctx.config.DB_URL)
         if self.ctx.config.PRODUCTION:
             await self.tree.sync()
         else:
             await self.tree.sync(guild=Object(self.ctx.config.TEST_GUILD_ID))
-        self.ctx.orm = await ORM.setup(self.ctx.config.DB_URL)
-        self.ctx.neispy = CrenataNeispy.create(self.ctx.config.NEIS_API_KEY)
 
     async def close(self) -> None:
         if self.ctx.neispy.session and not self.ctx.neispy.session.closed:
             await self.ctx.neispy.session.close()
-        await self.ctx.orm.engine.dispose()
+        if getattr(self.ctx, "orm"):
+            await self.ctx.orm.engine.dispose()
         return await super().close()
 
     def run(self, *args: Any, **kwargs: Any) -> None:
@@ -68,4 +68,6 @@ class CrenataInteraction(Interaction):
 
 def create_client(config: CrenataConfig, *, intents: Intents) -> Crenata:
     client = Crenata(intents=intents)
+    client.ctx.config = config
+    client.ctx.neispy = CrenataNeispy.create(config.NEIS_API_KEY)
     return client
