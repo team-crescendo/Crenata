@@ -8,6 +8,7 @@ from discord.client import Client
 from discord.flags import Intents
 from discord.object import Object
 
+from crenata.abc.command import AbstractCrenataCommand
 from crenata.config import CrenataConfig
 from crenata.crenataneispy import CrenataNeispy
 from crenata.database import ORM
@@ -21,6 +22,7 @@ class Crenata(Client):
         self.tree = CommandTree(self)
         self.config = config
         self.crenata_neispy = CrenataNeispy.create("")
+        self.overload_command: list[type[AbstractCrenataCommand]] = []
 
     async def setup_hook(self) -> None:
         if self.config.PRODUCTION:

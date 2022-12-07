@@ -21,23 +21,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-from discord import Intents, Object
+
+from discord import Intents
 
 from crenata.client import Crenata
-from crenata.commands import commands
 from crenata.config import CrenataConfig
-from crenata.events.error import on_error
 
 
-def create_client(config: CrenataConfig) -> Crenata:
+def create_client(config: CrenataConfig, *, intents: Intents) -> Crenata:
     """
-    명령어를 추가하고, Config값을 사용해서 Crenata 클라이언트를 반환합니다.
+    Config값을 사용해서 Crenata 클라이언트를 반환합니다.
     """
-    crenata = Crenata(config, intents=Intents.default())
-    for command in commands:
-        if config.PRODUCTION:
-            crenata.tree.add_command(command)
-        else:
-            crenata.tree.add_command(command, guild=Object(config.TEST_GUILD_ID))
-    crenata.tree.on_error = on_error
+    crenata = Crenata(config, intents=intents)
     return crenata

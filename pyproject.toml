@@ -23,7 +23,7 @@ pytest-cov = "^3.0.0"
 pytest-asyncio = "^0.19.0"
 
 [tool.poetry.group.type.dependencies]
-mypy = "^0.971"
+mypy = "^0.981"
 
 [tool.isort]
 src_paths = ["crenata", "tests"]
