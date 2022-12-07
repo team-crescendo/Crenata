@@ -35,6 +35,7 @@ class CrenataConfig(dict[str, Any]):
     PRODUCTION: bool
     TEST_GUILD_ID: int
     TOKEN: str
+    NEIS_API_KEY: str
     DB_URL: str
     CONFIG: str
 
@@ -48,6 +49,7 @@ class CrenataConfig(dict[str, Any]):
                 "DB_URL": "",
                 "CONFIG": "",
                 "TOKEN": "",
+                "NEIS_API_KEY": "",
             }
         )
         self.load_environment_vars()

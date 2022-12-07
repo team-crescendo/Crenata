@@ -1,10 +1,9 @@
 from traceback import format_exception
 
+from crenata.discord import CrenataInteraction
+from crenata.exception import UserCanceled, ViewTimeout
 from discord import NotFound, TextChannel, app_commands
 from neispy.error import DataNotFound
-
-from crenata.exception import UserCanceled, ViewTimeout
-from crenata.typing import CrenataInteraction
 
 
 def joined_format_exception(error: BaseException) -> str:
@@ -41,7 +40,7 @@ async def on_error(
         else:
             if (
                 isinstance(interaction.channel, TextChannel)
-                and not interaction.client.config.PRODUCTION
+                and not interaction.client.ctx.config.PRODUCTION
             ):
                 await interaction.channel.send(
                     content=f"```{joined_format_exception(original_exception)}```"

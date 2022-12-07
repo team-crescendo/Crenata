@@ -1,13 +1,13 @@
 from typing import Any
 
-from crenata.embed import school_result_embed_maker
+from crenata.discord import CrenataInteraction
+from crenata.discord.embed import school_result_embed_maker
+from crenata.discord.paginator import Paginator
 from crenata.exception import UserCanceled, ViewTimeout
-from crenata.paginator import Paginator
-from crenata.typing import CrenataInteraction
 
 
 async def school_page(interaction: CrenataInteraction, school_name: str) -> Any:
-    results = await interaction.client.crenata_neispy.search_school(school_name)
+    results = await interaction.client.ctx.neispy.search_school(school_name)
     view = Paginator(interaction.user.id, results, school_result_embed_maker)
 
     await interaction.followup.send(embed=view.embeds[0], view=view)

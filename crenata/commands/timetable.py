@@ -1,25 +1,59 @@
 from datetime import datetime
 from typing import Optional
 
+from crenata.abc.command import AbstractCrenataCommand
+from crenata.commands.utils import defer
+from crenata.discord import CrenataInteraction
+from crenata.discord.interaction import school_page
+from crenata.utils import ToDatetime
 from discord import app_commands
 
-from crenata.commands.default.timetable import TimeTable
-from crenata.typing import CrenataInteraction
-from crenata.utils import ToDatetime, defer, use_crenata_command
 
+class TimeTable(AbstractCrenataCommand):
+    interaction: CrenataInteraction
 
-@app_commands.command(name="시간표", description="시간표를 가져와요.")
-@app_commands.describe(school_name="학교 이름")
-@app_commands.describe(grade="학년")
-@app_commands.describe(class_num="반")
-@app_commands.describe(date="날짜")
-@use_crenata_command(TimeTable)
-@defer
-async def time_table(
-    interaction: CrenataInteraction,
-    school_name: Optional[str] = None,
-    grade: Optional[int] = None,
-    class_num: Optional[int] = None,
-    date: Optional[app_commands.Transform[datetime, ToDatetime]] = None,
-) -> None:
-    await interaction.execute(school_name, grade, class_num, date)
+    @defer
+    async def execute(  # pyright: ignore [reportIncompatibleMethodOverride]
+        self,
+        school_name: Optional[str] = None,
+        grade: Optional[int] = None,
+        class_num: Optional[int] = None,
+        date: Optional[app_commands.Transform[datetime, ToDatetime]] = None,
+    ) -> None:
+        if school_name:
+            if not grade or not class_num:
+                await self.interaction.followup.send("학년과 반을 입력해주세요.")
+                return
+            results = await school_page(self.interaction, school_name)
+            edu_office_code = results.ATPT_OFCDC_SC_CODE
+            standard_school_code = results.SD_SCHUL_CODE
+        else:
+            user = await self.interaction.client.ctx.orm.get_user(
+                self.interaction.user.id
+            )
+            if not user:
+                return await self.interaction.followup.send(
+                    "가입되어있지 않은경우 학교명을 입력해주셔야 해요."
+                )
+            school_name = user.school_name
+            edu_office_code = user.ATPT_OFCDC_SC_CODE
+            standard_school_code = user.SD_SCHUL_CODE
+
+            if not grade:
+                grade = user.grade
+            if not class_num:
+                class_num = user.class_num
+
+        timetable_info = await self.interaction.client.ctx.neispy.get_time_table(
+            edu_office_code,
+            standard_school_code,
+            school_name,
+            grade,
+            class_num,
+            date=date,
+        )
+
+        if not timetable_info:
+            return await self.interaction.followup.send("no_time_table")
+
+        return await self.interaction.followup.send(timetable_info)

@@ -6,7 +6,7 @@ from typing import Any, Literal, Optional, overload
 from aiohttp.client import ClientSession
 from neispy.client import Neispy
 
-from crenata.utils import use_current_date, to_yyyymmdd
+from crenata.utils import to_yyyymmdd, use_current_date
 
 
 class CrenataNeispy(Neispy):

@@ -21,16 +21,3 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 """
-
-from discord import Intents
-
-from crenata.client import Crenata
-from crenata.config import CrenataConfig
-
-
-def create_client(config: CrenataConfig, *, intents: Intents) -> Crenata:
-    """
-    Config값을 사용해서 Crenata 클라이언트를 반환합니다.
-    """
-    crenata = Crenata(config, intents=intents)
-    return crenata
