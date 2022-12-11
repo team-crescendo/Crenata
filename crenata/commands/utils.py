@@ -15,6 +15,6 @@ def defer(
         with suppress(InteractionResponded):
             await self.interaction.response.defer()
 
-        return await f(*args, **kwargs)
+        return await f(self, *args, **kwargs)
 
     return decorator

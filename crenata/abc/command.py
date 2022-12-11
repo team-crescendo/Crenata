@@ -25,11 +25,10 @@ class AbstractCrenataCommand(ABC):
                     "It seems intended to edit the message, "
                     "but the current context is send"
                 )
-            return await self.interaction.followup.send(content, embed=embed, view=view)
-        else:
-            r = message.edit
 
-        return r(content=content, embed=embed, view=view)
+            return await self.interaction.followup.send(content, embed=embed, view=view)
+
+        return await message.edit(content=content, embed=embed, view=view)
 
     @abstractmethod
     async def execute(self, *args: Any, **kwargs: Any) -> Any:

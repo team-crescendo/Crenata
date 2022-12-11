@@ -7,12 +7,12 @@ class Registry:
 
     @classmethod
     def override(cls, wrapped_class: type[AbstractCrenataCommand]):
-        for command_cls in cls.registered:
-            if issubclass(command_cls, wrapped_class):
+        for command_cls in cls.registered.values():
+            if issubclass(wrapped_class, command_cls):
                 cls.registered[command_cls] = wrapped_class
-            else:
-                raise TypeError("Can't found subclass")
-        return wrapped_class
+                return wrapped_class
+        else:
+            raise TypeError("Can't found subclass")
 
     @classmethod
     def register(
