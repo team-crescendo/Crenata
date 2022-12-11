@@ -1,7 +1,9 @@
+from contextlib import suppress
 from typing import Any, Callable, Coroutine
 
 from crenata.abc.command import AbstractCrenataCommand
 from crenata.typing import P, T
+from discord.errors import InteractionResponded
 
 
 def defer(
@@ -10,7 +12,9 @@ def defer(
     async def decorator(
         self: AbstractCrenataCommand, *args: P.args, **kwargs: P.kwargs
     ) -> T:
-        await self.interaction.response.defer()
-        return await f(self, *args, **kwargs)
+        with suppress(InteractionResponded):
+            await self.interaction.response.defer()
+
+        return await f(*args, **kwargs)
 
     return decorator

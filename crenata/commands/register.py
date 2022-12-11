@@ -1,18 +1,15 @@
 from crenata.abc.command import AbstractCrenataCommand
 from crenata.commands.utils import defer
-from crenata.discord import CrenataInteraction
 from crenata.discord.interaction import school_page
 from crenata.domain.user import User
+from crenata.registry import Registry
 
 
+@Registry.register
 class Register(AbstractCrenataCommand):
-    interaction: CrenataInteraction
-
     @defer
-    async def execute(  # pyright: ignore [reportIncompatibleMethodOverride]
-        self, school_name: str, grade: int, class_num: int
-    ) -> None:
-        data = await school_page(self.interaction, school_name)
+    async def execute(self, school_name: str, grade: int, class_num: int) -> None:
+        data = await school_page(self, school_name)
         await self.interaction.client.ctx.orm.create_user(
             User(
                 id=self.interaction.user.id,
@@ -23,6 +20,4 @@ class Register(AbstractCrenataCommand):
                 SD_SCHUL_CODE=data.SD_SCHUL_CODE,
             )
         )
-        await self.interaction.edit_original_response(
-            content="성공적으로 등록되었어요.", embed=None, view=None
-        )
+        await self.respond(content="성공적으로 등록되었어요.", embed=None, view=None)

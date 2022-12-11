@@ -3,6 +3,7 @@ from typing import Optional
 
 from crenata.commands.timetable import TimeTable
 from crenata.discord import CrenataInteraction
+from crenata.registry import Registry
 from crenata.utils import ToDatetime
 from discord import app_commands
 
@@ -19,5 +20,6 @@ async def time_table(
     class_num: Optional[int] = None,
     date: Optional[app_commands.Transform[datetime, ToDatetime]] = None,
 ) -> None:
-    command = interaction.client.get_command(TimeTable, interaction)
-    await command.execute(school_name, grade, class_num, date)
+    await Registry.get_command(TimeTable, interaction).execute(
+        school_name, grade, class_num, date
+    )

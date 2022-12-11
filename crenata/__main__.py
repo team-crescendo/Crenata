@@ -3,7 +3,7 @@ from sys import argv
 
 from crenata.argparser import parse_args
 from crenata.config import CrenataConfig
-from crenata.discord import create_client
+from crenata.discord.client import create_client
 from crenata.discord.commands import commands
 from crenata.discord.events.error import on_error
 from discord import Intents, Object

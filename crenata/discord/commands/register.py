@@ -1,5 +1,6 @@
 from crenata.commands.register import Register
 from crenata.discord import CrenataInteraction
+from crenata.registry import Registry
 from discord import app_commands
 
 
@@ -8,5 +9,6 @@ from discord import app_commands
 async def register(
     interaction: CrenataInteraction, school_name: str, grade: int, class_num: int
 ) -> None:
-    command = interaction.client.get_command(Register, interaction)
-    await command.execute(school_name, grade, class_num)
+    await Registry.get_command(Register, interaction).execute(
+        school_name, grade, class_num
+    )

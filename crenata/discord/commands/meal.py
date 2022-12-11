@@ -3,6 +3,7 @@ from typing import Literal, Optional
 
 from crenata.commands.meal import Meal
 from crenata.discord import CrenataInteraction
+from crenata.registry import Registry
 from crenata.utils import ToDatetime
 from discord import app_commands
 
@@ -17,5 +18,4 @@ async def meal(
     meal_time: Optional[Literal["조식", "중식", "석식"]] = None,
     date: Optional[app_commands.Transform[datetime, ToDatetime]] = None,
 ) -> None:
-    command = interaction.client.get_command(Meal, interaction)
-    await command.execute(school_name, meal_time, date)
+    await Registry.get_command(Meal, interaction).execute(school_name, meal_time, date)

@@ -1,15 +1,11 @@
 from types import SimpleNamespace
 from typing import Any
 
-from crenata.abc.command import AbstractCrenataCommand
 from crenata.config import CrenataConfig
 from crenata.database import ORM
 from crenata.neispy import CrenataNeispy
-from discord import Client, Intents, Interaction
+from discord import Client, Intents, Interaction, Object
 from discord.app_commands.tree import CommandTree
-from discord.client import Client
-from discord.flags import Intents
-from discord.object import Object
 
 
 class Crenata(Client):
@@ -17,17 +13,6 @@ class Crenata(Client):
         super().__init__(intents=intents, *args, **kwargs)
         self.tree = CommandTree(self)
         self.ctx: CrenataContext = CrenataContext()
-        self.overload_commands: list[type[AbstractCrenataCommand]] = []
-
-    def get_command(
-        self, cls: type[AbstractCrenataCommand], interaction: "CrenataInteraction"
-    ) -> AbstractCrenataCommand:
-        for overload_command_cls in self.overload_commands:
-            if issubclass(overload_command_cls, cls):
-                cls = overload_command_cls
-                break
-
-        return cls(interaction)
 
     async def setup_hook(self) -> None:
         self.ctx.orm = await ORM.setup(self.ctx.config.DB_URL)
@@ -54,7 +39,6 @@ class Crenata(Client):
 
 
 class CrenataContext(SimpleNamespace):
-    overload_commands: list[type[AbstractCrenataCommand]]
     neispy: CrenataNeispy
     config: CrenataConfig
     orm: ORM
@@ -64,10 +48,3 @@ class CrenataInteraction(Interaction):
     @property
     def client(self) -> Crenata:
         ...
-
-
-def create_client(config: CrenataConfig, *, intents: Intents) -> Crenata:
-    client = Crenata(intents=intents)
-    client.ctx.config = config
-    client.ctx.neispy = CrenataNeispy.create(config.NEIS_API_KEY)
-    return client
