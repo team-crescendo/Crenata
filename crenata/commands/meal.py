@@ -23,7 +23,7 @@ class Meal(AbstractCrenataCommand):
             edu_office_code = results.ATPT_OFCDC_SC_CODE
             standard_school_code = results.SD_SCHUL_CODE
         else:
-            user = await self.interaction.client.ctx.orm.get_user(
+            user = await self.interaction.client.ctx.query.user.get(
                 self.interaction.user.id
             )
             if not user:

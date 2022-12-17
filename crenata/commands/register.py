@@ -1,7 +1,7 @@
 from crenata.abc.command import AbstractCrenataCommand
 from crenata.commands.utils import defer
 from crenata.discord.interaction import school_page
-from crenata.domain.user import User
+from crenata.domain.entities.user import User
 from crenata.registry import Registry
 
 
@@ -10,7 +10,7 @@ class Register(AbstractCrenataCommand):
     @defer
     async def execute(self, school_name: str, grade: int, class_num: int) -> None:
         data = await school_page(self, school_name)
-        await self.interaction.client.ctx.orm.create_user(
+        await self.interaction.client.ctx.query.user.create(
             User(
                 id=self.interaction.user.id,
                 school_name=data.SCHUL_NM,
