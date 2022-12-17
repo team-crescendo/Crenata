@@ -20,7 +20,7 @@ class Crenata(Client):
     async def closeup(self):
         if self.ctx.neispy.session and not self.ctx.neispy.session.closed:
             await self.ctx.neispy.session.close()
-        if getattr(self.ctx, "usecase", None):
+        if getattr(self.ctx, "query", None):
             await self.ctx.query.orm.engine.dispose()
 
     async def setup_hook(self) -> None:
@@ -28,7 +28,7 @@ class Crenata(Client):
             await self.tree.sync()
         else:
             await self.tree.sync(guild=Object(self.ctx.config.TEST_GUILD_ID))
-        await self.closeup()
+        await self.startup()
 
     async def close(self) -> None:
         await self.closeup()
