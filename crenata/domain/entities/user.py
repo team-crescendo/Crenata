@@ -1,8 +1,10 @@
 from pydantic.dataclasses import dataclass
 
+from crenata.abc.domain import AbstractDomain
+
 
 @dataclass
-class User:
+class User(AbstractDomain):
     id: int
     school_name: str
     grade: int
