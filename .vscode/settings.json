@@ -1,0 +1,33 @@
+{
+    "python.poetryPath": "poetry",
+    "python.analysis.typeCheckingMode": "strict",
+    "python.formatting.provider": "black",
+    "python.linting.mypyEnabled": true,
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": true
+    },
+    "editor.formatOnSave": true,
+    "python.testing.pytestArgs": [
+        "tests",
+        "--asyncio-mode=auto"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "python.envFile": "${workspaceFolder}/.env",
+    "cSpell.words": [
+        "aiohttp",
+        "ATPT",
+        "checkfirst",
+        "Crenata",
+        "distutil",
+        "MLSV",
+        "MMEAL",
+        "Neispy",
+        "OFCDC",
+        "pydantic",
+        "pyright",
+        "sqlalchemy"
+    ],
+    "python.linting.enabled": false,
+}
