@@ -16,6 +16,8 @@ def test_parse_args() -> None:
             "sqlite:///test.db",
             "--token",
             "token",
+            "--neis-api-key",
+            "neis",
         ],
     )
     config.update_with_args(args)
@@ -23,6 +25,7 @@ def test_parse_args() -> None:
     assert config.TEST_GUILD_ID == 123456789
     assert config.DB_URL == "sqlite:///test.db"
     assert config.TOKEN == "token"
+    assert config.NEIS_API_KEY == "neis"
 
 
 def test_parse_args_with_config() -> None:
@@ -36,3 +39,4 @@ def test_parse_args_with_config() -> None:
     assert config.TEST_GUILD_ID == 123456789012345678
     assert config.DB_URL == "sqlite:///test.db"
     assert config.TOKEN == "token"
+    assert config.NEIS_API_KEY == "neis"
