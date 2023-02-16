@@ -21,6 +21,7 @@ Crenata는 자원봉사자로 유지되는 오픈 소스 프로젝트이며 모�
   - [실행](#실행)
     - [명령줄 인수](#명령줄-인수)
     - [JSON 전달](#json-전달)
+    - [환경 변수](#환경-변수)
 
 ## 소스 코드 클론
 
@@ -168,6 +169,8 @@ Crenata에 Config를 전달해야합니다.
 
 다음과 같이 명령줄 인수로 전달 또는 JSON으로 전달할수 있습니다.
 
+추가로 환경변수로도 Config를 전달할수있습니다.
+
 ### 명령줄 인수
 
 ```sh
@@ -180,4 +183,13 @@ python -m crenata --token <YOUR_TOKEN>
 ```sh
 # tests 폴더에 있는 config.json 파일을 참고하세요.
 python -m crenata --config <YOUR_CONFIG_PATH>
+```
+
+### 환경 변수
+
+```sh
+# 모든 환경변수는 RENA_ 로 시작해야합니다.
+set RENA_USE_ENV = true # 해당 값이 true여야만 환경변수에서 값을 가져올 수 있습니다.
+set RENA_TOKEN = <YOUR_TOKEN>
+python -m crenata
 ```
