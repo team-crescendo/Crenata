@@ -104,6 +104,16 @@ Linux/macOS
 poetry install
 ```
 
+또한 개발을 위해서는 ``aiosqlite`` 종속성이 필요할수도 있습니다.
+
+Crenata는 PostgreSQL을 권장하지만 개발 환경에서 DB를 구성하기에는 부담스러운 부분이 있습니다.
+
+이를 해결하기 위해 aiosqlite모듈을 사용해 DB를 구성하지 않고 인메모리로 DB작업을 수행하도록 합니다.
+
+```sh
+python -m pip install aiosqlite
+```
+
 ## 정적 타이핑
 
 Crenata는 정적 타이핑을 사용 하고 있습니다.
