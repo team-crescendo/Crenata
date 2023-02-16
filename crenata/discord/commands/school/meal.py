@@ -5,7 +5,7 @@ from crenata.discord import CrenataInteraction
 from crenata.discord.commands.school import school
 from crenata.discord.embed import meal_page
 from crenata.discord.interaction import school_info
-from crenata.discord.select import allergy_select
+from crenata.discord.select import AllergySelect
 from crenata.utils.discord import ToDatetime, dynamic_send
 from discord import app_commands
 from discord.ui import View
@@ -29,7 +29,7 @@ async def meal(
     )
 
     allergy_view = View()
-    allergy_view.add_item(allergy_select(data))
+    allergy_view.add_item(AllergySelect(data))
 
     meal_info = meal_page(
         data,
