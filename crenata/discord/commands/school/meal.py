@@ -2,13 +2,13 @@ from datetime import datetime
 from typing import Literal, Optional
 
 from crenata.discord import CrenataInteraction
+from crenata.discord.allergy import allergy_select_option
 from crenata.discord.commands.school import school
 from crenata.discord.embed import meal_page
 from crenata.discord.interaction import school_info
-from crenata.discord.select import AllergySelect
 from crenata.utils.discord import ToDatetime, dynamic_send
 from discord import app_commands
-from discord.ui import View
+from discord.ui import Select, View
 
 
 @school.command(name="급식", description="급식 식단표를 가져와요.")
@@ -28,9 +28,6 @@ async def meal(
         edu_office_code, standard_school_code, meal_time, date=date
     )
 
-    allergy_view = View()
-    allergy_view.add_item(AllergySelect(data))
-
     meal_info = meal_page(
         data,
         private=preferences.private,
@@ -47,6 +44,19 @@ async def meal(
         )
         return
 
+    allergy_view = View()
+    allergy_list = allergy_select_option(data)
+    if allergy_list:
+        allergy_select: Select[View] = Select(
+            placeholder="알레르기 정보",
+            options=allergy_list,
+        )
+    else:
+        allergy_select = Select(
+            placeholder="알레르기 정보 없음",
+            disabled=True,
+        )
+    allergy_view.add_item(allergy_select)
     await dyn(
         embed=meal_info,
         ephemeral=preferences.ephemeral,
