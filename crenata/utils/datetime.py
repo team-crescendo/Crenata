@@ -38,7 +38,7 @@ def datetime_to_readable(date: datetime) -> str:
     """
     datetime을 YYYY년 MM월 DD일 형식의 문자열로 변환합니다.
     """
-    return date.strftime("%Y년 %m월 %d일")
+    return date.strftime("%Y{} %m{} %d{}").format("년", "월", "일")
 
 
 def to_weekday(date: datetime) -> str:

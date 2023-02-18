@@ -2,5 +2,6 @@
     "PRODUCTION": true,
     "TEST_GUILD_ID": 123456789012345678,
     "DB_URL": "sqlite:///test.db",
-    "TOKEN": "token"
+    "TOKEN": "token",
+    "NEIS_API_KEY": "neis"
 }
