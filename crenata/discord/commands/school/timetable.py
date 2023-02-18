@@ -13,7 +13,7 @@ from discord import File, app_commands
 @app_commands.describe(school_name="학교 이름")
 @app_commands.describe(grade="학년")
 @app_commands.describe(room="반")
-@app_commands.describe(date="날짜 (예시: 20230101)")
+@app_commands.describe(date="날짜 (예시: 20230101, 내일)")
 async def time_table(
     interaction: CrenataInteraction,
     school_name: Optional[str] = None,
