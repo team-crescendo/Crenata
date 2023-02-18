@@ -30,7 +30,7 @@ class NeedSchoolName(CrenataException):
 
 
 class DateParseError(CrenataException):
-    """날짜를 잘못 입력한것 같아요. YYYYMMDD 형식, 또는 "어제, 내일"로 입력해주세요. 예: 20220110, 내일"""
+    """날짜를 잘못 입력한것 같아요. YYYYMMDD 형식, 또는 "내일"로 입력해주세요. 예: 20220110, 내일"""
 
 
 class MustBeGreaterThanOne(CrenataException):
