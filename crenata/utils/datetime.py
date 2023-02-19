@@ -1,5 +1,5 @@
-from datetime import datetime
-from typing import Any, Callable, Coroutine
+from datetime import datetime, timedelta
+from typing import Any, Callable, Coroutine, Optional
 
 from crenata.typing import P, T
 from neispy.utils import KST
@@ -48,3 +48,12 @@ def to_weekday(date: datetime) -> str:
     days = ["월", "화", "수", "목", "금", "토", "일"]
     day = date.weekday()
     return days[day]
+
+
+def to_relative_date(keyword: str) -> Optional[datetime]:
+    """
+    "내일"과 같은 상대적인 날짜를 datetime으로 변환합니다.
+    """
+    if keyword == "내일":
+        return datetime.now(KST) + timedelta(days=1)
+    return None

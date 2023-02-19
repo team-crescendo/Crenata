@@ -12,7 +12,7 @@ from discord import app_commands
 @school.command(name="급식", description="급식 식단표를 가져와요.")
 @app_commands.describe(school_name="학교 이름")
 @app_commands.describe(meal_time="시간")
-@app_commands.describe(date="날짜 (예시: 20230101)")
+@app_commands.describe(date="날짜 (예시: 20230101, 내일)")
 async def meal(
     interaction: CrenataInteraction,
     school_name: Optional[str] = None,

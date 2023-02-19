@@ -3,7 +3,7 @@ from types import TracebackType
 from typing import Any, Callable, Coroutine, Optional
 
 from crenata.exception import DateParseError, InteractionLocked
-from crenata.utils.datetime import to_datetime
+from crenata.utils.datetime import to_datetime, to_relative_date
 from discord import Interaction, InteractionMessage, app_commands
 from discord.errors import NotFound
 from discord.utils import MISSING
@@ -44,7 +44,7 @@ class InteractionLock:
 class ToDatetime(app_commands.Transformer):
     async def transform(self, interaction: Interaction, date: str) -> datetime:
         try:
-            return to_datetime(date)
+            return to_relative_date(date) or to_datetime(date)
         except ValueError:
             raise DateParseError
 
