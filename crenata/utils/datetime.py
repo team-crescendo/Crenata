@@ -56,5 +56,4 @@ def to_relative_date(keyword: str) -> Optional[datetime]:
     """
     if keyword == "내일":
         return datetime.now(KST) + timedelta(days=1)
-    else:
-        return None
+    return None
