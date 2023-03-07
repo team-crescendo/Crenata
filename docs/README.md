@@ -75,7 +75,7 @@ Windows
 Linux/macOS
 
 ``` sh
-.venv/bin/Activate.ps1
+. .venv/bin/activate
 ```
 
 활성화가 완료 되었다면 다음 명령어를 사용해 가상 환경에 Poetry를 설치합니다.
