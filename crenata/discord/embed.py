@@ -51,11 +51,16 @@ def school_result_embed_maker(result: Any, index: int, total: int) -> Embed:
     embed.add_field(name="🏫 주소 (도로명)", value=result.ORG_RDNMA, inline=False)
     embed.add_field(name="📮 우편번호", value=result.ORG_RDNZC)
     embed.add_field(name="📲 대표 전화", value=result.ORG_TELNO)
-    embed.add_field(
-        name="기타",
-        value=f"[🔗 학교 홈페이지 바로가기]({result.HMPG_ADRES})",
-        inline=False,
-    )
+    if (
+        result.HMPG_ADRES
+        and result.HMPG_ADRES != "http://"
+        or result.HMPG_ADRES != "https://"
+    ):
+        embed.add_field(
+            name="🔗 학교 홈페이지",
+            value=f"[바로가기]({parse_hompage_url(result.HMPG_ADRES)})",
+            inline=False,
+        )
     embed.set_footer(text=f"{index}/{total}")
     return embed
 
@@ -108,3 +113,13 @@ async def time_table_embed_maker(
     embed.set_image(url="attachment://timetable.png")
 
     return embed, image
+
+
+def parse_hompage_url(url: str) -> str:
+    """
+    학교 홈페이지 주소를 파싱해주는 함수입니다.
+    """
+    if url.startswith("http") or url.startswith("https"):
+        return url
+    else:
+        return f"http://{url}"
