@@ -18,6 +18,10 @@ Crenata는 자원봉사자로 유지되는 오픈 소스 프로젝트이며 모�
     - [테스트 실행](#테스트-실행)
   - [코드 스타일](#코드-스타일)
     - [포맷팅](#포맷팅)
+  - [실행](#실행)
+    - [명령줄 인수](#명령줄-인수)
+    - [JSON 전달](#json-전달)
+    - [환경 변수](#환경-변수)
 
 ## 소스 코드 클론
 
@@ -100,6 +104,16 @@ Linux/macOS
 poetry install
 ```
 
+또한 개발을 위해서는 ``aiosqlite`` 종속성이 필요할수도 있습니다.
+
+Crenata는 PostgreSQL을 권장하지만 개발 환경에서 DB를 구성하기에는 부담스러운 부분이 있습니다.
+
+이를 해결하기 위해 aiosqlite모듈을 사용해 DB를 구성하지 않고 인메모리로 DB작업을 수행하도록 합니다.
+
+```sh
+python -m pip install aiosqlite
+```
+
 ## 정적 타이핑
 
 Crenata는 정적 타이핑을 사용 하고 있습니다.
@@ -157,4 +171,35 @@ Linux/macOS
 ```sh
 poetry run black .
 poetry run isort
+```
+
+## 실행
+
+Crenata에 Config를 전달해야합니다.
+
+다음과 같이 명령줄 인수로 전달 또는 JSON으로 전달할수 있습니다.
+
+추가로 환경변수로도 Config를 전달할수있습니다.
+
+### 명령줄 인수
+
+```sh
+# 자세한 인수는 --help 인수를 사용해 확인할 수 있습니다.
+python -m crenata --token <YOUR_TOKEN>
+```
+
+### JSON 전달
+
+```sh
+# tests 폴더에 있는 config.json 파일을 참고하세요.
+python -m crenata --config <YOUR_CONFIG_PATH>
+```
+
+### 환경 변수
+
+```sh
+# 모든 환경변수는 RENA_ 로 시작해야합니다.
+set RENA_USE_ENV = true # 해당 값이 true여야만 환경변수에서 값을 가져올 수 있습니다.
+set RENA_TOKEN = <YOUR_TOKEN>
+python -m crenata
 ```
