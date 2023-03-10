@@ -100,7 +100,7 @@ def detailed_school_result_embed_maker(result: Any) -> Embed:
             name="🔗 학교 홈페이지", value=f"[바로가기]({parse_hompage_url(result.HMPG_ADRES)})"
         )
     embed.set_footer(
-        text=f"⌛ 데이터 마지막 수정 일자: {datetime_to_readable(to_datetime(result.LOAD_DTM))}"
+        text=f"⌛ 마지막 데이터 수정 일자: {datetime_to_readable(to_datetime(result.LOAD_DTM))}"
     )
     return embed
 
