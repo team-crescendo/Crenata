@@ -44,7 +44,7 @@ def school_result_embed_maker(result: Any, index: int, total: int) -> Embed:
         embed.description = add_paragraph(result.ENG_SCHUL_NM)
 
     embed.set_author(name="🔍 학교 검색 결과")
-    embed.add_field(name="❓ 학교 분류", value=add_paragraph(result.SCHUL_KND_SC_NM))
+    embed.add_field(name="❓ 학교 분류", value=result.SCHUL_KND_SC_NM)
     embed.add_field(
         name="⚒️ 설립일", value=datetime_to_readable(to_datetime(result.FOND_YMD))
     )
