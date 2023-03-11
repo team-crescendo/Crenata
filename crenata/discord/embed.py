@@ -86,7 +86,9 @@ def detailed_school_result_embed_maker(result: Any) -> Embed:
     )
     if (coedu := result.COEDU_SC_NM) == "남" or coedu == "여":
         coedu += "학교"
-    embed.add_field(name="⚥ 남여공학", value=coedu)
+    else:
+        coedu = "남녀공학"
+    embed.add_field(name="⚥ 남녀공학", value=coedu)
     embed.add_field(name="📮 우편번호", value=result.ORG_RDNZC)
     embed.add_field(name="📲 대표 전화", value=result.ORG_TELNO)
     embed.add_field(name="📲 팩스 번호", value=result.ORG_FAXNO)
