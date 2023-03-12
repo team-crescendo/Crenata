@@ -30,7 +30,9 @@ def parse_br_tag(string: str) -> str:
     return "\n".join([f"> {word}" for word in string.split("<br/>")])
 
 
-def school_result_embed_maker(result: Any, index: int, total: int) -> Embed:
+def school_result_embed_maker(
+    result: Any, index: Optional[int] = 1, total: Optional[int] = 1
+) -> Embed:
     """
     학교 검색 결과를 Embed로 만들어주는 함수입니다.
     """
@@ -70,37 +72,14 @@ def detailed_school_result_embed_maker(result: Any) -> Embed:
     학교 검색 결과를 Embed로 만들어주는 함수입니다.
     학교 1개만 자세하게 표시할 때 사용합니다.
     """
-
-    embed = Embed(
-        title=f"{result.SCHUL_NM}",
-        color=5681003,
-    )
-
-    if result.ENG_SCHUL_NM:
-        embed.description = add_paragraph(result.ENG_SCHUL_NM)
-
+    embed = school_result_embed_maker(result)
     embed.set_author(name="🔍 학교 상세 정보")
-    embed.add_field(name="❓ 학교 분류", value=result.SCHUL_KND_SC_NM)
-    embed.add_field(
-        name="⚒️ 설립일", value=datetime_to_readable(to_datetime(result.FOND_YMD))
-    )
     if (coedu := result.COEDU_SC_NM) == "남" or coedu == "여":
         coedu += "학교"
     else:
         coedu = "남녀공학"
     embed.add_field(name="⚥ 남녀공학", value=coedu)
-    embed.add_field(name="📮 우편번호", value=result.ORG_RDNZC)
-    embed.add_field(name="📲 대표 전화", value=result.ORG_TELNO)
     embed.add_field(name="📲 팩스 번호", value=result.ORG_FAXNO)
-    embed.add_field(name="🏫 주소 (도로명)", value=result.ORG_RDNMA, inline=False)
-    if (
-        result.HMPG_ADRES
-        and result.HMPG_ADRES != "http://"
-        or result.HMPG_ADRES != "https://"
-    ):
-        embed.add_field(
-            name="🔗 학교 홈페이지", value=f"[바로가기]({parse_hompage_url(result.HMPG_ADRES)})"
-        )
     embed.set_footer(
         text=f"⌛ 마지막 데이터 수정 일자: {datetime_to_readable(to_datetime(result.LOAD_DTM))}"
     )
