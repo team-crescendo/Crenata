@@ -25,6 +25,8 @@ async def time_table(
 
     school_name, edu_office_code, standard_school_code, grade, room, preferences = info
 
+    print(school_name, grade, room)
+
     timetable_info, date = await interaction.client.ctx.neispy.get_week_time_table(
         edu_office_code,
         standard_school_code,
@@ -33,6 +35,8 @@ async def time_table(
         room,
         date=date,
     )
+
+    print(timetable_info)
 
     dyn = dynamic_send(interaction)
 

@@ -117,8 +117,10 @@ async def time_table_embed_maker(
 
 def parse_hompage_url(url: str) -> str:
     """
-    학교 홈페이지 주소를 파싱해주는 함수입니다.
+    학교 홈 페이지 주소를 파싱해주는 함수입니다.
     """
+    if url == None:
+        return ""
     if url.startswith("http") or url.startswith("https"):
         return url
     else:
