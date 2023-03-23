@@ -21,8 +21,6 @@ async def school_set(
         user_school_info = await interaction.client.ctx.query.school_info.read(
             interaction.user.id
         )
-        
-        print(user_school_info)
 
         data = await school_page(interaction, school_name, ephemeral=True)
 
@@ -34,8 +32,6 @@ async def school_set(
             ATPT_OFCDC_SC_CODE=data.ATPT_OFCDC_SC_CODE,
             SD_SCHUL_CODE=data.SD_SCHUL_CODE,
         )
-        
-        print(school_info)
 
         if user_school_info:
             school_info.id = user_school_info.id
