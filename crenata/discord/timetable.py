@@ -4,9 +4,12 @@ from datetime import datetime
 from io import BytesIO
 from typing import Any, Optional
 
+import matplotlib  # type: ignore[import]
 import numpy as np
 import pandas as pd  # type: ignore[import]
-from matplotlib import font_manager  # type: ignore[import]
+
+matplotlib.use("Agg")
+from matplotlib import font_manager
 from matplotlib import pyplot as plt
 from matplotlib.figure import Figure  # type: ignore[import]
 
