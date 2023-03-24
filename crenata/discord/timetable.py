@@ -83,7 +83,8 @@ async def make_timetable_image(results: list[list[Any]], date: datetime) -> Byte
             timetable.append(r.ITRT_CNTNT)
             day = to_weekday(to_datetime(r.ALL_TI_YMD))
 
-        df[day] = pd.Series(timetable)
+        tmp = pd.DataFrame({day: timetable})
+        df = pd.concat([df, tmp], axis=1)
 
     df.index += 1
     df.fillna("", inplace=True)
