@@ -35,7 +35,7 @@ def render_mpl_table(
     header_color: str = "#56af6b",
     row_colors: list[str] = ["#f1f1f2", "w"],
     edge_color: str = "w",
-    highlight_color: str = "#9ADFAA",
+    highlight_color: list[str] = ["#9ADFAA", "#82CF94"]
     bbox: list[int] = [0, 0, 1, 1],
     header_columns: int = 0,
     ax: Optional[plt.Axes] = None,
@@ -78,7 +78,7 @@ def render_mpl_table(
         if k[0] == 0:
             continue
         if current_weekday_position[1] == k[1]:
-            cell.set_facecolor(highlight_color)
+            cell.set_facecolor(highlight_color[k[0] % len(highlight_color)])
 
     return ax.get_figure(), ax
 
