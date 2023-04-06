@@ -2,7 +2,7 @@
 import asyncio
 from datetime import datetime
 from io import BytesIO
-from typing import Any, Optional
+from typing import Any, Optional, Sequence
 
 import matplotlib  # type: ignore[import]
 import numpy as np
@@ -35,6 +35,7 @@ def render_mpl_table(
     header_color: str = "#56af6b",
     row_colors: list[str] = ["#f1f1f2", "w"],
     edge_color: str = "w",
+    highlight_color: str = "#9ADFAA",
     bbox: list[int] = [0, 0, 1, 1],
     header_columns: int = 0,
     ax: Optional[plt.Axes] = None,
@@ -53,6 +54,8 @@ def render_mpl_table(
     mpl_table.auto_set_font_size(False)
     mpl_table.set_fontsize(font_size)
 
+    current_weekday_position: Optional[Sequence[int]] = None
+
     for k, cell in mpl_table.get_celld().items():
         cell.set_edgecolor(edge_color)
         if k[0] == 0 or k[1] < header_columns:
@@ -60,10 +63,22 @@ def render_mpl_table(
             # if cell text is current weekday
             cell_text = cell.get_text().get_text()
             if cell_text == to_weekday(date):
+                current_weekday_position = k
                 cell.set_text_props(weight="bold", color="#000000")
             cell.set_facecolor(header_color)
         else:
             cell.set_facecolor(row_colors[k[0] % len(row_colors)])
+
+    # 요일에 맞는 시간표가 없을 경우 종료
+    if not current_weekday_position:
+        return ax.get_figure(), ax
+    # 현재 요일에 맞는 시간표 하이라이팅
+    for k, cell in mpl_table.get_celld().items():
+        # 인덱스 컬럼은 무시한다.
+        if k[0] == 0:
+            continue
+        if current_weekday_position[1] == k[1]:
+            cell.set_facecolor(highlight_color)
 
     return ax.get_figure(), ax
 
