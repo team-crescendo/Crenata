@@ -95,6 +95,7 @@ async def school_info(
         results = await school_page(interaction, school_name)
         edu_office_code = str(results.ATPT_OFCDC_SC_CODE)
         standard_school_code = str(results.SD_SCHUL_CODE)
+        school_name = str(results.SCHUL_NM)
 
         preferences = Preferences(private=False)
     else:

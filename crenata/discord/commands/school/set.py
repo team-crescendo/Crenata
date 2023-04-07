@@ -34,6 +34,7 @@ async def school_set(
         )
 
         if user_school_info:
+            school_info.id = user_school_info.id
             await interaction.client.ctx.query.school_info.update(school_info)
             await interaction.edit_original_response(
                 content="성공적으로 수정되었어요.",

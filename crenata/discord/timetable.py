@@ -4,9 +4,12 @@ from datetime import datetime
 from io import BytesIO
 from typing import Any, Optional
 
+import matplotlib  # type: ignore[import]
 import numpy as np
 import pandas as pd  # type: ignore[import]
-from matplotlib import font_manager  # type: ignore[import]
+
+matplotlib.use("Agg")
+from matplotlib import font_manager
 from matplotlib import pyplot as plt
 from matplotlib.figure import Figure  # type: ignore[import]
 
@@ -80,7 +83,8 @@ async def make_timetable_image(results: list[list[Any]], date: datetime) -> Byte
             timetable.append(r.ITRT_CNTNT)
             day = to_weekday(to_datetime(r.ALL_TI_YMD))
 
-        df[day] = pd.Series(timetable)
+        tmp = pd.DataFrame({day: timetable})
+        df = pd.concat([df, tmp], axis=1)
 
     df.index += 1
     df.fillna("", inplace=True)
