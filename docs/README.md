@@ -175,9 +175,9 @@ poetry run isort
 
 ## 실행
 
-Crenata에 Config를 전달해야 합니다.
+Crenata를 실행하기 위해서는 Config를 전달해야 합니다.
 
-다음과 같이 명령줄 인수로 전달 또는 JSON으로 전달할 수 있습니다.
+다음과 같이 명령줄 인수 또는 JSON으로 전달할 수 있습니다.
 
 추가로 환경변수로도 Config를 전달할 수 있습니다.
 
@@ -193,6 +193,25 @@ python -m crenata --token <YOUR_TOKEN>
 ```sh
 # tests 폴더에 있는 config.json 파일을 참고하세요.
 python -m crenata --config <YOUR_CONFIG_PATH>
+```
+
+#### VSCode Debugger
+
+```json5
+// 다음 파일을 .vscode/launch.json에 저장하세요.
+// tests 폴더에 있는 config.json 파일을 참고하세요.
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Crenata",
+            "type": "python",
+            "request": "launch",
+            "module": "crenata",
+            "args": "--config <YOUR_CONFIG_PATH>"
+        }
+    ]
+}
 ```
 
 ### 환경 변수
