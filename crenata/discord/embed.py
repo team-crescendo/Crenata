@@ -119,7 +119,7 @@ def meal_page(results: Optional[list[Any]], private: bool) -> Optional[Embed]:
 
     for result in results:
         embed.add_field(
-            name=f"{add_emoji(result.MMEAL_SC_NM)}",
+            name=f"{add_emoji(result.MMEAL_SC_NM)} ({result.CAL_INFO})",
             value=f"{parse_br_tag(result.DDISH_NM)}",
             inline=True,
         )
