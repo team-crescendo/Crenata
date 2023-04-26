@@ -160,3 +160,18 @@ def parse_homepage_url(url: str) -> Optional[str]:
             return f"http://{url}"
     else:
         return None
+
+
+def school_users_embed_maker(school_name: str, users: int, private: bool) -> Embed:
+    """
+    같은 학교의 사용자 수를 Embed를 만들어주는 함수입니다.
+    """
+    if private:
+        school_name = "비공개"
+    embed = Embed(
+        title=f'"{school_name}" 의 유저 수',
+        description=f"👥 {users} 명",
+        color=5681003,
+    )
+    embed.set_author(name="🔍 학교 사용자 검색 결과")
+    return embed
