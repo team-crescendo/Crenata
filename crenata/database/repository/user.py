@@ -72,9 +72,7 @@ class UserRepository:
                 await session.delete(user)
         return None
 
-    async def read_from_school(
-        self, school_info: SchoolInfoSchema
-    ) -> list[UserSchema]:
+    async def read_from_school(self, school_info: SchoolInfoSchema) -> list[UserSchema]:
         """
         같은 학교에 다니는 유저들를 읽어옵니다.
         """
