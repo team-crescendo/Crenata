@@ -43,6 +43,13 @@ def parse_args(parser: ArgumentParser, argv: list[str]) -> Namespace:
     )
 
     config.add_argument(
+        "--staff-guild-id",
+        type=int,
+        default=0,
+        help="관리 명령어를 사용할 길드 ID입니다. (기본값: 0)",
+    )
+
+    config.add_argument(
         "--config",
         type=str,
         default="",

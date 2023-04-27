@@ -1,10 +1,9 @@
-from dataclasses import asdict
 from typing import Optional
 
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio.session import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from crenata.abc.domain import AbstractDomain
 from crenata.database import Database
 from crenata.database.schema import UserSchema
 
@@ -72,3 +71,24 @@ class UserRepository:
             async with session.begin():
                 await session.delete(user)
         return None
+
+    async def read_all(self) -> list[UserSchema]:
+        """
+        모든 유저를 읽어옵니다.
+        """
+        async with AsyncSession(
+            self.database.engine, expire_on_commit=False
+        ) as session:
+            async with session.begin():
+                return (
+                    (
+                        await session.execute(
+                            select(UserSchema).options(
+                                selectinload(UserSchema.preferences),
+                                selectinload(UserSchema.school_info),
+                            )
+                        )
+                    )
+                    .scalars()
+                    .all()
+                )

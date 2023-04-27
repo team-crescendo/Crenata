@@ -38,6 +38,7 @@ class CrenataConfig(dict[str, Any]):
     NEIS_API_KEY: str
     DB_URL: str
     CONFIG: str
+    STAFF_GUILD_ID: int
 
     def __init__(self, prefix: str = "RENA_"):
         self.prefix = prefix
@@ -50,6 +51,7 @@ class CrenataConfig(dict[str, Any]):
                 "CONFIG": "",
                 "TOKEN": "",
                 "NEIS_API_KEY": "",
+                "STAFF_GUILD_ID": 0,
             }
         )
         self.load_environment_vars()
