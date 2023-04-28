@@ -4,5 +4,5 @@
     "DB_URL": "sqlite:///test.db",
     "TOKEN": "token",
     "NEIS_API_KEY": "neis",
-    "STAFF_GUILD_ID": 12345
+    "STAFF_GUILD_ID": 123456789012345678
 }
