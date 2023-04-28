@@ -80,15 +80,10 @@ class UserRepository:
             self.database.engine, expire_on_commit=False
         ) as session:
             async with session.begin():
-                return (
-                    (
-                        await session.execute(
-                            select(UserSchema).options(
-                                selectinload(UserSchema.preferences),
-                                selectinload(UserSchema.school_info),
-                            )
-                        )
-                    )
-                    .scalars()
-                    .all()
+                smst = select(UserSchema).options(
+                    selectinload(UserSchema.preferences),
+                    selectinload(UserSchema.school_info),
                 )
+
+                result = await session.execute(smst)
+                return result.scalars().all()
