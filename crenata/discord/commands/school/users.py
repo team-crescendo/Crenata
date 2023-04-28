@@ -11,7 +11,9 @@ async def users(interaction: CrenataInteraction) -> None:
     if not user or not user.school_info:
         raise NeedSchoolRegister
 
-    users = await interaction.client.ctx.query.user.read_from_school(user.school_info)
+    users = await interaction.client.ctx.query.user.read_all_user_from_school_info(
+        user.school_info
+    )
 
     embed = school_users_embed_maker(
         user.school_info.school_name, len(users), user.preferences.private
