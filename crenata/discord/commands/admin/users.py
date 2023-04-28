@@ -23,11 +23,11 @@ async def users(interaction: CrenataInteraction) -> None:
             embed=embed,
         )
 
-    nl = "\n"
+    newline = "\n"
     embed.add_field(
         name="유저 목록",
         value=(
-            f"{nl.join([f'<@{user.id}>' for user in users[:10]])}\n ...and"
+            f"{newline.join([f'<@{user.id}>' for user in users[:10]])}\n ...and"
             f" {len(users) - 10} more"
         ),
     )
