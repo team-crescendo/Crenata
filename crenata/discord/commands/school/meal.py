@@ -3,7 +3,7 @@ from typing import Literal, Optional
 
 from crenata.discord import CrenataInteraction
 from crenata.discord.commands.school import school
-from crenata.discord.embed import meal_page
+from crenata.discord.embed.meal import MealEmbedBuilder
 from crenata.discord.interaction import school_info
 from crenata.utils.discord import ToDatetime, dynamic_send
 from discord import app_commands
@@ -19,20 +19,17 @@ async def meal(
     meal_time: Optional[Literal["조식", "중식", "석식"]] = None,
     date: Optional[app_commands.Transform[datetime, ToDatetime]] = None,
 ) -> None:
+    dyn = dynamic_send(interaction)
+
     info = await school_info(interaction, school_name)
 
     _, edu_office_code, standard_school_code, preferences = info
 
-    meal_info = meal_page(
-        await interaction.client.ctx.neispy.get_meal(
-            edu_office_code, standard_school_code, meal_time, date=date
-        ),
-        private=preferences.private,
+    data = await interaction.client.ctx.neispy.get_meal(
+        edu_office_code, standard_school_code, meal_time, date=date
     )
 
-    dyn = dynamic_send(interaction)
-
-    if not meal_info:
+    if not data:
         await dyn(
             content="해당 시간에는 급식이 없나봐요! 조식, 중식, 석식중에 다시 선택해주세요!",
             embed=None,
@@ -41,4 +38,5 @@ async def meal(
         )
         return
 
-    await dyn(embed=meal_info, ephemeral=preferences.ephemeral, view=None, content=None)
+    embed = MealEmbedBuilder.build_with_apply_private_preference(data, preferences.private)
+    await dyn(embed=embed, ephemeral=preferences.ephemeral, view=None, content=None)
