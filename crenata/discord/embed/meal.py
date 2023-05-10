@@ -18,7 +18,9 @@ class MealEmbedBuilder(AbstractEmbedBuilder):
         """
         return "\n".join([f"> {word}" for word in string.split("<br/>")])
 
-    def if_apply_private_preference_behind_school_name(self, school_name: str) -> str:
+    def if_applied_private_preference_is_true_hide_school_name(
+        self, school_name: str
+    ) -> str:
         if self.private:
             school_name = "비공개"
         return school_name
@@ -31,8 +33,10 @@ class MealEmbedBuilder(AbstractEmbedBuilder):
 
         for result in data:
             if not self.embed.title and not self.embed.description:
-                school_name = self.if_apply_private_preference_behind_school_name(
-                    result.SCHUL_NM
+                school_name = (
+                    self.if_applied_private_preference_is_true_hide_school_name(
+                        result.SCHUL_NM
+                    )
                 )
 
                 self.embed.title = f'"{school_name}" 의 급식 정보'
