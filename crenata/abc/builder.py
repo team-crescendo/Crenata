@@ -4,7 +4,7 @@ from abc import ABC
 
 
 class AbstractEmbedBuilder(ABC):
-    def __init__(self):
+    def __init__(self) -> None:
         self.embed = Embed(color=5681003)
 
     def apply_private_preference(self, private: bool):
