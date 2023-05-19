@@ -1,7 +1,7 @@
 import pytest
 
 from crenata.database.query import Query
-from crenata.database.schema import UserSchema
+from crenata.database.schema import SchoolInfoSchema, UserSchema
 
 
 @pytest.mark.asyncio
@@ -24,3 +24,12 @@ async def test_user_delete(query: Query, new_user: UserSchema):
     await query.user.delete(new_user)
     user = await query.user.read(1)
     assert user is None
+
+
+@pytest.mark.asyncio
+async def test_user_read_from_school_info(
+    query: Query,
+    new_school_info: SchoolInfoSchema,
+):
+    user = await query.user.read_all_user_from_school_info(new_school_info)
+    assert user
