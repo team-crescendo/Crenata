@@ -1,12 +1,11 @@
-from dataclasses import asdict
 from typing import Optional
 
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio.session import AsyncSession
-from sqlalchemy.orm import selectinload
+from sqlalchemy.orm import joinedload, selectinload
 
-from crenata.abc.domain import AbstractDomain
 from crenata.database import Database
-from crenata.database.schema import UserSchema
+from crenata.database.schema import SchoolInfoSchema, UserSchema
 
 
 class UserRepository:
@@ -72,3 +71,31 @@ class UserRepository:
             async with session.begin():
                 await session.delete(user)
         return None
+
+    async def read_all_user_from_school_info(
+        self, school_info: SchoolInfoSchema
+    ) -> list[UserSchema]:
+        """
+        같은 학교에 다니는 유저들를 읽어옵니다.
+        """
+        async with AsyncSession(
+            self.database.engine, expire_on_commit=False
+        ) as session:
+            async with session.begin():
+                stmt = (
+                    select(UserSchema)
+                    .join(UserSchema.school_info)
+                    .where(
+                        SchoolInfoSchema.ATPT_OFCDC_SC_CODE
+                        == school_info.ATPT_OFCDC_SC_CODE,
+                        SchoolInfoSchema.SD_SCHUL_CODE == school_info.SD_SCHUL_CODE,
+                    )
+                )
+
+                stmt = stmt.options(
+                    selectinload(UserSchema.preferences),
+                    joinedload(UserSchema.school_info),
+                )
+
+                result = await session.execute(stmt)
+                return result.scalars().all()
