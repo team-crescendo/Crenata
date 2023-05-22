@@ -1,5 +1,5 @@
 from typing import Any, Literal
-
+from discord import Embed
 from crenata.abc.builder import AbstractEmbedBuilder
 from crenata.utils.datetime import datetime_to_readable, to_datetime
 
@@ -10,7 +10,7 @@ class MealEmbedBuilder(AbstractEmbedBuilder):
         조식, 중식, 석식에 맞는 이모지를 추가해주는 함수입니다.
         """
         emoji = {"조식": "⛅", "중식": "☀️", "석식": "🌙"}
-        return f"{emoji.get(string, None)} {string}"
+        return f"{emoji.get(string, '❓')} {string}"
 
     def parse_br_tag(self, string: str) -> str:
         """
@@ -18,14 +18,12 @@ class MealEmbedBuilder(AbstractEmbedBuilder):
         """
         return "\n".join([f"> {word}" for word in string.split("<br/>")])
 
-    def if_applied_private_preference_is_true_hide_school_name(
-        self, school_name: str
-    ) -> str:
+    def follow_private_preference(self, school_name: str) -> str:
         if self.private:
             school_name = "비공개"
         return school_name
 
-    def _build(self, data: Any):
+    def build(self, data: Any) -> Embed:
         """
         급식 검색 결과를 Embed로 만들어주는 함수입니다.
         """
@@ -33,11 +31,7 @@ class MealEmbedBuilder(AbstractEmbedBuilder):
 
         for result in data:
             if not self.embed.title and not self.embed.description:
-                school_name = (
-                    self.if_applied_private_preference_is_true_hide_school_name(
-                        result.SCHUL_NM
-                    )
-                )
+                school_name = self.follow_private_preference(result.SCHUL_NM)
 
                 self.embed.title = f'"{school_name}" 의 급식 정보'
                 self.embed.description = (
@@ -49,3 +43,5 @@ class MealEmbedBuilder(AbstractEmbedBuilder):
                 value=f"{self.parse_br_tag(result.DDISH_NM)}",
                 inline=True,
             )
+
+        return self.embed
