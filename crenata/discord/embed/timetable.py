@@ -13,9 +13,7 @@ class TimetableEmbedBuilder(AbstractEmbedBuilder):
         school_name = self.follow_private_preference(r.SCHUL_NM)
 
         self.embed.title = "🗓️ 시간표"
-        self.embed.description = (
-            f"{school_name} __{datetime_to_readable(date)}__ 시간표"
-        )
+        self.embed.description = f"{school_name} __{datetime_to_readable(date)}__ 시간표"
         self.embed.set_image(url="attachment://timetable.png")
 
         return self.embed

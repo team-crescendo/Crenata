@@ -18,7 +18,6 @@ class MealEmbedBuilder(AbstractEmbedBuilder):
         """
         return "\n".join([f"> {word}" for word in string.split("<br/>")])
 
-
     def build(self, *data: Any) -> Embed:
         """
         급식 검색 결과를 Embed로 만들어주는 함수입니다.

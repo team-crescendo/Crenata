@@ -35,5 +35,5 @@ class AbstractEmbedBuilder(ABC):
         return cls().apply_private_preference(private)
 
     @classmethod
-    def quick_build(cls, *data: Any):
+    def quick_build(cls, *data: Any) -> Embed:
         return cls().build(data)

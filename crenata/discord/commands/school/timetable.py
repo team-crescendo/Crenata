@@ -44,11 +44,9 @@ async def time_table(
     await dyn(content="시간표를 가져오는 중이에요...", embed=None, view=None)
 
     image = await make_timetable_image(timetable_info, date)
-    embed = (
-        TimetableEmbedBuilder
-        .with_apply_private_preference(preferences.private)
-        .build(timetable_info, date)
-    )
+    embed = TimetableEmbedBuilder.with_apply_private_preference(
+        preferences.private
+    ).build(timetable_info, date)
 
     await dyn(
         followup=True,
