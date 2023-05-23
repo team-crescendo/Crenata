@@ -4,8 +4,8 @@ from typing import Optional
 from crenata.discord import CrenataInteraction
 from crenata.discord.commands.school import school
 from crenata.discord.embed.timetable import TimetableEmbedBuilder
-from crenata.discord.timetable import make_timetable_image
 from crenata.discord.interaction import school_info
+from crenata.discord.timetable import make_timetable_image
 from crenata.utils.discord import ToDatetime, dynamic_send
 from discord import File, app_commands
 

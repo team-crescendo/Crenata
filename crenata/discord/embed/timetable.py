@@ -1,8 +1,8 @@
 from typing import Any
-from discord import Embed
 
 from crenata.abc.builder import AbstractEmbedBuilder
 from crenata.utils.datetime import datetime_to_readable
+from discord import Embed
 
 
 class TimetableEmbedBuilder(AbstractEmbedBuilder):

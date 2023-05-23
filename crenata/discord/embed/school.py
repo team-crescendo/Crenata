@@ -1,7 +1,8 @@
 from typing import Any, Optional
-from discord import Embed
+
 from crenata.abc.builder import AbstractEmbedBuilder
 from crenata.utils.datetime import datetime_to_readable, to_datetime
+from discord import Embed
 
 
 class SchoolResultEmbedBuilder(AbstractEmbedBuilder):

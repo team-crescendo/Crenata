@@ -1,6 +1,7 @@
 from typing import Any
-from discord import Embed
+
 from crenata.abc.builder import AbstractEmbedBuilder
+from discord import Embed
 
 
 class SchoolUsersEmbedBuilder(AbstractEmbedBuilder):

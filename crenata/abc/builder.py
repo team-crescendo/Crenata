@@ -1,7 +1,9 @@
 from __future__ import annotations
-from typing import Any
-from discord import Embed
+
 from abc import ABC
+from typing import Any
+
+from discord import Embed
 
 
 class AbstractEmbedBuilder(ABC):
