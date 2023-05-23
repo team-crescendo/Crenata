@@ -1,5 +1,6 @@
-from crenata.discord.embed.meal import MealEmbedBuilder
 from types import SimpleNamespace
+
+from crenata.discord.embed.meal import MealEmbedBuilder
 
 
 def test_meal_embed_builder():
