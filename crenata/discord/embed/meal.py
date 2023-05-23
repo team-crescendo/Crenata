@@ -18,18 +18,14 @@ class MealEmbedBuilder(AbstractEmbedBuilder):
         """
         return "\n".join([f"> {word}" for word in string.split("<br/>")])
 
-    def follow_private_preference(self, school_name: str) -> str:
-        if self.private:
-            school_name = "비공개"
-        return school_name
 
-    def build(self, data: Any) -> Embed:
+    def build(self, *data: Any) -> Embed:
         """
         급식 검색 결과를 Embed로 만들어주는 함수입니다.
         """
         self.embed.set_author(name="🔍 급식 검색 결과")
 
-        for result in data:
+        for result in data[0]:
             if not self.embed.title and not self.embed.description:
                 school_name = self.follow_private_preference(result.SCHUL_NM)
 

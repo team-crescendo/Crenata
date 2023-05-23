@@ -3,7 +3,8 @@ from typing import Optional
 
 from crenata.discord import CrenataInteraction
 from crenata.discord.commands.school import school
-from crenata.discord.embed import time_table_embed_maker
+from crenata.discord.embed.timetable import TimetableEmbedBuilder
+from crenata.discord.timetable import make_timetable_image
 from crenata.discord.interaction import school_info
 from crenata.utils.discord import ToDatetime, dynamic_send
 from discord import File, app_commands
@@ -42,8 +43,11 @@ async def time_table(
 
     await dyn(content="시간표를 가져오는 중이에요...", embed=None, view=None)
 
-    embed, image = await time_table_embed_maker(
-        timetable_info, date, preferences.private
+    image = await make_timetable_image(timetable_info, date)
+    embed = (
+        TimetableEmbedBuilder
+        .with_apply_private_preference(preferences.private)
+        .build(timetable_info, date)
     )
 
     await dyn(

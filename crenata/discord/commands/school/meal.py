@@ -10,6 +10,17 @@ from discord import app_commands, ui
 from discord.interactions import Interaction
 
 
+class AllergyUI(ui.Select[ui.View]):
+    def __init__(self, executor_id: int) -> None:
+        self.executor_id = executor_id
+        super().__init__(placeholder="알러지 정보")
+
+    async def callback(self, interaction: Interaction) -> None:
+        if self.executor_id == interaction.user.id:
+            self.placeholder = self.values[0]
+            await interaction.response.edit_message(view=self.view)
+
+
 @school.command(name="급식", description="급식 식단표를 가져와요.")
 @app_commands.describe(school_name="학교 이름")
 @app_commands.describe(meal_time="시간")
@@ -39,27 +50,19 @@ async def meal(
         )
         return
 
-    embed = MealEmbedBuilder.build_with_apply_private_preference(data, preferences.private)
-    await dyn(embed=embed, ephemeral=preferences.ephemeral, view=None, content=None)
-
-    user = interaction.user.id
-    selAllergy: ui.Select[ui.View] = ui.Select(placeholder="알러지 정보")
-
-    async def callback_no_response(interaction: Interaction) -> None:
-        if interaction.user.id == user:
-            selAllergy.placeholder = selAllergy.values[0]
-        await interaction.response.edit_message(view=view)
+    embed = MealEmbedBuilder.with_apply_private_preference(preferences.private).build(
+        data
+    )
 
     view = ui.View()
+    select_allergy_ui = AllergyUI(interaction.user.id)
+    select_allergy_ui.add_option(label="1.난류, 2.우유, 3.메밀")
+    select_allergy_ui.add_option(label="4.땅콩, 5.대두, 6.밀")
+    select_allergy_ui.add_option(label="7.고등어, 8.게, 9.새우")
+    select_allergy_ui.add_option(label="10.돼지고기, 11.복숭아, 12.토마토")
+    select_allergy_ui.add_option(label="13.아황산염, 14.호두, 15.닭고기")
+    select_allergy_ui.add_option(label="16.쇠고기, 17.오징어, 18.조개류")
 
+    view.add_item(select_allergy_ui)
 
-    selAllergy.add_option(label="1.난류, 2.우유, 3.메밀")
-    selAllergy.add_option(label="4.땅콩, 5.대두, 6.밀")
-    selAllergy.add_option(label="7.고등어, 8.게, 9.새우")
-    selAllergy.add_option(label="10.돼지고기, 11.복숭아, 12.토마토")
-    selAllergy.add_option(label="13.아황산염, 14.호두, 15.닭고기")
-    selAllergy.add_option(label="16.쇠고기, 17.오징어, 18.조개류")
-    setattr(selAllergy, "callback", callback_no_response)
-    view.add_item(selAllergy)
-
-    await dyn(embed=meal_info, ephemeral=preferences.ephemeral, view=view, content=None)
+    await dyn(embed=embed, ephemeral=preferences.ephemeral, view=None, content=None)

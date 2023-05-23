@@ -1,6 +1,6 @@
 from crenata.discord import CrenataInteraction
 from crenata.discord.commands.school import school
-from crenata.discord.embed import school_users_embed_maker
+from crenata.discord.embed.users import SchoolUsersEmbedBuilder
 from crenata.exception import NeedSchoolRegister
 
 
@@ -15,8 +15,11 @@ async def users(interaction: CrenataInteraction) -> None:
         user.school_info
     )
 
-    embed = school_users_embed_maker(
-        user.school_info.school_name, len(users), user.preferences.private
+    embed = SchoolUsersEmbedBuilder.with_apply_private_preference(
+        user.preferences.private
+    ).build(
+        user.school_info.school_name,
+        len(users),
     )
 
     await interaction.response.send_message(

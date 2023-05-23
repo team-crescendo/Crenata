@@ -10,5 +10,5 @@ from discord import app_commands
 async def search(interaction: CrenataInteraction, school_name: str) -> None:
     data = await school_page(interaction, school_name)
     await interaction.edit_original_response(
-        view=None, embed=DetailSchoolResultEmbedBuilder().build(data)
+        view=None, embed=DetailSchoolResultEmbedBuilder.quick_build(data)
     )

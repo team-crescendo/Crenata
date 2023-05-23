@@ -8,6 +8,11 @@ class AbstractEmbedBuilder(ABC):
     def __init__(self) -> None:
         self.embed = Embed(color=5681003)
 
+    def follow_private_preference(self, school_name: str) -> str:
+        if self.private:
+            school_name = "비공개"
+        return school_name
+
     def apply_private_preference(self, private: bool) -> AbstractEmbedBuilder:
         self.private = private
         return self
@@ -16,7 +21,7 @@ class AbstractEmbedBuilder(ABC):
         self.embed.set_footer(text=f"{index}/{total}")
         return self
 
-    def build(self, data: Any) -> Embed:
+    def build(self, *data: Any) -> Embed:
         ...
 
     @classmethod
@@ -28,3 +33,7 @@ class AbstractEmbedBuilder(ABC):
     @classmethod
     def with_apply_private_preference(cls, private: bool) -> AbstractEmbedBuilder:
         return cls().apply_private_preference(private)
+
+    @classmethod
+    def quick_build(cls, *data: Any):
+        return cls().build(data)
