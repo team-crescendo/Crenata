@@ -65,4 +65,4 @@ async def meal(
 
     view.add_item(select_allergy_ui)
 
-    await dyn(embed=embed, ephemeral=preferences.ephemeral, view=None, content=None)
+    await dyn(embed=embed, ephemeral=preferences.ephemeral, view=view, content=None)
