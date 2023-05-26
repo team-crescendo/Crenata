@@ -2,7 +2,7 @@ from datetime import datetime
 from typing import Any
 
 from crenata.utils.datetime import datetime_to_readable
-from crenata.utils.discord import follow_private_preference, CrenataEmbed
+from crenata.utils.discord import CrenataEmbed, follow_private_preference
 
 
 def timetable_embed_builder(

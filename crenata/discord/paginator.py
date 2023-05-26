@@ -1,13 +1,11 @@
 from functools import cached_property
 from typing import Any, Optional
 
-
+from crenata.utils.discord import CrenataEmbed
 from discord.enums import ButtonStyle
 from discord.interactions import Interaction
 from discord.ui.button import button
 from discord.ui.view import View
-
-from crenata.utils.discord import CrenataEmbed
 
 
 class Paginator(View):
