@@ -79,10 +79,7 @@ def detail_school_result_embed_builder(result: Any) -> CrenataEmbed:
         )
 
     embed.set_footer(
-        text=(
-            "⌛ 마지막 데이터 수정 일자:"
-            f" {datetime_to_readable(to_datetime(result.LOAD_DTM))}"
-        )
+        text=f"⌛ 마지막 데이터 수정 일자: {datetime_to_readable(to_datetime(result.LOAD_DTM))}"
     )
 
     return embed
