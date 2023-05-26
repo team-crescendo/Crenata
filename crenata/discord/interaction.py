@@ -1,7 +1,7 @@
 from typing import Any, Literal, Optional, overload
 
 from crenata.discord import CrenataInteraction
-from crenata.discord.embed.school import SchoolResultEmbedBuilder
+from crenata.discord.embed.school import school_result_embed_builder
 from crenata.discord.paginator import Paginator
 from crenata.entities import Preferences
 from crenata.exception import (
@@ -21,7 +21,8 @@ async def school_page(
     """
 
     results = await interaction.client.ctx.neispy.search_school(school_name)
-    view = Paginator(interaction.user.id, results, SchoolResultEmbedBuilder)
+    embeds = [school_result_embed_builder(result) for result in results]
+    view = Paginator(interaction.user.id, embeds)
 
     await interaction.response.send_message(
         embed=view.embeds[0], view=view, ephemeral=ephemeral
@@ -29,8 +30,7 @@ async def school_page(
 
     if not await view.wait():
         if view.selected:
-            data = view.data[view.index]
-            return data
+            return results[view.index]
 
         raise UserCanceled
 

@@ -1,14 +1,14 @@
-from typing import Any
-
-from crenata.abc.builder import AbstractEmbedBuilder
-from discord import Embed
+from crenata.utils.discord import CrenataEmbed, follow_private_preference
 
 
-class SchoolUsersEmbedBuilder(AbstractEmbedBuilder):
-    def build(self, *data: Any) -> Embed:
-        school_name, users = data
-        school_name = self.follow_private_preference(school_name)
-        self.embed.title = f'"{school_name}" 의 유저 수'
-        self.embed.description = f"👥 {users} 명"
-        self.embed.set_author(name="🔍 학교 사용자 검색 결과")
-        return self.embed
+def school_users_embed_builder(
+    school_name: str, users: int, private: bool
+) -> CrenataEmbed:
+    embed = CrenataEmbed()
+    (school_name,) = follow_private_preference(
+        private=private, school_name=school_name
+    ).values()
+    embed.title = f'"{school_name}" 의 유저 수'
+    embed.description = f"👥 {users} 명"
+    embed.set_author(name="🔍 학교 사용자 검색 결과")
+    return embed

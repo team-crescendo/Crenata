@@ -1,6 +1,6 @@
 from types import SimpleNamespace
 
-from crenata.discord.embed.meal import MealEmbedBuilder
+from crenata.discord.embed.meal import meal_embed_builder
 
 
 def test_meal_embed_builder():
@@ -12,7 +12,7 @@ def test_meal_embed_builder():
     data.DDISH_NM = "밥<br/>반찬<br/>메인<br/>국<br/>김치<br/>디저트"
     data.SCHUL_NM = "학교"
 
-    embed = MealEmbedBuilder().apply_private_preference(True).build([data])
+    embed = meal_embed_builder([data], True)
 
     assert embed.to_dict() == {
         "title": '"비공개" 의 급식 정보',

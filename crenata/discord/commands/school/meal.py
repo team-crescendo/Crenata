@@ -3,7 +3,7 @@ from typing import Literal, Optional
 
 from crenata.discord import CrenataInteraction
 from crenata.discord.commands.school import school
-from crenata.discord.embed.meal import MealEmbedBuilder
+from crenata.discord.embed.meal import meal_embed_builder
 from crenata.discord.interaction import school_info
 from crenata.utils.discord import ToDatetime, dynamic_send
 from discord import app_commands, ui
@@ -50,9 +50,7 @@ async def meal(
         )
         return
 
-    embed = MealEmbedBuilder.with_apply_private_preference(preferences.private).build(
-        data
-    )
+    embed = meal_embed_builder(data, preferences.private)
 
     view = ui.View()
     select_allergy_ui = AllergyUI(interaction.user.id)

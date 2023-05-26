@@ -1,12 +1,42 @@
 from datetime import datetime
 from types import TracebackType
-from typing import Any, Callable, Coroutine, Optional
+from typing import Any, Optional
+
+from discord.colour import Colour
+from discord.types.embed import EmbedType
 
 from crenata.exception import DateParseError, InteractionLocked
+from crenata.typing import InnerSend
 from crenata.utils.datetime import to_datetime, to_relative_date
-from discord import Interaction, InteractionMessage, app_commands
+from discord import Interaction, InteractionMessage, app_commands, Embed
 from discord.errors import NotFound
 from discord.utils import MISSING
+
+
+class CrenataEmbed(Embed):
+    def __init__(
+        self,
+        *,
+        colour: int | Colour | None = None,
+        color: int | Colour | None = 5681003,
+        title: Any | None = None,
+        type: EmbedType = "rich",
+        url: Any | None = None,
+        description: Any | None = None,
+        timestamp: datetime | None = None,
+    ):
+        super().__init__(
+            colour=colour,
+            color=color,
+            title=title,
+            type=type,
+            url=url,
+            description=description,
+            timestamp=timestamp,
+        )
+
+    def apply_pagination(self, index: int, total: int) -> None:
+        self.set_footer(text=f"{index}/{total}")
 
 
 class InteractionLock:
@@ -63,11 +93,11 @@ async def get_message(interaction: Interaction) -> Optional[InteractionMessage]:
 
 def dynamic_send(
     interaction: Interaction,
-) -> Callable[..., Coroutine[Any, Any, None]]:
+) -> InnerSend:
     """
-    인터랙션의 원래 메시지가 존재하면 수정하고, 존재하지 않으면 메시지를 보냅니다.
+    인터렉션이 원래 메시지를 가지고 있다면 원래 메시지를 수정하고
 
-    이는 신중하게 사용해야 합니다.
+    아니라면 새로운 메시지를 보내는 함수를 반환합니다.
     """
 
     async def inner_send(*, followup: bool = False, **kwargs: Any) -> None:
@@ -90,3 +120,9 @@ def dynamic_send(
         await interaction.response.send_message(**kwargs)
 
     return inner_send
+
+
+def follow_private_preference(*, private: bool, **kwargs: Any) -> dict[str, str]:
+    if private:
+        kwargs = {key: "비공개" for key, _ in kwargs.items()}
+    return kwargs
