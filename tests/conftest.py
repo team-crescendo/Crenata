@@ -47,8 +47,8 @@ def event_loop():
 @pytest.mark.asyncio
 async def _query():
     # if you want to use sqlite in memory, use this line instead of the next one
-    query = await Query.setup("sqlite+aiosqlite:///:memory:")
-    # query = await Query.setup("postgresql+asyncpg://postgres:test@localhost/rena")
+    # query = await Query.setup("sqlite+aiosqlite:///:memory:")
+    query = await Query.setup("postgresql+asyncpg://postgres:test@localhost/rena")
     return query
 
 
