@@ -40,11 +40,12 @@ def __handle_english_school_name(school_name: Optional[str]) -> str:
 
 
 def __handle_coeducation(result: Any) -> str:
-    if (coed := result.COEDU_SC_NM) == "남" or coed == "여":
-        coed += "학교"
+    coedu_school_name: str = result.COEDU_SC_NM
+    if coedu_school_name == "남" or coedu_school_name == "여":
+        coedu_school_name += "학교"
     else:
-        coed = "남녀공학"
-    return coed
+        coedu_school_name = "남녀공학"
+    return coedu_school_name
 
 
 def __handle_school_type(result: Any) -> str:
@@ -78,7 +79,10 @@ def detail_school_result_embed_builder(result: Any) -> CrenataEmbed:
         )
 
     embed.set_footer(
-        text=f"⌛ 마지막 데이터 수정 일자: {datetime_to_readable(to_datetime(result.LOAD_DTM))}"
+        text=(
+            "⌛ 마지막 데이터 수정 일자:"
+            f" {datetime_to_readable(to_datetime(result.LOAD_DTM))}"
+        )
     )
 
     return embed
