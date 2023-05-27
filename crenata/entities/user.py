@@ -1,14 +1,12 @@
-from dataclasses import field
+from dataclasses import dataclass, field
 from typing import Optional
-
-from pydantic.dataclasses import dataclass
 
 from crenata.abc.domain import AbstractDomain
 from crenata.entities.preferences import Preferences
 from crenata.entities.schoolinfo import SchoolInfo
 
 
-@dataclass(validate_on_init=False)
+@dataclass
 class User(AbstractDomain):
     """
     유저 엔티티입니다.
