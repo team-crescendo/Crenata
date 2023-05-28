@@ -4,7 +4,7 @@ from crenata.utils.datetime import datetime_to_readable, to_datetime
 from crenata.utils.discord import CrenataEmbed, follow_private_preference
 
 
-def __add_emoji(string: Literal["조식", "중식", "석식"]) -> str:
+def _add_emoji(string: Literal["조식", "중식", "석식"]) -> str:
     """
     조식, 중식, 석식에 맞는 이모지를 추가해주는 함수입니다.
     """
@@ -12,7 +12,7 @@ def __add_emoji(string: Literal["조식", "중식", "석식"]) -> str:
     return f"{emoji.get(string, '❓')} {string}"
 
 
-def __parse_br_tag(string: str) -> str:
+def _parse_br_tag(string: str) -> str:
     """
     <br/> 태그를 개행문자로 바꿔주는 함수입니다.
     """
@@ -38,8 +38,8 @@ def meal_embed_builder(results: Any, private: bool) -> CrenataEmbed:
             )
 
         embed.add_field(
-            name=f"{__add_emoji(result.MMEAL_SC_NM)} ({result.CAL_INFO})",
-            value=f"{__parse_br_tag(result.DDISH_NM)}",
+            name=f"{_add_emoji(result.MMEAL_SC_NM)} ({result.CAL_INFO})",
+            value=f"{_parse_br_tag(result.DDISH_NM)}",
             inline=True,
         )
 

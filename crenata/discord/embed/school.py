@@ -15,11 +15,11 @@ def school_result_embed_builder(result: Any) -> CrenataEmbed:
     return embed
 
 
-def __add_paragraph(string: str) -> str:
+def _add_paragraph(string: str) -> str:
     return string + "\n\n--------------------"
 
 
-def __parse_homepage_url(url: str) -> Optional[str]:
+def _parse_homepage_url(url: str) -> Optional[str]:
     """
     학교 홈페이지 주소를 파싱해주는 함수입니다.
     주소가 없다면 None을 반환합니다.
@@ -33,13 +33,13 @@ def __parse_homepage_url(url: str) -> Optional[str]:
     return None
 
 
-def __handle_english_school_name(school_name: Optional[str]) -> str:
+def _handle_english_school_name(school_name: Optional[str]) -> str:
     if school_name:
-        return __add_paragraph(school_name)
+        return _add_paragraph(school_name)
     return "--------------------"
 
 
-def __handle_coeducation(result: Any) -> str:
+def _handle_coeducation(result: Any) -> str:
     coedu_school_name: str = result.COEDU_SC_NM
     if coedu_school_name == "남" or coedu_school_name == "여":
         coedu_school_name += "학교"
@@ -48,20 +48,20 @@ def __handle_coeducation(result: Any) -> str:
     return coedu_school_name
 
 
-def __handle_school_type(result: Any) -> str:
+def _handle_school_type(result: Any) -> str:
     kind = f"> {result.SCHUL_KND_SC_NM}"
     if result.SCHUL_KND_SC_NM == "고등학교":
         kind += f"\n> {result.HS_GNRL_BUSNS_SC_NM} {result.HS_SC_NM}"
-    kind += f"\n> { __handle_coeducation(result)}"
+    kind += f"\n> { _handle_coeducation(result)}"
     return kind
 
 
 def detail_school_result_embed_builder(result: Any) -> CrenataEmbed:
     embed = CrenataEmbed()
-    kind = __handle_school_type(result)
-    embed.description = __handle_english_school_name(result.ENG_SCHUL_NM)
+    kind = _handle_school_type(result)
+    embed.description = _handle_english_school_name(result.ENG_SCHUL_NM)
     embed.set_author(name="🔍 학교 상세 정보")
-    embed.add_field(name="❓ 학교 분류", value=__add_paragraph(kind))
+    embed.add_field(name="❓ 학교 분류", value=_add_paragraph(kind))
     embed.add_field(
         name="⚒️ 설립일",
         value=datetime_to_readable(to_datetime(result.FOND_YMD)),
@@ -71,7 +71,7 @@ def detail_school_result_embed_builder(result: Any) -> CrenataEmbed:
     embed.add_field(name="📲 대표 전화", value=result.ORG_TELNO)
     embed.add_field(name="📲 팩스 번호", value=result.ORG_FAXNO)
 
-    if url := __parse_homepage_url(result.HMPG_ADRES):
+    if url := _parse_homepage_url(result.HMPG_ADRES):
         embed.add_field(
             name="🔗 학교 홈페이지",
             value=f"[바로가기]({url})",
@@ -79,7 +79,10 @@ def detail_school_result_embed_builder(result: Any) -> CrenataEmbed:
         )
 
     embed.set_footer(
-        text=f"⌛ 마지막 데이터 수정 일자: {datetime_to_readable(to_datetime(result.LOAD_DTM))}"
+        text=(
+            "⌛ 마지막 데이터 수정 일자:"
+            f" {datetime_to_readable(to_datetime(result.LOAD_DTM))}"
+        )
     )
 
     return embed
