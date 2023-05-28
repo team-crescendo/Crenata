@@ -13,6 +13,13 @@ from discord.interactions import Interaction
 class AllergyUI(ui.Select[ui.View]):
     def __init__(self, executor_id: int) -> None:
         self.executor_id = executor_id
+        self.add_option(label="4.땅콩, 5.대두, 6.밀")
+        self.add_option(label="1.난류, 2.우유, 3.메밀")
+        self.add_option(label="7.고등어, 8.게, 9.새우")
+        self.add_option(label="10.돼지고기, 11.복숭아, 12.토마토")
+        self.add_option(label="13.아황산염, 14.호두, 15.닭고기")
+        self.add_option(label="16.쇠고기, 17.오징어, 18.조개류")
+
         super().__init__(placeholder="알러지 정보")
 
     async def callback(self, interaction: Interaction) -> None:
@@ -54,13 +61,6 @@ async def meal(
 
     view = ui.View()
     select_allergy_ui = AllergyUI(interaction.user.id)
-    select_allergy_ui.add_option(label="1.난류, 2.우유, 3.메밀")
-    select_allergy_ui.add_option(label="4.땅콩, 5.대두, 6.밀")
-    select_allergy_ui.add_option(label="7.고등어, 8.게, 9.새우")
-    select_allergy_ui.add_option(label="10.돼지고기, 11.복숭아, 12.토마토")
-    select_allergy_ui.add_option(label="13.아황산염, 14.호두, 15.닭고기")
-    select_allergy_ui.add_option(label="16.쇠고기, 17.오징어, 18.조개류")
-
     view.add_item(select_allergy_ui)
 
     await dyn(embed=embed, ephemeral=preferences.ephemeral, view=view, content=None)
