@@ -1,23 +1,19 @@
-from dataclasses import dataclass
+from sqlalchemy.orm import Mapped, mapped_column
 
+from crenata.database.registry import mapper_registry
 from crenata.database.schema.mixin import ForeignKeySchema
-from crenata.entities.schoolinfo import SchoolInfo
 
 
-@dataclass
-class SchoolInfoSchema(SchoolInfo, ForeignKeySchema):
+@mapper_registry.mapped_as_dataclass
+class SchoolInfoSchema(ForeignKeySchema):
+    __tablename__ = "school_info"
     """
     학교정보 스키마입니다.
     """
 
-    def to_entity(self) -> SchoolInfo:
-        """
-        스키마를 엔티티로 변환합니다.
-        """
-        return SchoolInfo(
-            school_name=self.school_name,
-            grade=self.grade,
-            room=self.room,
-            ATPT_OFCDC_SC_CODE=self.ATPT_OFCDC_SC_CODE,
-            SD_SCHUL_CODE=self.SD_SCHUL_CODE,
-        )
+    school_name: Mapped[str] = mapped_column()
+    grade: Mapped[int] = mapped_column()
+    room: Mapped[int] = mapped_column()
+
+    ATPT_OFCDC_SC_CODE: Mapped[str] = mapped_column()
+    SD_SCHUL_CODE: Mapped[str] = mapped_column()

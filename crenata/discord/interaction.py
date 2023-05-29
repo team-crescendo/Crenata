@@ -1,9 +1,9 @@
 from typing import Any, Literal, Optional, overload
 
+from crenata.database.schema.preferences import PreferencesSchema
 from crenata.discord import CrenataInteraction
 from crenata.discord.embed.school import school_result_embed_builder
 from crenata.discord.paginator import Paginator
-from crenata.entities import Preferences
 from crenata.exception import (
     MustBeGreaterThanOne,
     NeedGradeAndRoom,
@@ -46,7 +46,7 @@ async def school_info(
     room: Optional[int] = None,
     *,
     handle_detail: Literal[False] = False,
-) -> tuple[str, str, str, Preferences]:
+) -> tuple[str, str, str, PreferencesSchema]:
     ...
 
 
@@ -58,7 +58,7 @@ async def school_info(
     room: Optional[int] = None,
     *,
     handle_detail: Literal[True],
-) -> tuple[str, str, str, int, int, Preferences]:
+) -> tuple[str, str, str, int, int, PreferencesSchema]:
     ...
 
 
@@ -69,7 +69,10 @@ async def school_info(
     grade: Optional[int] = None,
     room: Optional[int] = None,
     handle_detail: bool = False,
-) -> tuple[str, str, str, int, int, Preferences] | tuple[str, str, str, Preferences]:
+) -> (
+    tuple[str, str, str, int, int, PreferencesSchema]
+    | tuple[str, str, str, PreferencesSchema]
+):
     ...
 
 
@@ -79,7 +82,10 @@ async def school_info(
     grade: Optional[int] = None,
     room: Optional[int] = None,
     handle_detail: bool = False,
-) -> tuple[str, str, str, int, int, Preferences] | tuple[str, str, str, Preferences]:
+) -> (
+    tuple[str, str, str, int, int, PreferencesSchema]
+    | tuple[str, str, str, PreferencesSchema]
+):
     """
     데이터베이스에 저장된 학교 정보를 가져오거나, 학교 이름을 입력받아 학교 정보를 가져옵니다.
     """
@@ -97,7 +103,7 @@ async def school_info(
         standard_school_code = str(results.SD_SCHUL_CODE)
         school_name = str(results.SCHUL_NM)
 
-        preferences = Preferences(private=False)
+        preferences = PreferencesSchema(private=False)
     else:
         user = await interaction.client.ctx.query.user.read(interaction.user.id)
 
@@ -107,7 +113,7 @@ async def school_info(
         school_name = user.school_info.school_name
         edu_office_code = user.school_info.ATPT_OFCDC_SC_CODE
         standard_school_code = user.school_info.SD_SCHUL_CODE
-        preferences = user.preferences.to_entity()
+        preferences = user.preferences
 
         await interaction.response.send_message(
             "정보를 가져오는중 입니다.", ephemeral=preferences.ephemeral
