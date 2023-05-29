@@ -1,3 +1,4 @@
+from typing import Optional
 from sqlalchemy.orm import Mapped, relationship
 
 from crenata.database.base import Base
@@ -18,7 +19,7 @@ class UserSchema(Base, Schema):
         cascade="all, delete",
         passive_deletes=True,
     )
-    school_info: Mapped[SchoolInfoSchema] = relationship(
+    school_info: Mapped[Optional[SchoolInfoSchema]] = relationship(
         uselist=False,
         cascade="all, delete",
         passive_deletes=True,
