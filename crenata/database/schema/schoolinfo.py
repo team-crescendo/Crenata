@@ -3,6 +3,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 from crenata.database.base import Base
 from crenata.database.schema.mixin import ForeignKeySchema
 
+
 class SchoolInfoSchema(Base, ForeignKeySchema):
     __tablename__ = "school_info"
     """

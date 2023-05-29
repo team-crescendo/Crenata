@@ -6,7 +6,6 @@ from crenata.database.schema.preferences import PreferencesSchema
 from crenata.database.schema.schoolinfo import SchoolInfoSchema
 
 
-
 class UserSchema(Base, Schema):
     """
     유저 스키마입니다.

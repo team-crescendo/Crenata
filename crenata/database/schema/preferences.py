@@ -4,7 +4,6 @@ from crenata.database.base import Base
 from crenata.database.schema.mixin import ForeignKeySchema
 
 
-
 class PreferencesSchema(Base, ForeignKeySchema):
     __tablename__ = "preferences"
     """

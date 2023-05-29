@@ -23,7 +23,5 @@ class Database:
         """
         engine = create_async_engine(db_url)
         async with engine.begin() as connection:
-            await connection.run_sync(
-                Base.metadata.create_all, checkfirst=True
-            )
+            await connection.run_sync(Base.metadata.create_all, checkfirst=True)
         return cls(engine)

@@ -5,7 +5,7 @@ from crenata.utils.discord import InteractionLock
 from discord import app_commands
 
 
-@app_commands.command(name="가입", description="가입합니다.") # type: ignore[arg-type]
+@app_commands.command(name="가입", description="가입합니다.")  # type: ignore[arg-type]
 async def register(interaction: CrenataInteraction) -> None:
     async with InteractionLock(interaction):
         user = await interaction.client.ctx.query.user.read(interaction.user.id)
