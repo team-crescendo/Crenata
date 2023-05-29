@@ -1,4 +1,5 @@
 from typing import Optional
+
 from sqlalchemy.orm import Mapped, relationship
 
 from crenata.database.base import Base
