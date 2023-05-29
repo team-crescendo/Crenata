@@ -1,8 +1,7 @@
 from functools import cached_property
 from typing import Any, Optional
 
-from crenata.typing import EmbedMaker
-from discord.embeds import Embed
+from crenata.utils.discord import CrenataEmbed
 from discord.enums import ButtonStyle
 from discord.interactions import Interaction
 from discord.ui.button import button
@@ -17,24 +16,18 @@ class Paginator(View):
     def __init__(
         self,
         executor_id: int,
-        data: list[Any],
-        embed_maker: EmbedMaker,
+        embeds: list[CrenataEmbed],
         timeout: Optional[float] = 60,
     ):
         super().__init__(timeout=timeout)
-        self.data = data
-        self.embed_maker: EmbedMaker = embed_maker
+        self.embeds = embeds
         self.executor_id = executor_id
         self.index = 0
         self.selected = False
 
     @cached_property
     def total(self) -> int:
-        return len(self.data)
-
-    @cached_property
-    def embeds(self) -> list[Embed]:
-        return [self.embed_maker(d, i, self.total) for i, d in enumerate(self.data, 1)]
+        return len(self.embeds)
 
     async def interaction_check(self, interaction: Interaction) -> bool:
         if user := interaction.user:
