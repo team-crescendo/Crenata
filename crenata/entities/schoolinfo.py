@@ -1,9 +1,9 @@
-from pydantic.dataclasses import dataclass
+from dataclasses import dataclass
 
 from crenata.abc.domain import AbstractDomain
 
 
-@dataclass(validate_on_init=False)
+@dataclass
 class SchoolInfo(AbstractDomain):
     """
     학교정보 엔티티입니다.

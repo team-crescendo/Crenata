@@ -1,10 +1,10 @@
-from pydantic.dataclasses import dataclass
+from dataclasses import dataclass
 
 from crenata.database.schema.mixin import ForeignKeySchema
 from crenata.entities.preferences import Preferences
 
 
-@dataclass(validate_on_init=False)
+@dataclass
 class PreferencesSchema(Preferences, ForeignKeySchema):
     """
     환경설정 스키마입니다.

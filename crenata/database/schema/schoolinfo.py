@@ -1,10 +1,10 @@
-from pydantic.dataclasses import dataclass
+from dataclasses import dataclass
 
 from crenata.database.schema.mixin import ForeignKeySchema
 from crenata.entities.schoolinfo import SchoolInfo
 
 
-@dataclass(validate_on_init=False)
+@dataclass
 class SchoolInfoSchema(SchoolInfo, ForeignKeySchema):
     """
     학교정보 스키마입니다.

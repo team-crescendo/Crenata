@@ -10,7 +10,6 @@ readme = "README.md"
 python = "^3.10"
 "discord.py" = "^2.0.1"
 neispy = "^4.2.0"
-pydantic = "^1.10.2"
 SQLAlchemy = {extras = ["mypy"], version = "^1.4.41"}
 pandas = "^1.5.2"
 matplotlib = "^3.6.3"
@@ -38,14 +37,8 @@ preview = true
 
 [tool.mypy]
 files = ["crenata", "tests"]
-plugins = ["pydantic.mypy"]
 strict = true
 
-[tool.pydantic-mypy]
-init_forbid_extra = true
-init_typed = true
-warn_required_dynamic_aliases = true
-warn_untyped_fields = true
 
 [build-system]
 requires = ["poetry-core"]
