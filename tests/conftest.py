@@ -3,7 +3,7 @@ import asyncio
 import pytest
 
 from crenata.database.query import Query
-from crenata.database.registry import mapper_registry
+from crenata.database.base import mapper_registry
 from crenata.database.schema import *
 from crenata.neispy import CrenataNeispy
 

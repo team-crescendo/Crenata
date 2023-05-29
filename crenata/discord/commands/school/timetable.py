@@ -10,7 +10,7 @@ from crenata.utils.discord import ToDatetime, dynamic_send
 from discord import File, app_commands
 
 
-@school.command(name="시간표", description="시간표를 가져와요.")
+@school.command(name="시간표", description="시간표를 가져와요.")  # type: ignore[arg-type]
 @app_commands.describe(school_name="학교 이름")
 @app_commands.describe(grade="학년")
 @app_commands.describe(room="반")

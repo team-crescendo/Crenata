@@ -7,7 +7,7 @@ from crenata.utils.discord import InteractionLock
 from discord import app_commands
 
 
-@school.command(name="설정", description="학교를 설정합니다.")
+@school.command(name="설정", description="학교를 설정합니다.")  # type: ignore[arg-type]
 @app_commands.describe(school_name="설정할 학교 이름입니다.")
 @app_commands.describe(grade="설정할 학년입니다.")
 @app_commands.describe(room="설정할 반입니다.")

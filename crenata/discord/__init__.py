@@ -1,5 +1,5 @@
 from types import SimpleNamespace
-from typing import Any
+from typing import Any, cast
 
 from crenata.config import CrenataConfig
 from crenata.database.query import Query
@@ -53,4 +53,4 @@ class CrenataContext(SimpleNamespace):
 class CrenataInteraction(Interaction):
     @property
     def client(self) -> Crenata:
-        ...
+        return cast(Crenata, super().client)

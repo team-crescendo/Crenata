@@ -1,13 +1,13 @@
 from sqlalchemy.orm import Mapped, relationship
 
-from crenata.database.registry import mapper_registry
+from crenata.database.base import Base
 from crenata.database.schema.mixin import Schema
 from crenata.database.schema.preferences import PreferencesSchema
 from crenata.database.schema.schoolinfo import SchoolInfoSchema
 
 
-@mapper_registry.mapped_as_dataclass
-class UserSchema(Schema):
+
+class UserSchema(Base, Schema):
     """
     유저 스키마입니다.
     """

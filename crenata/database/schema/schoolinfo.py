@@ -1,11 +1,9 @@
 from sqlalchemy.orm import Mapped, mapped_column
 
-from crenata.database.registry import mapper_registry
+from crenata.database.base import Base
 from crenata.database.schema.mixin import ForeignKeySchema
 
-
-@mapper_registry.mapped_as_dataclass
-class SchoolInfoSchema(ForeignKeySchema):
+class SchoolInfoSchema(Base, ForeignKeySchema):
     __tablename__ = "school_info"
     """
     학교정보 스키마입니다.

@@ -1,11 +1,11 @@
 from sqlalchemy.orm import Mapped, mapped_column
 
-from crenata.database.registry import mapper_registry
+from crenata.database.base import Base
 from crenata.database.schema.mixin import ForeignKeySchema
 
 
-@mapper_registry.mapped_as_dataclass
-class PreferencesSchema(ForeignKeySchema):
+
+class PreferencesSchema(Base, ForeignKeySchema):
     __tablename__ = "preferences"
     """
     환경설정 스키마입니다.

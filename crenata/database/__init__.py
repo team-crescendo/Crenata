@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio.engine import AsyncEngine, create_async_engine
 
-from crenata.database.registry import mapper_registry
+from crenata.database.base import Base
 from crenata.database.schema import *
 
 
@@ -24,6 +24,6 @@ class Database:
         engine = create_async_engine(db_url)
         async with engine.begin() as connection:
             await connection.run_sync(
-                mapper_registry.metadata.create_all, checkfirst=True
+                Base.metadata.create_all, checkfirst=True
             )
         return cls(engine)

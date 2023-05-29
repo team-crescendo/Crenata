@@ -4,7 +4,7 @@ from crenata.utils.discord import InteractionLock
 from discord import Embed, app_commands
 
 
-@app_commands.command(name="탈퇴", description="탈퇴합니다.")
+@app_commands.command(name="탈퇴", description="탈퇴합니다.")  # type: ignore[arg-type]
 async def exit(interaction: CrenataInteraction) -> None:
     async with InteractionLock(interaction):
         user = await interaction.client.ctx.query.user.read(interaction.user.id)
