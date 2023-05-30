@@ -103,7 +103,7 @@ async def school_info(
         standard_school_code = str(results.SD_SCHUL_CODE)
         school_name = str(results.SCHUL_NM)
 
-        preferences = PreferencesSchema()
+        preferences = PreferencesSchema(private=False)
     else:
         user = await interaction.client.ctx.query.user.read(interaction.user.id)
 
