@@ -10,13 +10,12 @@ from crenata.neispy import CrenataNeispy
 
 @pytest.fixture
 def new_preferences():
-    return PreferencesSchema(user_id=1)
+    return PreferencesSchema()
 
 
 @pytest.fixture
 def new_school_info():
     return SchoolInfoSchema(
-        user_id=1,
         school_name="test_school",
         grade=1,
         room=1,
@@ -27,7 +26,7 @@ def new_school_info():
 
 @pytest.fixture
 def new_user(new_preferences: PreferencesSchema, new_school_info: SchoolInfoSchema):
-    return UserSchema(id=1, preferences=new_preferences, school_info=new_school_info)
+    return UserSchema(preferences=new_preferences, school_info=new_school_info)
 
 
 @pytest.fixture

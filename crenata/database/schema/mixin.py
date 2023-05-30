@@ -12,7 +12,7 @@ class Schema:
     모든 스키마는 이 클래스를 상속받습니다.
     """
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(init=False, primary_key=True)
 
 
 @dataclass(kw_only=True)
@@ -23,7 +23,6 @@ class ForeignKeySchema(Schema):
     모든 외래키를 가지는 스키마는 이 클래스를 상속받습니다.
     """
 
-    id: Mapped[int] = mapped_column(primary_key=True, init=False)
     user_id: Mapped[int] = mapped_column(
-        BigInteger, ForeignKey("user.id", ondelete="CASCADE"), unique=True
+        BigInteger, ForeignKey("user.id", ondelete="CASCADE"), init=False, unique=True
     )
