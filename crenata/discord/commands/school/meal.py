@@ -28,7 +28,7 @@ class AllergyUI(ui.Select[ui.View]):
             await interaction.response.edit_message(view=self.view)
 
 
-@school.command(name="급식", description="급식 식단표를 가져와요.")
+@school.command(name="급식", description="급식 식단표를 가져와요.")  # type: ignore[arg-type]
 @app_commands.describe(school_name="학교 이름")
 @app_commands.describe(meal_time="시간")
 @app_commands.describe(date="날짜 (예시: 20230101, 내일)")

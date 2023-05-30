@@ -1,20 +1,14 @@
-from dataclasses import dataclass
+from sqlalchemy.orm import Mapped, mapped_column
 
+from crenata.database.base import Base
 from crenata.database.schema.mixin import ForeignKeySchema
-from crenata.entities.preferences import Preferences
 
 
-@dataclass
-class PreferencesSchema(Preferences, ForeignKeySchema):
+class PreferencesSchema(Base, ForeignKeySchema):
+    __tablename__ = "preferences"
     """
     환경설정 스키마입니다.
     """
 
-    def to_entity(self) -> Preferences:
-        """
-        스키마를 엔티티로 변환합니다.
-        """
-        return Preferences(
-            private=self.private,
-            ephemeral=self.ephemeral,
-        )
+    private: Mapped[bool] = mapped_column(default=True)
+    ephemeral: Mapped[bool] = mapped_column(default=False)

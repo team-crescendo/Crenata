@@ -2,8 +2,8 @@ import asyncio
 
 import pytest
 
+from crenata.database.base import Base
 from crenata.database.query import Query
-from crenata.database.registry import mapper_registry
 from crenata.database.schema import *
 from crenata.neispy import CrenataNeispy
 
@@ -56,8 +56,8 @@ async def _query():
 @pytest.mark.asyncio
 async def query(_query: Query, new_user: UserSchema):
     async with _query.database.engine.begin() as connection:
-        await connection.run_sync(mapper_registry.metadata.create_all, checkfirst=True)
+        await connection.run_sync(Base.metadata.create_all, checkfirst=True)
     await _query.user.create(new_user)
     yield _query
     async with _query.database.engine.begin() as connection:
-        await connection.run_sync(mapper_registry.metadata.drop_all)
+        await connection.run_sync(Base.metadata.drop_all)

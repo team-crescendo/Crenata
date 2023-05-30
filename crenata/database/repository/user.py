@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Sequence
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio.session import AsyncSession
@@ -55,7 +55,7 @@ class UserRepository:
                 return await session.get(
                     UserSchema,
                     user_id,
-                    [
+                    options=[
                         selectinload(UserSchema.preferences),
                         selectinload(UserSchema.school_info),
                     ],
@@ -74,7 +74,7 @@ class UserRepository:
 
     async def read_all_user_from_school_info(
         self, school_info: SchoolInfoSchema
-    ) -> list[UserSchema]:
+    ) -> Sequence[UserSchema]:
         """
         같은 학교에 다니는 유저들를 읽어옵니다.
         """

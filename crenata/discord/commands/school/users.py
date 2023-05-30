@@ -4,7 +4,7 @@ from crenata.discord.embed.users import school_users_embed_builder
 from crenata.exception import NeedSchoolRegister
 
 
-@school.command(name="유저", description="나와 학교가 같은 유저 수를 가져옵니다.")
+@school.command(name="유저", description="나와 학교가 같은 유저 수를 가져옵니다.")  # type: ignore[arg-type]
 async def users(interaction: CrenataInteraction) -> None:
     user = await interaction.client.ctx.query.user.read(interaction.user.id)
 

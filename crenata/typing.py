@@ -4,10 +4,6 @@
 
 from typing import Any, Coroutine, ParamSpec, Protocol, TypeVar
 
-from sqlalchemy import Table
-
-from crenata.abc.domain import AbstractDomain
-
 T = TypeVar("T")
 P = ParamSpec("P")
 
@@ -22,6 +18,3 @@ class InnerSend(Protocol):
         의도하지 않은 결과를 초래할 수 있으므로 신중히 사용해야 합니다.
         """
         ...
-
-
-DatabaseMapping = list[tuple[type[AbstractDomain], Table, dict[str, Any]]]

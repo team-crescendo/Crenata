@@ -2,7 +2,7 @@ from crenata.discord import CrenataInteraction
 from discord import Embed, app_commands
 
 
-@app_commands.command(name="프로필", description="내 프로필을 확인합니다.")
+@app_commands.command(name="프로필", description="내 프로필을 확인합니다.")  # type: ignore[arg-type]
 async def profile(interaction: CrenataInteraction) -> None:
     user = await interaction.client.ctx.query.user.read(interaction.user.id)
 
