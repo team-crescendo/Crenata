@@ -1,13 +1,29 @@
-from crenata.discord.commands.exit import exit
-from crenata.discord.commands.preferences import preferences
-from crenata.discord.commands.preferences.edit import preferences_edit as _
-from crenata.discord.commands.profile import profile
-from crenata.discord.commands.register import register
-from crenata.discord.commands.school import school
-from crenata.discord.commands.school.meal import meal as _
-from crenata.discord.commands.school.search import search as _
-from crenata.discord.commands.school.set import school_set as _
-from crenata.discord.commands.school.timetable import time_table as _
-from crenata.discord.commands.school.users import users as _
+from glob import glob
+from importlib import import_module
+from typing import Any
 
-commands = [register, profile, exit, school, preferences]
+from discord.app_commands import Command, Group
+
+
+def load_commands(path: str) -> list[Command[Any, ..., Any] | Group]:
+    commands: list[Command[Any, ..., Any] | Group] = []
+    files = glob(path, recursive=True)
+
+    for file in files:
+        if file.endswith("__init__.py"):
+            continue
+
+        module = import_module(file.replace("/", ".").replace("\\", ".")[:-3])
+
+        for name in dir(module):
+            attr = getattr(module, name)
+
+            if isinstance(attr, Command):
+                if not attr.parent:
+                    commands.append(attr)
+
+            elif isinstance(attr, Group):
+                if attr.name not in [cmd.name for cmd in commands]:
+                    commands.append(attr)
+
+    return commands
