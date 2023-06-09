@@ -19,8 +19,8 @@ if __name__ == "__main__":
     commands = load_commands("crenata/discord/commands/**/*.py")
     for command in commands:
         if config.PRODUCTION:
-            client.tree.add_command(command)  # type: ignore
+            client.tree.add_command(command)
         else:
-            client.tree.add_command(command, guild=Object(config.TEST_GUILD_ID))  # type: ignore
+            client.tree.add_command(command, guild=Object(config.TEST_GUILD_ID))
     setattr(client.tree, "on_error", on_error)
     client.run()
