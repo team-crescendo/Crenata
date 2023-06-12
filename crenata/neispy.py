@@ -137,3 +137,7 @@ class CrenataNeispy(Neispy):
             time_tables = None
 
         return time_tables, date
+
+    async def get_major_info(self, edu_office_code: str, standard_school_code: str):
+        result = await self.schoolMajorinfo(edu_office_code, standard_school_code)
+        return result

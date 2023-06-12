@@ -13,6 +13,16 @@ from crenata.exception import (
 )
 
 
+async def major_info_page(
+    interaction: CrenataInteraction, edu_office_code: str, standard_school_code: str
+):
+    result = await interaction.client.ctx.neispy.get_major_info(
+        edu_office_code, standard_school_code
+    )
+
+    # TODO: make interaction using select
+
+
 async def school_page(
     interaction: CrenataInteraction, school_name: str, *, ephemeral: bool = False
 ) -> Any:
