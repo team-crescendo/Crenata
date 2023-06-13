@@ -23,7 +23,7 @@ def load_commands(path: str) -> list[Command[Any, ..., Any] | Group]:
                     commands.append(attr)
 
             elif isinstance(attr, Group):
-                if attr.name not in [cmd.name for cmd in commands]:
+                if not attr in commands:
                     commands.append(attr)
 
     return commands
