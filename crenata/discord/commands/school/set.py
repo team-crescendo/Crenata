@@ -1,7 +1,7 @@
 from crenata.database.schema import SchoolInfoSchema
 from crenata.discord import CrenataInteraction
 from crenata.discord.commands.school import school
-from crenata.discord.interaction import school_page, major_info_page
+from crenata.discord.interaction import major_info_page, school_page
 from crenata.exception import MustBeGreaterThanOne
 from crenata.utils.discord import InteractionLock
 from discord import app_commands
@@ -27,12 +27,6 @@ async def school_set(
         edu_office_code = data.ATPT_OFCDC_SC_CODE
         standard_school_code = data.SD_SCHUL_CODE
 
-        if (
-            data.HS_SC_NM in ["특목고", "특성화고"]
-            and data.HS_GNRL_BUSNS_SC_NM != "일반계"
-        ):
-            await major_info_page(interaction, edu_office_code, standard_school_code)
-
         school_info = SchoolInfoSchema(
             user_id=interaction.user.id,
             school_name=data.SCHUL_NM,
@@ -41,6 +35,16 @@ async def school_set(
             ATPT_OFCDC_SC_CODE=data.ATPT_OFCDC_SC_CODE,
             SD_SCHUL_CODE=data.SD_SCHUL_CODE,
         )
+
+        if (
+            data.HS_SC_NM in ["특목고", "특성화고"]
+            and data.HS_GNRL_BUSNS_SC_NM != "일반계"
+        ):
+            major_info = await major_info_page(
+                interaction, edu_office_code, standard_school_code
+            )
+            school_info.DDDEP_NM = major_info.DDDEP_NM
+            school_info.ORD_SC_NM = major_info.ORD_SC_NM
 
         if user_school_info:
             school_info.id = user_school_info.id
