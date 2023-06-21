@@ -16,3 +16,5 @@ class SchoolInfoSchema(Base, ForeignKeySchema):
 
     ATPT_OFCDC_SC_CODE: Mapped[str] = mapped_column()
     SD_SCHUL_CODE: Mapped[str] = mapped_column()
+    ORD_SC_NM: Mapped[str] = mapped_column(init=False, nullable=True)
+    DDDEP_NM: Mapped[str] = mapped_column(init=False, nullable=True)
