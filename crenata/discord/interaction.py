@@ -2,8 +2,10 @@ from typing import Any, Literal, Optional, overload
 
 from crenata.database.schema.preferences import PreferencesSchema
 from crenata.discord import CrenataInteraction
+from crenata.discord.embed.major import major_info_embed_builder
 from crenata.discord.embed.school import school_result_embed_builder
-from crenata.discord.paginator import Paginator
+from crenata.discord.paginator import SelectablePaginator
+from crenata.discord.selecter import Selector
 from crenata.exception import (
     MustBeGreaterThanOne,
     NeedGradeAndRoom,
@@ -11,16 +13,58 @@ from crenata.exception import (
     UserCanceled,
     ViewTimeout,
 )
+from discord import app_commands, ui
+from discord.interactions import Interaction
+
+
+class MajorInfoUI(ui.Select[ui.View]):
+    def __init__(self, executor_id: int) -> None:
+        self.executor_id = executor_id
+        self.major_dict: dict[str, Any] = {}
+
+        super().__init__(placeholder="학과")
+
+    async def callback(self, interaction: Interaction):
+        if user := interaction.user:
+            if user.id == self.executor_id:
+                self.placeholder = self.values[0]
+                await interaction.response.edit_message(view=self.view)
+                return
+
+            await interaction.response.send_message(
+                "명령어 실행자만 상호작용이 가능합니다.", ephemeral=True
+            )
+            return
 
 
 async def major_info_page(
     interaction: CrenataInteraction, edu_office_code: str, standard_school_code: str
 ):
-    result = await interaction.client.ctx.neispy.get_major_info(
+    major_info_ui = MajorInfoUI(interaction.user.id)
+    results = await interaction.client.ctx.neispy.get_major_info(
         edu_office_code, standard_school_code
     )
+    for result in results:
+        major_info_ui.major_dict[result.DDDEP_NM] = result
+        major_info_ui.add_option(
+            label=f"계열: {result.ORD_SC_NM} 학과: {result.DDDEP_NM}",
+            value=result.DDDEP_NM,
+        )
 
-    # TODO: make interaction using select
+    view = Selector(interaction.user.id)
+    view.add_item(major_info_ui)
+
+    await interaction.edit_original_response(
+        view=view, embed=major_info_embed_builder()
+    )
+
+    if not await view.wait():
+        if view.selected:
+            return major_info_ui.major_dict[major_info_ui.values[0]]
+
+        raise UserCanceled
+
+    raise ViewTimeout
 
 
 async def school_page(
@@ -32,7 +76,7 @@ async def school_page(
 
     results = await interaction.client.ctx.neispy.search_school(school_name)
     embeds = [school_result_embed_builder(result) for result in results]
-    view = Paginator(interaction.user.id, embeds)
+    view = SelectablePaginator(interaction.user.id, embeds)
 
     await interaction.response.send_message(
         embed=view.embeds[0], view=view, ephemeral=ephemeral
