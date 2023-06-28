@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 
-@dataclass()
+@dataclass
 class Preferences:
     private: bool
     ephemeral: bool

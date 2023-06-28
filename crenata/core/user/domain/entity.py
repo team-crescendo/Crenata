@@ -6,5 +6,6 @@ from crenata.core.schoolinfo.domain.entity import SchoolInfo
 
 @dataclass
 class User:
+    discord_id: int
     preferences: Preferences
     school_info: SchoolInfo
