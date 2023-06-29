@@ -1,3 +1,4 @@
+from crenata.core.schoolinfo.exceptions import SchoolInfoNotFound
 from crenata.core.user.domain.entity import User
 from crenata.core.user.domain.repository import UserRepository
 from crenata.core.user.exceptions import UserNotFound
@@ -9,6 +10,8 @@ class GetUserUseCase:
 
     async def execute(self, user_id: int) -> User:
         user = await self.user_repository.get_user(user_id)
-        if not user:
+        if user is None:
             raise UserNotFound
+        if user.school_info is None:
+            raise SchoolInfoNotFound
         return user
