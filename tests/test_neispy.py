@@ -32,14 +32,14 @@ async def test_get_meal_not_found(neispy: CrenataNeispy):
 @pytest.mark.asyncio
 async def test_get_time_table(neispy: CrenataNeispy):
     result = await neispy.get_time_table(
-        "E10", "7341068", "구월중학교", 1, 1, date=to_datetime("20220525")
+        "E10", "7341068", "구월중학교", 1, 1, date=to_datetime("20230525")
     )
     assert result
 
 
 @pytest.mark.asyncio
 async def test_get_week_time_table(neispy: CrenataNeispy):
-    d = to_datetime("20220525")
+    d = to_datetime("20230525")
     results, date = await neispy.get_week_time_table(
         "E10", "7341068", "구월중학교", 1, 1, date=d
     )
