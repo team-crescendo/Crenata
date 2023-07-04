@@ -39,7 +39,7 @@ class CrenataConfig(dict[str, Any]):
     DB_URL: str
     CONFIG: str
 
-    def __init__(self, prefix: str = "RENA_"):
+    def __init__(self, prefix: str = "CRENATA_"):
         self.prefix = prefix
         self.update(
             {
@@ -72,7 +72,7 @@ class CrenataConfig(dict[str, Any]):
                 ] = [int, float, strtobool, str]
                 for converter in converters:
                     try:
-                        self[key] = converter(value)
+                        self[key[len(self.prefix) :]] = converter(value)
                         break
                     except ValueError:
                         ...

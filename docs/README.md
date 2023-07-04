@@ -21,7 +21,9 @@ Crenata는 자원봉사자로 유지되는 오픈 소스 프로젝트이며 모�
   - [실행](#실행)
     - [명령줄 인수](#명령줄-인수)
     - [JSON 전달](#json-전달)
+        - [VSCode Debugger](#vscode-debugger)
     - [환경 변수](#환경-변수)
+  - [배포](#배포)
 
 ## 소스 코드 클론
 
@@ -217,8 +219,17 @@ python -m crenata --config <YOUR_CONFIG_PATH>
 ### 환경 변수
 
 ```sh
-# 모든 환경변수는 RENA_ 로 시작해야 합니다.
-set RENA_USE_ENV = true # 해당 값이 true여야만 환경변수에서 값을 가져올 수 있습니다.
-set RENA_TOKEN = <YOUR_TOKEN>
+# 모든 환경변수는 CRENATA_ 로 시작해야 합니다.
+set CRENATA_USE_ENV = true # 해당 값이 true여야만 환경변수에서 값을 가져올 수 있습니다.
+set CRENATA_TOKEN = <YOUR_TOKEN>
 python -m crenata
+```
+
+## 배포
+
+Docker를 사용해 배포할 수 있습니다.
+
+```sh
+docker build -t crenata .  # 이미지 빌드
+docker compose up -d  # 컨테이너 실행
 ```
