@@ -5,7 +5,7 @@ WORKDIR /app
 COPY . .
 
 RUN pip install poetry && \
-    poetry install --no-interaction
+    poetry install --no-interaction --only main
 
 FROM python:3.10.11-slim-buster
 
