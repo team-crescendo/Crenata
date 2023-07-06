@@ -84,7 +84,7 @@ class CrenataNeispy(Neispy):
             return None
 
         ay = date.year if date.month > 2 else date.year - 1
-        sem = 1 if date.month > 2 and date.month < 8 else 2
+        sem = 1 if 2 < date.month < 8 else 2
 
         return await func(
             ATPT_OFCDC_SC_CODE=edu_office_code,
