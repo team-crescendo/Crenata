@@ -31,6 +31,6 @@ class Confirm(ui.View):
         self.stop()
 
     @ui.button(label="취소", style=ButtonStyle.red, emoji="✖️")
-    async def cancel(self, interaction: Interaction, button: ui.Button[Any]) -> None:
+    async def cancel(self, interaction: Interaction, _: ui.Button[Any]) -> None:
         await interaction.response.defer()
         self.stop()

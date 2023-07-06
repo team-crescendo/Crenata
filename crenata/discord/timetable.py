@@ -87,7 +87,6 @@ async def make_timetable_image(results: list[list[Any]], date: datetime) -> Byte
     """
     시간표를 이미지로 변환합니다.
     """
-    r = results[0][0]
     image = BytesIO()
 
     df = pd.DataFrame()
