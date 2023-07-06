@@ -102,7 +102,7 @@ def dynamic_send(
     async def inner_send(*, followup: bool = False, **kwargs: Any) -> None:
         msg = await get_message(interaction)
 
-        if msg and not "file" in kwargs:
+        if msg and "file" not in kwargs:
             if "ephemeral" in kwargs:
                 del kwargs["ephemeral"]
             await msg.edit(**kwargs)
