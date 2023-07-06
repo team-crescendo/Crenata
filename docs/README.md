@@ -231,5 +231,23 @@ Docker를 사용해 배포할 수 있습니다.
 
 ```sh
 docker build -t crenata .  # 이미지 빌드
-docker compose up -d  # 컨테이너 실행
+```
+
+```yml
+# docker-compose.yml
+    - CRENATA_USE_ENV=true
+
+    - CRENATA_TOKEN=토큰
+    - CRENATA_NEIS_API_KEY=나이스 API 키
+    - CRENATA_TEST_GUILD_ID=테스트 서버 ID
+    - CRENATA_PRODUCTION=프로덕션 여부
+    - CRENATA_DB_URL=postgresql+asyncpg://<유저>:<비번>@db/crenata
+
+
+      - POSTGRES_USER=<유저>
+      - POSTGRES_PASSWORD=<비번
+```
+
+```sh
+docker-compose up -d  # 컨테이너 실행
 ```
