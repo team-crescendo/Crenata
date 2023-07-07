@@ -14,8 +14,8 @@ class AllergyUI(ui.Select[ui.View]):
     def __init__(self, executor_id: int) -> None:
         super().__init__(placeholder="알러지 정보")
         self.executor_id = executor_id
-        self.add_option(label="4.땅콩, 5.대두, 6.밀")
         self.add_option(label="1.난류, 2.우유, 3.메밀")
+        self.add_option(label="4.땅콩, 5.대두, 6.밀")
         self.add_option(label="7.고등어, 8.게, 9.새우")
         self.add_option(label="10.돼지고기, 11.복숭아, 12.토마토")
         self.add_option(label="13.아황산염, 14.호두, 15.닭고기")
