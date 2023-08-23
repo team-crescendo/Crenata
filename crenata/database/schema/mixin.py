@@ -12,7 +12,9 @@ class Schema:
     모든 스키마는 이 클래스를 상속받습니다.
     """
 
-    id: Mapped[int] = mapped_column(default=None, kw_only=True, primary_key=True)
+    id: Mapped[int] = mapped_column(
+        BigInteger, default=None, kw_only=True, primary_key=True
+    )
 
 
 @dataclass(kw_only=True)
