@@ -9,7 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 "discord.py" = "^2.0.1"
-neispy = "^4.2.0"
+neispy = "^5.0.1"
 SQLAlchemy = "^2.0.15"
 pandas = "^1.5.2"
 matplotlib = "^3.6.3"
