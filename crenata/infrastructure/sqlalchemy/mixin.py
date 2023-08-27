@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from sqlalchemy import BigInteger, ForeignKey
+from sqlalchemy import ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column
 
 
@@ -24,7 +24,7 @@ class ForeignKeySchema(Schema):
     """
 
     discord_id: Mapped[int] = mapped_column(
-        BigInteger,
+        String,
         ForeignKey("user.discord_id", ondelete="CASCADE"),
         default=None,
         kw_only=True,
