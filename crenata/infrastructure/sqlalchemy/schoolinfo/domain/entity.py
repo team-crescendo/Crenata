@@ -15,8 +15,8 @@ class SchoolInfoSchema(Base, ForeignKeySchema):
     grade: Mapped[int] = mapped_column()
     room: Mapped[int] = mapped_column()
 
-    ATPT_OFCDC_SC_CODE: Mapped[str] = mapped_column()
-    SD_SCHUL_CODE: Mapped[str] = mapped_column()
+    edu_office_code: Mapped[str] = mapped_column()
+    standard_school_code: Mapped[str] = mapped_column()
     ORD_SC_NM: Mapped[str | None] = mapped_column()
     DDDEP_NM: Mapped[str | None] = mapped_column()
 
@@ -25,8 +25,8 @@ class SchoolInfoSchema(Base, ForeignKeySchema):
             school_name=self.school_name,
             grade=self.grade,
             room=self.room,
-            ATPT_OFCDC_SC_CODE=self.ATPT_OFCDC_SC_CODE,
-            SD_SCHUL_CODE=self.SD_SCHUL_CODE,
+            edu_office_code=self.edu_office_code,
+            standard_school_code=self.standard_school_code,
             ORD_SC_NM=self.ORD_SC_NM,
             DDDEP_NM=self.DDDEP_NM,
         )
@@ -37,8 +37,8 @@ class SchoolInfoSchema(Base, ForeignKeySchema):
             school_name=school_info.school_name,
             grade=school_info.grade,
             room=school_info.room,
-            ATPT_OFCDC_SC_CODE=school_info.ATPT_OFCDC_SC_CODE,
-            SD_SCHUL_CODE=school_info.SD_SCHUL_CODE,
+            edu_office_code=school_info.edu_office_code,
+            standard_school_code=school_info.standard_school_code,
             ORD_SC_NM=school_info.ORD_SC_NM,
             DDDEP_NM=school_info.DDDEP_NM,
         )

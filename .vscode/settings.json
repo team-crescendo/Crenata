@@ -1,7 +1,7 @@
 {
     "python.poetryPath": "poetry",
     "python.analysis.typeCheckingMode": "strict",
-    "python.formatting.provider": "black",
+    "python.formatting.provider": "none",
     "python.linting.mypyEnabled": true,
     "editor.codeActionsOnSave": {
         "source.organizeImports": true
@@ -30,4 +30,7 @@
         "sqlalchemy"
     ],
     "python.linting.enabled": false,
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
 }

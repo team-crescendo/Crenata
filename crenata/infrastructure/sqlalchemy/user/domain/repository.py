@@ -44,9 +44,9 @@ class UserRepositoryImpl(UserRepository):
                     select(UserSchema)
                     .join(SchoolInfoSchema)
                     .where(
-                        SchoolInfoSchema.ATPT_OFCDC_SC_CODE
-                        == school_info.ATPT_OFCDC_SC_CODE,
-                        SchoolInfoSchema.SD_SCHUL_CODE == school_info.SD_SCHUL_CODE,
+                        SchoolInfoSchema.edu_office_code == school_info.edu_office_code,
+                        SchoolInfoSchema.standard_school_code
+                        == school_info.standard_school_code,
                     )
                 )
                 users = await session.execute(query)

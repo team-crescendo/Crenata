@@ -9,8 +9,8 @@ def test_user():
         school_name="테스트 초등학교",
         grade=6,
         room=1,
-        ATPT_OFCDC_SC_CODE="J10",
-        SD_SCHUL_CODE="7011911",
+        edu_office_code="J10",
+        standard_school_code="7011911",
         ORD_SC_NM=None,
         DDDEP_NM=None,
     )
@@ -21,7 +21,7 @@ def test_user():
     assert user.school_info.school_name == "테스트 초등학교"
     assert user.school_info.grade == 6
     assert user.school_info.room == 1
-    assert user.school_info.ATPT_OFCDC_SC_CODE == "J10"
-    assert user.school_info.SD_SCHUL_CODE == "7011911"
+    assert user.school_info.edu_office_code == "J10"
+    assert user.school_info.standard_school_code == "7011911"
     assert user.school_info.ORD_SC_NM == None
     assert user.school_info.DDDEP_NM == None
