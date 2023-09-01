@@ -1,8 +1,11 @@
+from __future__ import annotations
+
 from typing import Any
 
 from discord import Client, Intents, Object
-from discord.app_commands.tree import CommandTree
+
 from neispy import Neispy
+from crenata.application.command.tree import CrenataCommandTree
 
 from crenata.infrastructure.sqlalchemy import Database
 from crenata.infrastructure.utils.config import CrenataConfig
@@ -11,7 +14,7 @@ from crenata.infrastructure.utils.config import CrenataConfig
 class Crenata(Client):
     def __init__(self, intents: Intents, *args: Any, **kwargs: Any) -> None:
         super().__init__(intents=intents, *args, **kwargs)
-        self.tree = CommandTree(self)
+        self.tree = CrenataCommandTree(self)
         self.config = CrenataConfig()
 
     async def startup(self) -> None:
