@@ -1,3 +1,4 @@
+from sqlalchemy.orm import selectinload
 from sqlalchemy.sql import select
 
 from crenata.core.schoolinfo.domain.entity import SchoolInfo
@@ -15,7 +16,15 @@ class UserRepositoryImpl(UserRepository):
     async def get_user(self, user_id: int) -> User | None:
         async with self.database.session() as session:
             async with session.begin():
-                user = await session.get(UserSchema, user_id)
+                stmt = (
+                    select(UserSchema)
+                    .where(UserSchema.discord_id == user_id)
+                    .options(
+                        selectinload(UserSchema.preferences),
+                        selectinload(UserSchema.school_info),
+                    )
+                )
+                user = await session.scalar(stmt)
                 return user.to_entity() if user else None
 
     async def create_user(self, user: User) -> User:

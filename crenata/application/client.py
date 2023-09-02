@@ -3,10 +3,9 @@ from __future__ import annotations
 from typing import Any
 
 from discord import Client, Intents, Object
-
 from neispy import Neispy
-from crenata.application.command.tree import CrenataCommandTree
 
+from crenata.application.commands.tree import CrenataCommandTree
 from crenata.infrastructure.sqlalchemy import Database
 from crenata.infrastructure.utils.config import CrenataConfig
 
@@ -32,11 +31,14 @@ class Crenata(Client):
             await self.tree.sync()
         else:
             await self.tree.sync(guild=Object(self.config.TEST_GUILD_ID))
-        await self.startup()
 
     async def close(self) -> None:
         await self.closeup()
         return await super().close()
+
+    async def start(self, token: str, *, reconnect: bool = True) -> None:
+        await self.startup()
+        return await super().start(token, reconnect=reconnect)
 
     def run(self, *args: Any, **kwargs: Any) -> None:
         """

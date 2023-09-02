@@ -20,7 +20,7 @@ class Database:
         return self._engine
 
     @property
-    async def session(self):
+    def session(self):
         return async_sessionmaker(self._engine, class_=AsyncSession)
 
     @classmethod

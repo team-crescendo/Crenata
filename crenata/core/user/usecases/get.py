@@ -10,6 +10,7 @@ class GetUserUseCase:
 
     async def execute(self, user_id: int) -> User:
         user = await self.user_repository.get_user(user_id)
+
         if user is None:
             raise UserNotFound
         if user.school_info is None:

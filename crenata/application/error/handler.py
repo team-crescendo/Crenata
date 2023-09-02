@@ -1,29 +1,34 @@
-from typing import Any, Callable, Coroutine, Generic
+from typing import TYPE_CHECKING, Any, Callable, Coroutine, Generic, ParamSpec, TypeVar
 
 from discord import Interaction
 from discord._types import ClientT
 
+P = ParamSpec("P")
+
+if TYPE_CHECKING:
+    Error = TypeVar("Error", bound=BaseException, default=BaseException)
+else:
+    Error = TypeVar("Error", bound=BaseException)
+
 
 class ErrorHandler(Generic[ClientT]):
     def __init__(self) -> None:
-        self.__mapping: dict[
-            type[Exception],
-            Callable[[Interaction[ClientT], Exception], Coroutine[Any, Any, Any]],
+        self.mapped_handlers: dict[
+            type[BaseException],
+            Callable[..., Coroutine[Any, Any, None]],
         ] = {}
 
-    def callback(self, interaction: Interaction[ClientT], error: Exception):
-        callback = self.__mapping.get(type(error))
-        if callback:
-            return callback(interaction, error)
+    def lookup(
+        self, error: Error
+    ) -> Callable[[Interaction[ClientT], Error], Coroutine[Any, Any, None]] | None:
+        exception_class = type(error)
+        return self.mapped_handlers.get(exception_class)
 
-    def handle_this_exception(self, *error_types: type[Exception]):
+    def handle_this_exception(self, error_type: type[Error]):
         def decorator(
-            callback: Callable[
-                [Interaction[ClientT], Exception], Coroutine[Any, Any, Any]
-            ]
+            callback: Callable[[Interaction[ClientT], Error], Coroutine[Any, Any, None]]
         ):
-            for error_type in error_types:
-                self.__mapping[error_type] = callback
+            self.mapped_handlers[error_type] = callback
             return callback
 
         return decorator

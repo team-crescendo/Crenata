@@ -9,8 +9,7 @@ class CreateUserUseCase:
 
     async def execute(self, user: User) -> User:
         getted_user = await self.user_repository.get_user(user.discord_id)
-
         if getted_user is None:
-            await self.user_repository.create_user(user)
+            return await self.user_repository.create_user(user)
 
         raise DuplicateUser

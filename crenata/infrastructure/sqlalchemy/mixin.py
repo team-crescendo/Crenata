@@ -1,11 +1,11 @@
 from dataclasses import dataclass
 
-from sqlalchemy import ForeignKey, String
+from sqlalchemy import BigInteger, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
 
 @dataclass(kw_only=True)
-class Schema(kw_only=True):
+class Schema:
     """
     스키마의 기본 클래스입니다.
 
@@ -24,7 +24,7 @@ class ForeignKeySchema(Schema):
     """
 
     discord_id: Mapped[int] = mapped_column(
-        String,
+        BigInteger,
         ForeignKey("user.discord_id", ondelete="CASCADE"),
         default=None,
         kw_only=True,
