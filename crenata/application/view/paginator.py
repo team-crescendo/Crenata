@@ -11,7 +11,7 @@ from crenata.application.view.selector import Selector
 
 class Paginator(CrenataView):
     """
-    페이지를 넘길수있는 상호작용입니다.
+    페이지를 넘길 수 있는 상호작용입니다.
     """
 
     def __init__(

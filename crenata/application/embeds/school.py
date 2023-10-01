@@ -24,7 +24,7 @@ def _add_paragraph(string: str) -> str:
 
 def _parse_homepage_url(url: str) -> Optional[str]:
     """
-    학교 홈페이지 주소를 파싱해주는 함수입니다.
+    학교 홈페이지 주소를 파싱해 주는 함수입니다.
     주소가 없다면 None을 반환합니다.
     """
     if url and url != "http://" and url != "https://":

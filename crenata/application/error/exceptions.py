@@ -23,7 +23,7 @@ class DateParseError(CrenataException):
 
 
 class MustBeGreaterThanZero(CrenataException):
-    """학년 또는 반은 0보다 커야해요."""
+    """학년 또는 반은 0보다 커야 합니다."""
 
 
 class InteractionLocked(CrenataException):

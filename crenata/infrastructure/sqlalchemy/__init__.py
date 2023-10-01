@@ -11,7 +11,7 @@ class Database:
     """
     이 클래스는 데이터베이스를 설정하고, 엔진을 생성합니다.
 
-    직접적으로 사용해서는 안됩니다.
+    직접적으로 사용해서는 안 됩니다.
     """
 
     def __init__(self, engine: AsyncEngine) -> None:
