@@ -1,10 +1,9 @@
-from discord import Interaction
-
 from crenata.application.client import Crenata
 from crenata.application.embeds.school import school_embed_builder
 from crenata.application.error.exceptions import UserCancelled
 from crenata.application.view.paginator import SelectablePaginator
 from crenata.core.school.domain.entity import School
+from discord import Interaction
 
 
 async def school_page(

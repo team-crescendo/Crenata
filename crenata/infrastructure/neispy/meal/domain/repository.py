@@ -2,7 +2,6 @@ from datetime import datetime
 
 from neispy.client import Neispy
 
-
 from crenata.core.meal.domain.entity import Meal
 from crenata.core.meal.domain.repository import MealRepository
 from crenata.infrastructure.neispy.meal.domain.entity import MealAdapter

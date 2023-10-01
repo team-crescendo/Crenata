@@ -1,9 +1,8 @@
-from discord import Interaction
-
 from crenata.application.client import Crenata
 from crenata.application.error.handler import ErrorHandler
 from crenata.core.meal.exceptions import MealNameNotFound
 from crenata.core.user.exceptions import DuplicateUser
+from discord import Interaction
 
 error_handler: ErrorHandler[Crenata] = ErrorHandler()
 

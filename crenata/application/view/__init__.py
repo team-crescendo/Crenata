@@ -1,12 +1,12 @@
 from typing import Any, Optional
 
-from discord import Interaction
 from discord.interactions import Interaction
 from discord.ui.item import Item
 from discord.ui.view import View
 
 from crenata.application.error.exceptions import ViewTimeout
 from crenata.application.error.handler import ErrorHandler
+from discord import Interaction
 
 
 class CrenataView(View):
