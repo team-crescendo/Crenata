@@ -72,9 +72,7 @@ def detail_school_school_embed_builder(school: School) -> CrenataEmbed:
         name="⚒️ 설립일",
         value=datetime_to_readable(school.founding_date),
     )
-    embed.add_field(
-        name="🏫 주소 (도로명)", value=school.street_name_address, inline=False
-    )
+    embed.add_field(name="🏫 주소 (도로명)", value=school.street_name_address, inline=False)
     embed.add_field(name="📮 우편번호", value=school.zip_code)
     embed.add_field(name="📲 대표 전화", value=school.telephone_number)
     embed.add_field(name="📲 팩스 번호", value=school.fax_number)

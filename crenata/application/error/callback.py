@@ -25,4 +25,3 @@ async def meal_name_not_found(
         )
     else:
         await interaction.response.send_message(error.message)
-
