@@ -5,7 +5,7 @@ from typing import Any
 from discord import Client, Intents, Object
 from neispy import Neispy
 
-from crenata.application.commands.tree import CrenataCommandTree
+from crenata.application.tree import CrenataCommandTree
 from crenata.infrastructure.sqlalchemy import Database
 from crenata.infrastructure.utils.config import CrenataConfig
 

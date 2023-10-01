@@ -7,8 +7,6 @@ class UserNotFound(CrenataException):
         super().__init__(message)
 
 
-
-
 class DuplicateUser(CrenataException):
     def __init__(self, message: str = Strings.DUPLICATE_USER) -> None:
         super().__init__(message)

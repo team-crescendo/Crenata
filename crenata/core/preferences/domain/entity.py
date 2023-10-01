@@ -7,7 +7,7 @@ class Preferences:
     ephemeral: bool
 
     @classmethod
-    def default(cls):
+    def default(cls) -> "Preferences":
         return cls(
             private=True,
             ephemeral=True,

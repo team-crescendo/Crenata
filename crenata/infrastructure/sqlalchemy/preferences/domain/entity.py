@@ -14,14 +14,14 @@ class PreferencesSchema(Base, ForeignKeySchema):
     private: Mapped[bool] = mapped_column(default=True)
     ephemeral: Mapped[bool] = mapped_column(default=False)
 
-    def to_entity(self):
+    def to_entity(self) -> Preferences:
         return Preferences(
             private=self.private,
             ephemeral=self.ephemeral,
         )
 
     @classmethod
-    def from_entity(cls, preferences: Preferences):
+    def from_entity(cls, preferences: Preferences) -> "PreferencesSchema":
         return cls(
             private=preferences.private,
             ephemeral=preferences.ephemeral,

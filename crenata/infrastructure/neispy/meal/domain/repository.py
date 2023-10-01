@@ -2,9 +2,11 @@ from datetime import datetime
 
 from neispy.client import Neispy
 
+
 from crenata.core.meal.domain.entity import Meal
 from crenata.core.meal.domain.repository import MealRepository
-from crenata.infrastructure.utils.datetime import to_datetime, to_yyyymmdd
+from crenata.infrastructure.neispy.meal.domain.entity import MealAdapter
+from crenata.infrastructure.utils.datetime import to_yyyymmdd
 
 
 class MealRepositoryImpl(MealRepository):
@@ -21,13 +23,4 @@ class MealRepositoryImpl(MealRepository):
         )
         row = r.mealServiceDietInfo[1].row
 
-        return [
-            Meal(
-                name=meal.MMEAL_SC_NM,
-                dish_name=meal.DDISH_NM,
-                school_name=meal.SCHUL_NM,
-                calorie=meal.CAL_INFO,
-                date=to_datetime(meal.MLSV_FROM_YMD),
-            )
-            for meal in row
-        ]
+        return [MealAdapter.from_neispy(meal) for meal in row]

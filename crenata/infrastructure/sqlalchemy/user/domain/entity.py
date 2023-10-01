@@ -32,7 +32,7 @@ class UserSchema(Base, Schema):
         default=None,
     )
 
-    def to_entity(self):
+    def to_entity(self) -> User:
         return User(
             discord_id=self.discord_id,
             preferences=self.preferences.to_entity(),
@@ -42,7 +42,7 @@ class UserSchema(Base, Schema):
         )
 
     @classmethod
-    def from_entity(cls, user: User):
+    def from_entity(cls, user: User) -> "UserSchema":
         return cls(
             discord_id=user.discord_id,
             preferences=PreferencesSchema.from_entity(user.preferences),

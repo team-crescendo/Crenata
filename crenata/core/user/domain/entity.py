@@ -12,7 +12,7 @@ class User:
     school_info: Optional[SchoolInfo]
 
     @classmethod
-    def default(cls, discord_id: int):
+    def default(cls, discord_id: int) -> "User":
         return cls(
             discord_id=discord_id,
             preferences=Preferences.default(),

@@ -20,7 +20,7 @@ class SchoolInfoSchema(Base, ForeignKeySchema):
     ORD_SC_NM: Mapped[str | None] = mapped_column()
     DDDEP_NM: Mapped[str | None] = mapped_column()
 
-    def to_entity(self):
+    def to_entity(self) -> SchoolInfo:
         return SchoolInfo(
             school_name=self.school_name,
             grade=self.grade,
@@ -32,7 +32,7 @@ class SchoolInfoSchema(Base, ForeignKeySchema):
         )
 
     @classmethod
-    def from_entity(cls, school_info: SchoolInfo):
+    def from_entity(cls, school_info: SchoolInfo) -> "SchoolInfoSchema":
         return cls(
             school_name=school_info.school_name,
             grade=school_info.grade,
