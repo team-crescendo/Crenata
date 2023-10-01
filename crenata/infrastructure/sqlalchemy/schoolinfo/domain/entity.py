@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sqlalchemy.orm import Mapped, mapped_column
 
 from crenata.core.schoolinfo.domain.entity import SchoolInfo
@@ -32,7 +34,7 @@ class SchoolInfoSchema(Base, ForeignKeySchema):
         )
 
     @classmethod
-    def from_entity(cls, school_info: SchoolInfo) -> "SchoolInfoSchema":
+    def from_entity(cls, school_info: SchoolInfo) -> SchoolInfoSchema:
         return cls(
             school_name=school_info.school_name,
             grade=school_info.grade,

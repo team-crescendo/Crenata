@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Optional
 
@@ -12,7 +14,7 @@ class User:
     school_info: Optional[SchoolInfo]
 
     @classmethod
-    def default(cls, discord_id: int) -> "User":
+    def default(cls, discord_id: int) -> User:
         return cls(
             discord_id=discord_id,
             preferences=Preferences.default(),

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sqlalchemy.ext.asyncio import async_sessionmaker
 from sqlalchemy.ext.asyncio.engine import AsyncEngine, create_async_engine
 from sqlalchemy.ext.asyncio.session import AsyncSession
@@ -24,7 +26,7 @@ class Database:
         return async_sessionmaker(self._engine, class_=AsyncSession)
 
     @classmethod
-    async def setup(cls, db_url: str) -> "Database":
+    async def setup(cls, db_url: str) -> Database:
         """
         데이터베이스를 설정합니다.
 

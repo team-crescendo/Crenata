@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from sqlalchemy.orm import Mapped, mapped_column
 
 from crenata.core.preferences.domain.entity import Preferences
@@ -21,7 +23,7 @@ class PreferencesSchema(Base, ForeignKeySchema):
         )
 
     @classmethod
-    def from_entity(cls, preferences: Preferences) -> "PreferencesSchema":
+    def from_entity(cls, preferences: Preferences) -> PreferencesSchema:
         return cls(
             private=preferences.private,
             ephemeral=preferences.ephemeral,

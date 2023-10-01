@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 
 
@@ -7,7 +9,7 @@ class Preferences:
     ephemeral: bool
 
     @classmethod
-    def default(cls) -> "Preferences":
+    def default(cls) -> Preferences:
         return cls(
             private=True,
             ephemeral=True,

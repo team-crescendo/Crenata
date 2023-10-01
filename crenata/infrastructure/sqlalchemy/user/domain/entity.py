@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from typing import Optional
 
 from sqlalchemy import BigInteger
@@ -42,7 +44,7 @@ class UserSchema(Base, Schema):
         )
 
     @classmethod
-    def from_entity(cls, user: User) -> "UserSchema":
+    def from_entity(cls, user: User) -> UserSchema:
         return cls(
             discord_id=user.discord_id,
             preferences=PreferencesSchema.from_entity(user.preferences),
