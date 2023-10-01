@@ -11,7 +11,7 @@ async def school_page(
     interaction: Interaction[Crenata], schools: list[School], *, ephemeral: bool = False
 ) -> School:
     """
-    학교를 검색하고 선택할수있는 페이지를 보여줍니다.
+    학교를 검색하고 선택할 수 있는 페이지를 보여줍니다.
     """
 
     embeds = [school_embed_builder(school) for school in schools]
