@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Literal, Optional
 
+from discord import app_commands, ui
 from discord.interactions import Interaction
 from neispy.utils import KST
 
@@ -15,7 +16,6 @@ from crenata.core.user.usecases.get import GetUserUseCase
 from crenata.infrastructure.neispy.meal.domain.repository import MealRepositoryImpl
 from crenata.infrastructure.neispy.school.domain.repository import SchoolRepositoryImpl
 from crenata.infrastructure.sqlalchemy.user.domain.repository import UserRepositoryImpl
-from discord import app_commands, ui
 
 
 class AllergyUI(ui.Select[ui.View]):
