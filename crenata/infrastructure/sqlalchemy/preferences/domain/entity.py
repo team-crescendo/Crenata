@@ -23,8 +23,9 @@ class PreferencesSchema(Base, ForeignKeySchema):
         )
 
     @classmethod
-    def from_entity(cls, preferences: Preferences) -> PreferencesSchema:
+    def from_entity(cls, user_id: int, preferences: Preferences) -> PreferencesSchema:
         return cls(
+            discord_id=user_id,
             private=preferences.private,
             ephemeral=preferences.ephemeral,
         )

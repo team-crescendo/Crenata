@@ -21,7 +21,7 @@ class UserSchema(Base, Schema):
 
     __tablename__ = "user"
 
-    discord_id: Mapped[int] = mapped_column(BigInteger)
+    discord_id: Mapped[int] = mapped_column(BigInteger, unique=True, nullable=False)
     preferences: Mapped[PreferencesSchema] = relationship(
         uselist=False,
         cascade="all, delete",
@@ -47,9 +47,11 @@ class UserSchema(Base, Schema):
     def from_entity(cls, user: User) -> UserSchema:
         return cls(
             discord_id=user.discord_id,
-            preferences=PreferencesSchema.from_entity(user.preferences),
+            preferences=PreferencesSchema.from_entity(
+                user.discord_id, user.preferences
+            ),
             school_info=(
-                SchoolInfoSchema.from_entity(user.school_info)
+                SchoolInfoSchema.from_entity(user.discord_id, user.school_info)
                 if user.school_info is not None
                 else None
             ),

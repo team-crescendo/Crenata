@@ -23,7 +23,8 @@ class DateParseError(CrenataException):
 
 
 class MustBeGreaterThanZero(CrenataException):
-    """학년 또는 반은 0보다 커야 합니다."""
+    def __init__(self, message: str = Strings.MEAL_NAME_NOT_FOUND) -> None:
+        super().__init__(message)
 
 
 class InteractionLocked(CrenataException):

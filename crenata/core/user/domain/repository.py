@@ -15,10 +15,6 @@ class UserRepository(ABC):
         ...
 
     @abstractmethod
-    async def update_user(self, user: User) -> User:
-        ...
-
-    @abstractmethod
     async def delete_user(self, user_id: int) -> None:
         ...
 

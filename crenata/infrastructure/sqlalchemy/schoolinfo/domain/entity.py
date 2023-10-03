@@ -34,8 +34,9 @@ class SchoolInfoSchema(Base, ForeignKeySchema):
         )
 
     @classmethod
-    def from_entity(cls, school_info: SchoolInfo) -> SchoolInfoSchema:
+    def from_entity(cls, user_id: int, school_info: SchoolInfo) -> SchoolInfoSchema:
         return cls(
+            discord_id=user_id,
             school_name=school_info.school_name,
             grade=school_info.grade,
             room=school_info.room,

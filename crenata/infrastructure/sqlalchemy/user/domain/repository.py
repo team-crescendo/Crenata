@@ -14,7 +14,7 @@ class UserRepositoryImpl(UserRepository):
         self.database = database
 
     async def get_user(self, user_id: int) -> User | None:
-        async with self.database.session() as session:
+        async with self.database.session_maker() as session:
             async with session.begin():
                 stmt = (
                     select(UserSchema)
@@ -24,30 +24,23 @@ class UserRepositoryImpl(UserRepository):
                         selectinload(UserSchema.school_info),
                     )
                 )
-                user = await session.scalar(stmt)
-                return user.to_entity() if user else None
+                user_schema = await session.scalar(stmt)
+                return user_schema.to_entity() if user_schema else None
 
     async def create_user(self, user: User) -> User:
-        async with self.database.session() as session:
+        async with self.database.session_maker() as session:
             async with session.begin():
                 user_schema = UserSchema.from_entity(user)
                 session.add(user_schema)
                 return user_schema.to_entity()
 
-    async def update_user(self, user: User) -> User:
-        async with self.database.session() as session:
-            async with session.begin():
-                user_schema = UserSchema.from_entity(user)
-                await session.merge(user_schema)
-                return user_schema.to_entity()
-
     async def delete_user(self, user_id: int) -> None:
-        async with self.database.session() as session:
+        async with self.database.session_maker() as session:
             async with session.begin():
                 await session.delete(UserSchema.discord_id == user_id)
 
     async def get_all_same_school_users(self, school_info: SchoolInfo) -> list[User]:
-        async with self.database.session() as session:
+        async with self.database.session_maker() as session:
             async with session.begin():
                 query = (
                     select(UserSchema)
@@ -58,5 +51,8 @@ class UserRepositoryImpl(UserRepository):
                         == school_info.standard_school_code,
                     )
                 )
-                users = await session.execute(query)
-                return [user.to_entity() for user in users.scalars().all()]
+                user_schemas = await session.execute(query)
+                return [
+                    user_schema.to_entity()
+                    for user_schema in user_schemas.scalars().all()
+                ]
