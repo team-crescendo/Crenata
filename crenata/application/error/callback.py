@@ -10,14 +10,14 @@ error_handler: ErrorHandler[Crenata] = ErrorHandler()
 
 
 @error_handler.handle_this_exception(DuplicateUser, SchoolInfoNotFound)
-async def duplicate_user(
+async def confirmed(
     interaction: Interaction[Crenata], error: DuplicateUser | SchoolInfoNotFound
 ) -> None:
     await interaction.response.send_message(error.message)
 
 
 @error_handler.handle_this_exception(MealNameNotFound)
-async def meal_name_not_found(
+async def superposition(
     interaction: Interaction[Crenata], error: MealNameNotFound
 ) -> None:
     if interaction.response.is_done():
