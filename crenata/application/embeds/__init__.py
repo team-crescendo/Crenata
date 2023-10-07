@@ -1,9 +1,8 @@
 from datetime import datetime
 from typing import Any
 
-from discord.types.embed import EmbedType
-
 from discord import Colour, Embed
+from discord.types.embed import EmbedType
 
 
 class CrenataEmbed(Embed):
