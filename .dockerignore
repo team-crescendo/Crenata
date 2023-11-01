@@ -1,0 +1,6 @@
+*
+!crenata
+!pyproject.toml
+!poetry.lock
+!poetry.toml
+!README.md
