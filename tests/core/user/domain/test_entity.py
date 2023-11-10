@@ -14,10 +14,12 @@ def test_user():
         ORD_SC_NM=None,
         DDDEP_NM=None,
     )
-    user = User(preferences=preferences, school_info=school_info)
+    user = User(discord_id=123456789, preferences=preferences, school_info=school_info)
 
+    assert user.discord_id == 123456789
     assert user.preferences.private == True
     assert user.preferences.ephemeral == True
+    assert user.school_info
     assert user.school_info.school_name == "테스트 초등학교"
     assert user.school_info.grade == 6
     assert user.school_info.room == 1
