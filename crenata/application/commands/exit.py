@@ -29,7 +29,7 @@ async def exit(interaction: Interaction[Crenata]) -> None:
             if view.is_confirm:
                 await DeleteUserUseCase(user_repository).execute(user)
                 await interaction.edit_original_response(
-                    content="탈퇴 되었습니다.", embed=None, view=None
+                    content=Strings.UNREGISTER_COMPLETED, embed=None, view=None
                 )
                 return
 

@@ -8,6 +8,7 @@ from crenata.application.view.paginator import SelectablePaginator
 from crenata.application.view.selector import Selector
 from crenata.core.majorinfo.domain.entity import MajorInfo
 from crenata.core.school.domain.entity import School
+from crenata.core.strings import Strings
 
 
 class MajorInfoUI(ui.Select[ui.View]):
@@ -29,7 +30,7 @@ class MajorInfoUI(ui.Select[ui.View]):
                 return
 
             await interaction.response.send_message(
-                "명령어 실행자만 상호작용이 가능합니다.", ephemeral=True
+                Strings.NOT_INTERACTED_USER, ephemeral=True
             )
             return
 
