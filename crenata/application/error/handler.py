@@ -38,3 +38,12 @@ class ErrorHandler(Generic[ClientT]):
             return callback
 
         return decorator
+
+    async def on_error(self, interaction: Interaction[ClientT], error: Error) -> None:
+        err = error.__cause__ or error
+
+        callback = self.lookup(err)
+        if callback:
+            return await callback(interaction, err)
+
+        raise err

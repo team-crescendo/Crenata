@@ -30,3 +30,13 @@ class MustBeGreaterThanZero(CrenataException):
 class InteractionLocked(CrenataException):
     def __init__(self, message: str = Strings.INTERACTION_LOCKED):
         super().__init__(message)
+
+
+class NotInteractedUser(CrenataException):
+    def __init__(self, message: str = Strings.NOT_INTERACTED_USER):
+        super().__init__(message)
+
+
+class NeedGradeAndRoomArgument(CrenataException):
+    def __init__(self, message: str = Strings.NEED_GRADE_AND_ROOM_ARGUMENT):
+        super().__init__(message)

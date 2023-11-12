@@ -5,7 +5,7 @@ from discord.interactions import Interaction
 from discord.ui.item import Item
 from discord.ui.view import View
 
-from crenata.application.error.exceptions import ViewTimeout
+from crenata.application.error.exceptions import NotInteractedUser, ViewTimeout
 from crenata.application.error.handler import ErrorHandler
 
 
@@ -27,20 +27,14 @@ class CrenataView(View):
             if user.id == self.executor_id:
                 return True
 
-            # TODO: Raise
+            raise NotInteractedUser
 
         return False
 
     async def on_error(
         self, interaction: Interaction, error: Exception, item: Item[Any]
     ) -> None:
-        original = error.__cause__
-        assert original is not None
-        callback = self.error_handler.lookup(original)
-        if callback:
-            return await callback(interaction, original)
-
-        raise error
+        return await self.error_handler.on_error(interaction, error)
 
     async def on_timeout(self) -> None:
         raise ViewTimeout

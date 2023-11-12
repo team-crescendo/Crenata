@@ -46,16 +46,14 @@ async def meal(
         date = datetime.now(tz=KST)
     if school_name is None:
         user_repository = UserRepositoryImpl(interaction.client.database)
-        get_user_usecase = GetUserUseCase(user_repository)
-        user = await get_user_usecase.execute(interaction.user.id)
+        user = await GetUserUseCase(user_repository).execute(interaction.user.id)
         school_info = user.school_info
         assert school_info
         is_private = user.preferences.private
 
     else:
         school_repository = SchoolRepositoryImpl(interaction.client.neispy)
-        get_school_usecase = GetSchoolUseCase(school_repository)
-        school_infos = await get_school_usecase.execute(school_name)
+        school_infos = await GetSchoolUseCase(school_repository).execute(school_name)
         school_info = await school_page(interaction, school_infos)
         is_private = True
 

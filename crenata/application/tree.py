@@ -20,10 +20,4 @@ class CrenataCommandTree(CommandTree[ClientT]):
     async def on_error(
         self, interaction: Interaction[ClientT], error: AppCommandError
     ) -> None:
-        original = error.__cause__
-        assert original is not None
-        callback = self.error_handler.lookup(original)
-        if callback:
-            return await callback(interaction, original)
-
-        raise error
+        await self.error_handler.on_error(interaction, error)

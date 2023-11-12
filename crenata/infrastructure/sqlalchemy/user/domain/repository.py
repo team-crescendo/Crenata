@@ -34,10 +34,10 @@ class UserRepositoryImpl(UserRepository):
                 session.add(user_schema)
                 return user_schema.to_entity()
 
-    async def delete_user(self, user_id: int) -> None:
+    async def delete_user(self, user: User) -> None:
         async with self.database.session_maker() as session:
             async with session.begin():
-                await session.delete(UserSchema.discord_id == user_id)
+                await session.delete(UserSchema.discord_id == user.discord_id)
 
     async def get_all_same_school_users(self, school_info: SchoolInfo) -> list[User]:
         async with self.database.session_maker() as session:

@@ -4,7 +4,7 @@ from typing import Optional
 
 @dataclass
 class SchoolInfo:
-    school_name: str
+    name: str
     """학교명"""
     grade: int
     """학년"""

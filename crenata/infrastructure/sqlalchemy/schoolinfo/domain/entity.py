@@ -13,7 +13,7 @@ class SchoolInfoSchema(Base, ForeignKeySchema):
     학교정보 스키마입니다.
     """
 
-    school_name: Mapped[str] = mapped_column()
+    name: Mapped[str] = mapped_column()
     grade: Mapped[int] = mapped_column()
     room: Mapped[int] = mapped_column()
 
@@ -24,7 +24,7 @@ class SchoolInfoSchema(Base, ForeignKeySchema):
 
     def to_entity(self) -> SchoolInfo:
         return SchoolInfo(
-            school_name=self.school_name,
+            name=self.name,
             grade=self.grade,
             room=self.room,
             edu_office_code=self.edu_office_code,
@@ -37,7 +37,7 @@ class SchoolInfoSchema(Base, ForeignKeySchema):
     def from_entity(cls, user_id: int, school_info: SchoolInfo) -> SchoolInfoSchema:
         return cls(
             discord_id=user_id,
-            school_name=school_info.school_name,
+            name=school_info.name,
             grade=school_info.grade,
             room=school_info.room,
             edu_office_code=school_info.edu_office_code,

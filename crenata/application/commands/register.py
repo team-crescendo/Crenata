@@ -13,6 +13,6 @@ async def register(interaction: Interaction[Crenata]) -> None:
     usecase = CreateUserUseCase(repository)
     await usecase.execute(User.default(interaction.user.id))
 
-    embed = Embed(title="가입 완료", description=Strings.REGISTER_COMPLETED)
+    embed = Embed(title=Strings.REGISTER_COMPLETED)
 
     await interaction.response.send_message(embed=embed, ephemeral=True)

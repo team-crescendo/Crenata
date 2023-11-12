@@ -12,8 +12,7 @@ from crenata.infrastructure.neispy.school.domain.repository import SchoolReposit
 @app_commands.describe(school_name="학교 이름")
 async def search(interaction: Interaction[Crenata], school_name: str) -> None:
     school_repository = SchoolRepositoryImpl(interaction.client.neispy)
-    get_school_usecase = GetSchoolUseCase(school_repository)
-    school_infos = await get_school_usecase.execute(school_name)
+    school_infos = await GetSchoolUseCase(school_repository).execute(school_name)
     school_info = await school_page(interaction, school_infos)
     await interaction.edit_original_response(
         view=None, embed=detail_school_school_embed_builder(school_info)

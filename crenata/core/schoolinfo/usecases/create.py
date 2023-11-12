@@ -8,9 +8,9 @@ class CreateSchoolInfoUseCase:
         self.schoolinfo_repository = schoolinfo_repository
 
     async def execute(self, user_id: int, schoolinfo: SchoolInfo) -> SchoolInfo:
-        getted_schoolinfo = await self.schoolinfo_repository.get_schoolinfo(user_id)
+        nullable_schoolinfo = await self.schoolinfo_repository.get_schoolinfo(user_id)
 
-        if getted_schoolinfo is None:
+        if nullable_schoolinfo is None:
             return await self.schoolinfo_repository.create_schoolinfo(
                 user_id, schoolinfo
             )
