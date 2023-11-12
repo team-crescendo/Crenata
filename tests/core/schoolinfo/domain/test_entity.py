@@ -3,7 +3,7 @@ from crenata.core.schoolinfo.domain.entity import SchoolInfo
 
 def test_schoolinfo():
     school_info = SchoolInfo(
-        school_name="테스트 초등학교",
+        name="테스트 초등학교",
         grade=6,
         room=1,
         edu_office_code="J10",
@@ -12,7 +12,7 @@ def test_schoolinfo():
         DDDEP_NM=None,
     )
 
-    assert school_info.school_name == "테스트 초등학교"
+    assert school_info.name == "테스트 초등학교"
     assert school_info.grade == 6
     assert school_info.room == 1
     assert school_info.edu_office_code == "J10"
