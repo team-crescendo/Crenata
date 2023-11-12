@@ -11,8 +11,8 @@ def test_user():
         room=1,
         edu_office_code="J10",
         standard_school_code="7011911",
-        ORD_SC_NM=None,
-        DDDEP_NM=None,
+        department=None,
+        major=None,
     )
     user = User(discord_id=123456789, preferences=preferences, school_info=school_info)
 
@@ -25,5 +25,5 @@ def test_user():
     assert user.school_info.room == 1
     assert user.school_info.edu_office_code == "J10"
     assert user.school_info.standard_school_code == "7011911"
-    assert user.school_info.ORD_SC_NM == None
-    assert user.school_info.DDDEP_NM == None
+    assert user.school_info.department == None
+    assert user.school_info.major == None

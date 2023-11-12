@@ -19,8 +19,8 @@ class SchoolInfoSchema(Base, ForeignKeySchema):
 
     edu_office_code: Mapped[str] = mapped_column()
     standard_school_code: Mapped[str] = mapped_column()
-    ORD_SC_NM: Mapped[str | None] = mapped_column()
-    DDDEP_NM: Mapped[str | None] = mapped_column()
+    department: Mapped[str | None] = mapped_column()
+    major: Mapped[str | None] = mapped_column()
 
     def to_entity(self) -> SchoolInfo:
         return SchoolInfo(
@@ -29,8 +29,8 @@ class SchoolInfoSchema(Base, ForeignKeySchema):
             room=self.room,
             edu_office_code=self.edu_office_code,
             standard_school_code=self.standard_school_code,
-            ORD_SC_NM=self.ORD_SC_NM,
-            DDDEP_NM=self.DDDEP_NM,
+            department=self.department,
+            major=self.major,
         )
 
     @classmethod
@@ -42,6 +42,6 @@ class SchoolInfoSchema(Base, ForeignKeySchema):
             room=school_info.room,
             edu_office_code=school_info.edu_office_code,
             standard_school_code=school_info.standard_school_code,
-            ORD_SC_NM=school_info.ORD_SC_NM,
-            DDDEP_NM=school_info.DDDEP_NM,
+            department=school_info.department,
+            major=school_info.major,
         )

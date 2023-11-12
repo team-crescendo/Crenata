@@ -3,8 +3,9 @@ from discord.interactions import Interaction
 
 from crenata.application.client import Crenata
 from crenata.application.error.exceptions import MustBeGreaterThanZero
-from crenata.application.interaction import school_page
+from crenata.application.interaction import major_info_selector, school_page
 from crenata.application.utils import InteractionLock
+from crenata.core.majorinfo.usecases.get import GetMajorInfoUseCase
 from crenata.core.school.usecases.get import GetSchoolUseCase
 from crenata.core.schoolinfo.domain.entity import SchoolInfo
 from crenata.core.schoolinfo.exceptions import SchoolInfoNotFound
@@ -12,6 +13,9 @@ from crenata.core.schoolinfo.usecases.create import CreateSchoolInfoUseCase
 from crenata.core.schoolinfo.usecases.get import GetSchoolInfoUseCase
 from crenata.core.schoolinfo.usecases.update import UpdateSchoolInfoUseCase
 from crenata.core.strings import Strings
+from crenata.infrastructure.neispy.majorinfo.domain.repository import (
+    MajorInfoRepositoryImpl,
+)
 from crenata.infrastructure.neispy.school.domain.repository import SchoolRepositoryImpl
 from crenata.infrastructure.sqlalchemy.schoolinfo.domain.repository import (
     SchoolInfoRepositoryImpl,
@@ -33,17 +37,28 @@ async def setup(
         get_school_usecase = GetSchoolUseCase(school_repository)
         schools = await get_school_usecase.execute(school_name)
         school = await school_page(interaction, schools, ephemeral=True)
-
         school_info = SchoolInfo(
             name=school.name,
             grade=grade,
             room=room,
             edu_office_code=school.edu_office_code,
             standard_school_code=school.standard_school_code,
-            # 수정필요
-            ORD_SC_NM=None,
-            DDDEP_NM=None,
+            department=None,
+            major=None,
         )
+        if (
+            school.highschool_category in ["특목고", "특성화고"]
+            and school.highschool_general_or_business != "일반계"
+        ):
+            major_info_repository = MajorInfoRepositoryImpl(interaction.client.neispy)
+            major_info_usecase = GetMajorInfoUseCase(major_info_repository)
+            major_infos = await major_info_usecase.execute(
+                school.edu_office_code, school.standard_school_code
+            )
+            major_info = await major_info_selector(interaction, major_infos)
+            school_info.department = major_info.department
+            school_info.major = major_info.major
+
         school_info_repository = SchoolInfoRepositoryImpl(interaction.client.database)
         try:
             get_school_info_usecase = GetSchoolInfoUseCase(school_info_repository)

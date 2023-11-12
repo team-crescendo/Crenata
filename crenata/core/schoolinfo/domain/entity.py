@@ -14,9 +14,7 @@ class SchoolInfo:
     """시도교육청코드"""
     standard_school_code: str
     """표준학교코드"""
-
-    # 수정필요
-    ORD_SC_NM: Optional[str]
+    department: Optional[str]
     """계열명"""
-    DDDEP_NM: Optional[str]
+    major: Optional[str]
     """학과명"""

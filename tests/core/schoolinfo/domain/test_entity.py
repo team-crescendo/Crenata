@@ -8,7 +8,7 @@ def test_schoolinfo():
         room=1,
         edu_office_code="J10",
         standard_school_code="1234567",
-        ORD_SC_NM=None,
+        =None,
         DDDEP_NM=None,
     )
 
@@ -17,5 +17,5 @@ def test_schoolinfo():
     assert school_info.room == 1
     assert school_info.edu_office_code == "J10"
     assert school_info.standard_school_code == "1234567"
-    assert school_info.ORD_SC_NM == None
+    assert school_info. == None
     assert school_info.DDDEP_NM == None

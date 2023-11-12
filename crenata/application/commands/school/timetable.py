@@ -11,13 +11,17 @@ from crenata.application.error.exceptions import (
     MustBeGreaterThanZero,
     NeedGradeAndRoomArgument,
 )
-from crenata.application.interaction import school_page
+from crenata.application.interaction import major_info_selector, school_page
 from crenata.application.timetable import make_timetable_image
 from crenata.application.utils import ToDatetime
+from crenata.core.majorinfo.usecases.get import GetMajorInfoUseCase
 from crenata.core.school.usecases.get import GetSchoolUseCase
 from crenata.core.strings import Strings
 from crenata.core.timetable.usecases.get import GetWeekTimetableUseCase
 from crenata.core.user.usecases.get import GetUserUseCase
+from crenata.infrastructure.neispy.majorinfo.domain.repository import (
+    MajorInfoRepositoryImpl,
+)
 from crenata.infrastructure.neispy.school.domain.repository import SchoolRepositoryImpl
 from crenata.infrastructure.neispy.timetable.domain.repository import (
     TimetableRepositoryImpl,
@@ -35,6 +39,8 @@ async def timetable(
     school_name: Optional[str] = None,
     grade: Optional[int] = None,
     room: Optional[int] = None,
+    major: Optional[str] = None,
+    department: Optional[str] = None,
     date: Optional[app_commands.Transform[datetime, ToDatetime]] = None,
 ) -> None:
     if date is None:
@@ -48,6 +54,8 @@ async def timetable(
 
         is_private = user.preferences.private
         ephemeral = user.preferences.ephemeral
+        major = school_info.major
+        department = school_info.department
 
         if grade is not None and room is not None:
             if grade < 1 or room < 1:
@@ -70,6 +78,19 @@ async def timetable(
         is_private = True
         ephemeral = True
 
+        if (
+            school_info.highschool_category in ["특목고", "특성화고"]
+            and school_info.highschool_general_or_business != "일반계"
+        ):
+            major_info_repository = MajorInfoRepositoryImpl(interaction.client.neispy)
+            major_info_usecase = GetMajorInfoUseCase(major_info_repository)
+            major_infos = await major_info_usecase.execute(
+                school_info.edu_office_code, school_info.standard_school_code
+            )
+            major_info = await major_info_selector(interaction, major_infos)
+            major = major_info.major
+            department = major_info.department
+
     timetable_repository = TimetableRepositoryImpl(interaction.client.neispy)
     timetable_info = await GetWeekTimetableUseCase(timetable_repository).execute(
         school_info.edu_office_code,
@@ -78,6 +99,8 @@ async def timetable(
         grade,
         room,
         date,
+        major,
+        department,
     )
 
     if not timetable_info:

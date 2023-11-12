@@ -1,5 +1,6 @@
 import asyncio
 from datetime import datetime, timedelta
+from functools import partial
 
 from neispy.client import Neispy
 
@@ -21,6 +22,8 @@ class TimetableRepositoryImpl(TimetableRepository):
         grade: int,
         room: int,
         date: datetime,
+        major: str | None = None,
+        department: str | None = None,
     ) -> list[Timetable] | None:
         if school_name.endswith("초등학교"):
             func = self.neispy.elsTimetable
@@ -28,6 +31,8 @@ class TimetableRepositoryImpl(TimetableRepository):
             func = self.neispy.misTimetable
         elif school_name.endswith("고등학교"):
             func = self.neispy.hisTimetable
+            if major and department:
+                func = partial(func, **{"ORD_SC_NM": department, "DDDEP_NM": major})
         else:
             return None
 
@@ -55,6 +60,8 @@ class TimetableRepositoryImpl(TimetableRepository):
         grade: int,
         room: int,
         date: datetime,
+        major: str | None = None,
+        department: str | None = None,
     ) -> list[list[Timetable]] | None:
         # get previous and next weekdays
         # only monday to friday included current date
@@ -72,6 +79,8 @@ class TimetableRepositoryImpl(TimetableRepository):
                     grade,
                     room,
                     date=date,
+                    major=major,
+                    department=department,
                 )
                 for date in dates
             ]

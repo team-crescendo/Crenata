@@ -14,6 +14,8 @@ class TimetableRepository(ABC):
         grade: int,
         room: int,
         date: datetime,
+        major: str | None = None,
+        department: str | None = None,
     ) -> list[Timetable] | None:
         ...
 
@@ -26,5 +28,7 @@ class TimetableRepository(ABC):
         grade: int,
         room: int,
         date: datetime,
+        major: str | None = None,
+        department: str | None = None,
     ) -> list[list[Timetable]] | None:
         ...

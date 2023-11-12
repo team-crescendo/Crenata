@@ -17,9 +17,18 @@ class GetTimetableUseCase:
         grade: int,
         room: int,
         date: datetime,
+        major: str | None = None,
+        department: str | None = None,
     ) -> list[Timetable]:
         nullable_timetable = await self.timetable_repository.get_timetable(
-            edu_office_code, standard_school_code, school_name, grade, room, date
+            edu_office_code,
+            standard_school_code,
+            school_name,
+            grade,
+            room,
+            date,
+            major,
+            department,
         )
 
         if nullable_timetable is None:
@@ -40,9 +49,18 @@ class GetWeekTimetableUseCase:
         grade: int,
         room: int,
         date: datetime,
+        major: str | None = None,
+        department: str | None = None,
     ) -> list[list[Timetable]]:
         nullable_timetable = await self.timetable_repository.get_week_timetable(
-            edu_office_code, standard_school_code, school_name, grade, room, date
+            edu_office_code,
+            standard_school_code,
+            school_name,
+            grade,
+            room,
+            date,
+            major,
+            department,
         )
 
         if nullable_timetable is None:

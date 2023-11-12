@@ -1,10 +1,37 @@
-from discord import Interaction
+from discord import Interaction, ui
 
 from crenata.application.client import Crenata
+from crenata.application.embeds import CrenataEmbed
 from crenata.application.embeds.school import school_embed_builder
 from crenata.application.error.exceptions import UserCancelled
 from crenata.application.view.paginator import SelectablePaginator
+from crenata.application.view.selector import Selector
+from crenata.core.majorinfo.domain.entity import MajorInfo
 from crenata.core.school.domain.entity import School
+
+
+class MajorInfoUI(ui.Select[ui.View]):
+    def __init__(self, executor_id: int, major_infos: list[MajorInfo]) -> None:
+        self.executor_id = executor_id
+        super().__init__(placeholder="학과")
+        for n, major_info in enumerate(major_infos, 1):
+            value = f"{n}. 계열: {major_info.department} 학과: {major_info.major}"
+            self.add_option(
+                label=value,
+                value=value,
+            )
+
+    async def callback(self, interaction: Interaction):
+        if user := interaction.user:
+            if user.id == self.executor_id:
+                self.placeholder = self.values[0]
+                await interaction.response.edit_message(view=self.view)
+                return
+
+            await interaction.response.send_message(
+                "명령어 실행자만 상호작용이 가능합니다.", ephemeral=True
+            )
+            return
 
 
 async def school_page(
@@ -24,5 +51,29 @@ async def school_page(
     if not await view.wait():
         if view.is_confirm:
             return schools[view.index]
+
+    raise UserCancelled
+
+
+async def major_info_selector(
+    interaction: Interaction[Crenata], major_infos: list[MajorInfo]
+) -> MajorInfo:
+    """
+    특목고, 특성화고의 경우 학과를 선택할 수 있는 페이지를 보여줍니다.
+    """
+    major_info_ui = MajorInfoUI(interaction.user.id, major_infos)
+    view = Selector(interaction.user.id)
+    view.add_item(major_info_ui)
+    await interaction.edit_original_response(
+        view=view,
+        embed=CrenataEmbed(
+            title="특성화고 또는 특목고인것으로 추정됩니다.",
+            description="학과를 선택해주시길 바랍니다.",
+        ),
+    )
+
+    if not await view.wait():
+        if view.is_confirm:
+            return major_infos[int(major_info_ui.values[0][0]) - 1]
 
     raise UserCancelled
