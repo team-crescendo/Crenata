@@ -21,7 +21,7 @@ class MajorInfoUI(ui.Select[ui.View]):
                 value=value,
             )
 
-    async def callback(self, interaction: Interaction):
+    async def callback(self, interaction: Interaction) -> None:
         if user := interaction.user:
             if user.id == self.executor_id:
                 self.placeholder = self.values[0]
