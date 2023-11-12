@@ -3,5 +3,5 @@ from crenata.core.strings import Strings
 
 
 class TimetableNotFound(CrenataException):
-    def __init__(self, message: str = Strings.MEAL_NAME_NOT_FOUND) -> None:
+    def __init__(self, message: str = Strings.TIMETABLE_NOT_FOUND) -> None:
         super().__init__(message)
