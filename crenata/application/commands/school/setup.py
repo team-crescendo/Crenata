@@ -11,6 +11,7 @@ from crenata.core.schoolinfo.exceptions import SchoolInfoNotFound
 from crenata.core.schoolinfo.usecases.create import CreateSchoolInfoUseCase
 from crenata.core.schoolinfo.usecases.get import GetSchoolInfoUseCase
 from crenata.core.schoolinfo.usecases.update import UpdateSchoolInfoUseCase
+from crenata.core.strings import Strings
 from crenata.infrastructure.neispy.school.domain.repository import SchoolRepositoryImpl
 from crenata.infrastructure.sqlalchemy.schoolinfo.domain.repository import (
     SchoolInfoRepositoryImpl,
@@ -51,7 +52,7 @@ async def setup(
             create_school_info_usecase = CreateSchoolInfoUseCase(school_info_repository)
             await create_school_info_usecase.execute(interaction.user.id, school_info)
             await interaction.edit_original_response(
-                content="성공적으로 등록되었습니다.",
+                content=Strings.SUCCESSFUL_EDIT,
                 embed=None,
                 view=None,
             )
@@ -59,7 +60,7 @@ async def setup(
             update_school_info_usecase = UpdateSchoolInfoUseCase(school_info_repository)
             await update_school_info_usecase.execute(interaction.user.id, school_info)
             await interaction.edit_original_response(
-                content="성공적으로 수정되었습니다.",
+                content=Strings.SUCCESSFUL_EDIT,
                 embed=None,
                 view=None,
             )

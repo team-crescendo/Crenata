@@ -15,6 +15,7 @@ from crenata.application.interaction import school_page
 from crenata.application.timetable import make_timetable_image
 from crenata.application.utils import ToDatetime
 from crenata.core.school.usecases.get import GetSchoolUseCase
+from crenata.core.strings import Strings
 from crenata.core.timetable.usecases.get import GetWeekTimetableUseCase
 from crenata.core.user.usecases.get import GetUserUseCase
 from crenata.infrastructure.neispy.school.domain.repository import SchoolRepositoryImpl
@@ -81,12 +82,12 @@ async def timetable(
 
     if not timetable_info:
         await interaction.edit_original_response(
-            content="시간표가 없습니다.", embed=None, view=None
+            content=Strings.TIMETABLE_NOT_FOUND, embed=None, view=None
         )
         return
 
     await interaction.edit_original_response(
-        content="시간표를 가져오는 중 입니다.", embed=None, view=None
+        content=Strings.TIMETABLE_LOADING, embed=None, view=None
     )
 
     image = await make_timetable_image(timetable_info, date)
@@ -98,4 +99,4 @@ async def timetable(
         ephemeral=ephemeral,
     )
 
-    await interaction.edit_original_response(content="시간표를 가져왔습니다.")
+    await interaction.edit_original_response(content=Strings.TIMETABLE_LOADED)
