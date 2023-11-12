@@ -1,4 +1,4 @@
-# pyright: basic
+# type: ignore
 import asyncio
 from datetime import datetime
 from io import BytesIO
@@ -47,7 +47,7 @@ def render_mpl_table(
         size = (np.array(data.shape[::-1]) + np.array([0, 1])) * np.array(
             [col_width, row_height]
         )
-        fig, ax = plt.subplots(figsize=size)
+        _fig, ax = plt.subplots(figsize=size)
         ax.axis("off")
 
     mpl_table = ax.table(
