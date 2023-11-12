@@ -19,7 +19,7 @@ async def users(interaction: Interaction[Crenata]) -> None:
     )
 
     embed = school_users_embed_builder(
-        user.school_info.school_name, len(users), user.preferences.private
+        user.school_info.name, len(users), user.preferences.private
     )
 
     await interaction.response.send_message(
