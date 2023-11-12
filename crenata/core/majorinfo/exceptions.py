@@ -1,5 +1,4 @@
 from crenata.core.exceptions import CrenataException
-from crenata.core.strings import Strings
 
 
 class MajorInfoNotFound(CrenataException):
