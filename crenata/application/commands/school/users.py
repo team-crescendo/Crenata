@@ -1,8 +1,9 @@
-from discord.interactions import Interaction
 from discord import app_commands
+from discord.interactions import Interaction
+
 from crenata.application.client import Crenata
 from crenata.application.embeds.users import school_users_embed_builder
-from crenata.core.user.usecases.get import GetUserUseCase, GetAllSameSchoolUsersUseCase
+from crenata.core.user.usecases.get import GetAllSameSchoolUsersUseCase, GetUserUseCase
 from crenata.infrastructure.sqlalchemy.user.domain.repository import UserRepositoryImpl
 
 

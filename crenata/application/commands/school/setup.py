@@ -34,7 +34,7 @@ async def setup(
         school = await school_page(interaction, schools, ephemeral=True)
 
         school_info = SchoolInfo(
-            school_name=school.name,
+            name=school.name,
             grade=grade,
             room=room,
             edu_office_code=school.edu_office_code,
