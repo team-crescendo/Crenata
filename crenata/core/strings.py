@@ -4,6 +4,7 @@ class Strings:
     TIMETABLE_LOADING = "시간표를 가져오는 중 입니다."
     TIMETABLE_LOADED = "시간표를 가져왔습니다."
     UNREGISTER_COMPLETED = "탈퇴가 완료되었습니다."
+    PREFERENCE_EDITED = "환경설정이 변경되었습니다."
 
     USER_NOT_FOUND = "가입되지 않은 사용자입니다."
     DUPLICATE_USER = "이미 가입된 사용자입니다."

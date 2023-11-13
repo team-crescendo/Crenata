@@ -1,4 +1,5 @@
 from dataclasses import asdict
+from typing import Optional
 
 from sqlalchemy import select, update
 
@@ -14,15 +15,14 @@ class PreferencesRepositoryImpl(PreferencesRepository):
     def __init__(self, database: Database) -> None:
         self.database = database
 
-    async def get_preferences(self, user_id: int) -> Preferences:
+    async def get_preferences(self, user_id: int) -> Optional[Preferences]:
         async with self.database.session_maker() as session:
             async with session.begin():
                 stmt = select(PreferencesSchema).where(
                     PreferencesSchema.discord_id == user_id
                 )
                 preferences = await session.scalar(stmt)
-                assert preferences is not None
-                return preferences.to_entity()
+                return preferences.to_entity() if preferences else None
 
     async def update_preferences(self, user_id: int, preferences: Preferences) -> None:
         async with self.database.session_maker() as session:
