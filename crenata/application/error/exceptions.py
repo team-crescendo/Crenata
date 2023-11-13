@@ -18,7 +18,7 @@ class DateParseError(CrenataException):
 
 
 class MustBeGreaterThanZero(CrenataException):
-    def __init__(self, message: str = Strings.MEAL_NAME_NOT_FOUND) -> None:
+    def __init__(self, message: str = Strings.MUST_BE_GREATER_THAN_ZERO) -> None:
         super().__init__(message)
 
 
