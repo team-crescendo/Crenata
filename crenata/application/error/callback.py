@@ -21,9 +21,7 @@ async def confirmed(
     await interaction.response.send_message(error.message)
 
 
-@error_handler.handle_this_exception(
-    MealNameNotFound | UserNotFound | TimetableNotFound
-)
+@error_handler.handle_this_exception(MealNameNotFound, UserNotFound, TimetableNotFound)
 async def superposition(
     interaction: Interaction[Crenata],
     error: MealNameNotFound | UserNotFound | TimetableNotFound,
