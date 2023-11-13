@@ -12,11 +12,6 @@ class ViewTimeout(CrenataException):
         super().__init__(message)
 
 
-class NeedSchoolRegister(CrenataException):
-    def __init__(self, message: str = Strings.NEED_SCHOOL_REGISTER):
-        super().__init__(message)
-
-
 class DateParseError(CrenataException):
     def __init__(self, message: str = Strings.DATE_PARSE_ERROR):
         super().__init__(message)
