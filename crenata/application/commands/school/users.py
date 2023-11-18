@@ -3,6 +3,7 @@ from discord.interactions import Interaction
 
 from crenata.application.client import Crenata
 from crenata.application.embeds.users import school_users_embed_builder
+from crenata.core.schoolinfo.exceptions import SchoolInfoNotFound
 from crenata.core.user.usecases.get import GetAllSameSchoolUsersUseCase, GetUserUseCase
 from crenata.infrastructure.sqlalchemy.user.domain.repository import UserRepositoryImpl
 
@@ -12,7 +13,8 @@ async def users(interaction: Interaction[Crenata]) -> None:
     user_repository = UserRepositoryImpl(interaction.client.database)
     user = await GetUserUseCase(user_repository).execute(interaction.user.id)
 
-    assert user.school_info is not None
+    if user.school_info is None:
+        raise SchoolInfoNotFound
 
     users = await GetAllSameSchoolUsersUseCase(user_repository).execute(
         user.school_info

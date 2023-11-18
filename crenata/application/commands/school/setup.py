@@ -8,11 +8,10 @@ from crenata.application.utils import InteractionLock
 from crenata.core.majorinfo.usecases.get import GetMajorInfoUseCase
 from crenata.core.school.usecases.get import GetSchoolUseCase
 from crenata.core.schoolinfo.domain.entity import SchoolInfo
-from crenata.core.schoolinfo.exceptions import SchoolInfoNotFound
 from crenata.core.schoolinfo.usecases.create import CreateSchoolInfoUseCase
-from crenata.core.schoolinfo.usecases.get import GetSchoolInfoUseCase
 from crenata.core.schoolinfo.usecases.update import UpdateSchoolInfoUseCase
 from crenata.core.strings import Strings
+from crenata.core.user.usecases.get import GetUserUseCase
 from crenata.infrastructure.neispy.majorinfo.domain.repository import (
     MajorInfoRepositoryImpl,
 )
@@ -20,6 +19,7 @@ from crenata.infrastructure.neispy.school.domain.repository import SchoolReposit
 from crenata.infrastructure.sqlalchemy.schoolinfo.domain.repository import (
     SchoolInfoRepositoryImpl,
 )
+from crenata.infrastructure.sqlalchemy.user.domain.repository import UserRepositoryImpl
 
 
 @app_commands.command(name="설정", description="학교를 설정합니다.")
@@ -32,6 +32,11 @@ async def setup(
     async with InteractionLock(interaction):
         if grade < 1 or room < 1:
             raise MustBeGreaterThanZero
+
+        user_repository = UserRepositoryImpl(interaction.client.database)
+        school_info_repository = SchoolInfoRepositoryImpl(interaction.client.database)
+
+        user = await GetUserUseCase(user_repository).execute(interaction.user.id)
 
         school_repository = SchoolRepositoryImpl(interaction.client.neispy)
         get_school_usecase = GetSchoolUseCase(school_repository)
@@ -59,11 +64,7 @@ async def setup(
             school_info.department = major_info.department
             school_info.major = major_info.major
 
-        school_info_repository = SchoolInfoRepositoryImpl(interaction.client.database)
-        try:
-            get_school_info_usecase = GetSchoolInfoUseCase(school_info_repository)
-            await get_school_info_usecase.execute(interaction.user.id)
-        except SchoolInfoNotFound:
+        if user.school_info is None:
             create_school_info_usecase = CreateSchoolInfoUseCase(school_info_repository)
             await create_school_info_usecase.execute(interaction.user.id, school_info)
             await interaction.edit_original_response(

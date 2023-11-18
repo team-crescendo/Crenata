@@ -23,7 +23,9 @@ class Database:
 
     @property
     def session_maker(self) -> async_sessionmaker[AsyncSession]:
-        return async_sessionmaker(self._engine, class_=AsyncSession)
+        return async_sessionmaker(
+            self._engine, class_=AsyncSession, expire_on_commit=False
+        )
 
     @classmethod
     async def setup(cls, db_url: str) -> Database:

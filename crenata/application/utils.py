@@ -1,5 +1,7 @@
 from datetime import datetime
+from functools import partial
 from types import TracebackType
+from typing import Any
 
 from discord import Interaction
 from discord.app_commands import Transformer
@@ -52,3 +54,17 @@ def follow_private_preference(is_private: bool, **kwargs: str) -> dict[str, str]
     if is_private:
         kwargs = {key: "비공개" for key, _ in kwargs.items()}
     return kwargs
+
+
+async def respond(
+    Interaction: Interaction,
+    send_arg: dict[str, Any] = {},
+    edit_arg: dict[str, Any] = {},
+    **common_arg: Any
+) -> None:
+    if Interaction.response.is_done():
+        func = partial(Interaction.edit_original_response, **edit_arg)
+    else:
+        func = partial(Interaction.response.send_message, **send_arg)
+
+    await func(**common_arg)

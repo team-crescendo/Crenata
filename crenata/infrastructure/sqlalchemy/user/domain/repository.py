@@ -44,11 +44,14 @@ class UserRepositoryImpl(UserRepository):
             async with session.begin():
                 query = (
                     select(UserSchema)
-                    .join(SchoolInfoSchema)
                     .where(
                         SchoolInfoSchema.edu_office_code == school_info.edu_office_code,
                         SchoolInfoSchema.standard_school_code
                         == school_info.standard_school_code,
+                    )
+                    .options(
+                        selectinload(UserSchema.preferences),
+                        selectinload(UserSchema.school_info),
                     )
                 )
                 user_schemas = await session.execute(query)

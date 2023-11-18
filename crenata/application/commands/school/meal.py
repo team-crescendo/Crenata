@@ -8,7 +8,7 @@ from neispy.utils import KST
 from crenata.application.client import Crenata
 from crenata.application.embeds.meal import meal_embed_builder
 from crenata.application.interaction import school_page
-from crenata.application.utils import ToDatetime
+from crenata.application.utils import ToDatetime, respond
 from crenata.core.meal.exceptions import MealNameNotFound
 from crenata.core.meal.usecases.get import GetMealUseCase
 from crenata.core.school.usecases.get import GetSchoolUseCase
@@ -70,7 +70,4 @@ async def meal(
     select_allergy_ui = AllergyUI(interaction.user.id)
     view.add_item(select_allergy_ui)
 
-    if interaction.response.is_done():
-        await interaction.edit_original_response(content=None, embed=embed, view=view)
-    else:
-        await interaction.response.send_message(content=None, embed=embed, view=view)
+    await respond(interaction, content=None, embed=embed, view=view)

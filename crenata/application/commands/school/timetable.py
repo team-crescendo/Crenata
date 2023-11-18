@@ -13,7 +13,7 @@ from crenata.application.error.exceptions import (
 )
 from crenata.application.interaction import major_info_selector, school_page
 from crenata.application.timetable import make_timetable_image
-from crenata.application.utils import ToDatetime
+from crenata.application.utils import ToDatetime, respond
 from crenata.core.majorinfo.usecases.get import GetMajorInfoUseCase
 from crenata.core.school.usecases.get import GetSchoolUseCase
 from crenata.core.strings import Strings
@@ -104,13 +104,17 @@ async def timetable(
     )
 
     if not timetable_info:
-        await interaction.edit_original_response(
-            content=Strings.TIMETABLE_NOT_FOUND, embed=None, view=None
+        await respond(
+            interaction,
+            content=Strings.TIMETABLE_NOT_FOUND,
+            edit_arg={"embed": None, "view": None},
         )
         return
 
-    await interaction.edit_original_response(
-        content=Strings.TIMETABLE_LOADING, embed=None, view=None
+    await respond(
+        interaction,
+        content=Strings.TIMETABLE_LOADING,
+        edit_arg={"embed": None, "view": None},
     )
 
     image = await make_timetable_image(timetable_info, date)

@@ -1,6 +1,7 @@
 from functools import cached_property
 from typing import Any
 
+from discord import Embed
 from discord.enums import ButtonStyle
 from discord.interactions import Interaction
 from discord.ui.button import button
@@ -15,10 +16,16 @@ class Paginator(CrenataView):
     """
 
     def __init__(
-        self, executor_id: int, timeout: float | None = 60, *, embeds: list[Any] = []
+        self,
+        executor_id: int,
+        timeout: float | None = 60,
+        *,
+        embeds: list[Embed] = [],
     ):
         super().__init__(executor_id, timeout)
         self.embeds = embeds
+        for n, embed in enumerate(self.embeds, 1):
+            embed.set_footer(text=f"{n}/{len(self.embeds)}")
         self.index = 0
 
     @cached_property

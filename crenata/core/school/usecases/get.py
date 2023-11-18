@@ -1,5 +1,6 @@
 from crenata.core.school.domain.entity import School
 from crenata.core.school.domain.repository import SchoolRepository
+from crenata.core.school.exception import SchoolNotFound
 
 
 class GetSchoolUseCase:
@@ -8,4 +9,6 @@ class GetSchoolUseCase:
 
     async def execute(self, school_name: str) -> list[School]:
         schools = await self.school_repository.search_school(school_name)
+        if schools is None:
+            raise SchoolNotFound
         return schools

@@ -11,6 +11,7 @@ from crenata.application.error.exceptions import (
     ViewTimeout,
 )
 from crenata.application.error.handler import ErrorHandler
+from crenata.application.utils import respond
 from crenata.core.meal.exceptions import MealNameNotFound
 from crenata.core.schoolinfo.exceptions import SchoolInfoNotFound
 from crenata.core.timetable.exceptions import TimetableNotFound
@@ -54,9 +55,6 @@ async def superposition(
     | UserCancelled
     | ViewTimeout,
 ) -> None:
-    if interaction.response.is_done():
-        await interaction.edit_original_response(
-            content=error.message, embed=None, view=None
-        )
-    else:
-        await interaction.response.send_message(error.message)
+    await respond(
+        interaction, content=error.message, edit_arg={"embed": None, "view": None}
+    )

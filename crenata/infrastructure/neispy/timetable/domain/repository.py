@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from functools import partial
 
 from neispy.client import Neispy
+from neispy.error import DataNotFound
 
 from crenata.core.timetable.domain.entity import Timetable
 from crenata.core.timetable.domain.repository import TimetableRepository
@@ -39,15 +40,19 @@ class TimetableRepositoryImpl(TimetableRepository):
         ay = date.year if date.month > 2 else date.year - 1
         sem = 1 if 2 < date.month < 8 else 2
 
-        r = await func(
-            ATPT_OFCDC_SC_CODE=edu_office_code,
-            SD_SCHUL_CODE=standard_school_code,
-            AY=str(ay),
-            SEM=str(sem),
-            ALL_TI_YMD=int(to_yyyymmdd(date)),
-            GRADE=str(grade),
-            CLASS_NM=str(room),
-        )
+        try:
+            r = await func(
+                ATPT_OFCDC_SC_CODE=edu_office_code,
+                SD_SCHUL_CODE=standard_school_code,
+                AY=str(ay),
+                SEM=str(sem),
+                ALL_TI_YMD=int(to_yyyymmdd(date)),
+                GRADE=str(grade),
+                CLASS_NM=str(room),
+            )
+        except DataNotFound:
+            return None
+
         head = next(iter(r.__dict__.values()))[1]
 
         return [TimetableAdapter.from_neispy(timetable) for timetable in head.row]
