@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from datetime import datetime
 from typing import Any
 
@@ -27,5 +29,7 @@ class CrenataEmbed(Embed):
             timestamp=timestamp,
         )
 
-    def apply_page(self, index: int, total: int) -> None:
+    def apply_page(self, index: int, total: int) -> CrenataEmbed:
         self.set_footer(text=f"{index}/{total}")
+
+        return self

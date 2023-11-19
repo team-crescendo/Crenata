@@ -1,11 +1,11 @@
 from functools import cached_property
 from typing import Any
 
-from discord import Embed
 from discord.enums import ButtonStyle
 from discord.interactions import Interaction
 from discord.ui.button import button
 
+from crenata.application.embeds import CrenataEmbed
 from crenata.application.view import CrenataView
 from crenata.application.view.selector import Selector
 
@@ -20,12 +20,12 @@ class Paginator(CrenataView):
         executor_id: int,
         timeout: float | None = 60,
         *,
-        embeds: list[Embed] = [],
+        embeds: list[CrenataEmbed] = [],
     ):
         super().__init__(executor_id, timeout)
-        self.embeds = embeds
-        for n, embed in enumerate(self.embeds, 1):
-            embed.set_footer(text=f"{n}/{len(self.embeds)}")
+        self.embeds = [
+            embed.apply_page(i, len(embeds)) for i, embed in enumerate(embeds, 1)
+        ]
         self.index = 0
 
     @cached_property
