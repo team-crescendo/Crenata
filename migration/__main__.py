@@ -64,7 +64,8 @@ async def main():
             users.append(user_schema)
 
     with open("migration.py", "w") as f:
-        f.write("""
+        f.write(
+            """
 import asyncio
 from crenata.infrastructure.sqlalchemy import Database
 from crenata.infrastructure.sqlalchemy.preferences.domain.entity import (
@@ -76,11 +77,13 @@ from crenata.infrastructure.sqlalchemy.user.domain.entity import UserSchema
 db_url = "마이그레이션할 db url"
 
 
-""")
+"""
+        )
 
         f.write(f"users = {users.__repr__()}")
         f.write("\n\n")
-        f.write("""
+        f.write(
+            """
 async def main():
     database = await Database.setup(db_url)
     session_maker = database.session_maker
@@ -90,7 +93,8 @@ async def main():
         await session.commit()
 
 asyncio.run(main())
-""")
+"""
+        )
 
 
 asyncio.run(main())

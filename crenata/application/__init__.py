@@ -5,10 +5,10 @@ from discord import Intents
 from crenata.application.client import Crenata
 from crenata.application.commands.exit import exit
 from crenata.application.commands.preferences import preferences
+from crenata.application.commands.profile import profile
 from crenata.application.commands.register import register
 from crenata.application.commands.school import school
 from crenata.application.error.callback import error_handler
-from crenata.application.commands.profile import profile
 
 
 def create_app(args: Namespace, intents: Intents) -> Crenata:
