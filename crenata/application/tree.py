@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-from discord import Interaction
 from discord._types import ClientT
 from discord.app_commands.errors import AppCommandError
 from discord.app_commands.tree import CommandTree
 from discord.interactions import Interaction
 
 from crenata.application.error.handler import ErrorHandler
+from discord import Interaction
 
 
 class CrenataCommandTree(CommandTree[ClientT]):

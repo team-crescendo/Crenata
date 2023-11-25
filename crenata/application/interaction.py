@@ -1,5 +1,3 @@
-from discord import Interaction, ui
-
 from crenata.application.client import Crenata
 from crenata.application.embeds import CrenataEmbed
 from crenata.application.embeds.school import school_embed_builder
@@ -9,6 +7,7 @@ from crenata.application.view.selector import Selector
 from crenata.core.majorinfo.domain.entity import MajorInfo
 from crenata.core.school.domain.entity import School
 from crenata.core.strings import Strings
+from discord import Interaction, ui
 
 
 class MajorInfoUI(ui.Select[ui.View]):

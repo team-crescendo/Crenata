@@ -2,12 +2,12 @@ from __future__ import annotations
 
 from typing import Any
 
-from discord import Client, Intents, Object
 from neispy import Neispy
 
 from crenata.application.tree import CrenataCommandTree
 from crenata.infrastructure.sqlalchemy import Database
 from crenata.infrastructure.utils.config import CrenataConfig
+from discord import Client, Intents, Object
 
 
 class Crenata(Client):
