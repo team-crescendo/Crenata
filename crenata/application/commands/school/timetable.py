@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Optional
 
 from discord import File, app_commands
@@ -91,6 +91,10 @@ async def timetable(
             major = major_info.major
             department = major_info.department
 
+    dates = [
+        date + timedelta(days=i) for i in range(-date.weekday(), 5 - date.weekday())
+    ]
+
     timetable_repository = TimetableRepositoryImpl(interaction.client.neispy)
     timetable_info = await GetWeekTimetableUseCase(timetable_repository).execute(
         school_info.edu_office_code,
@@ -98,7 +102,7 @@ async def timetable(
         school_info.name,
         grade,
         room,
-        date,
+        dates,
         major,
         department,
     )
@@ -118,7 +122,7 @@ async def timetable(
     )
 
     image = await make_timetable_image(timetable_info, date)
-    embed = timetable_embed_builder(school_info.name, date, is_private)
+    embed = timetable_embed_builder(school_info.name, dates, is_private)
 
     await interaction.followup.send(
         file=File(image, filename="timetable.png"),

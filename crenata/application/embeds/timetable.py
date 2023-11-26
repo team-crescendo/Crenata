@@ -6,7 +6,7 @@ from crenata.infrastructure.utils.datetime import datetime_to_readable
 
 
 def timetable_embed_builder(
-    school_name: str, date: datetime, private: bool
+    school_name: str, date: list[datetime], private: bool
 ) -> CrenataEmbed:
     embed = CrenataEmbed()
 
@@ -16,7 +16,10 @@ def timetable_embed_builder(
     ).values()
 
     embed.title = "🗓️ 시간표"
-    embed.description = f"{school_name} __{datetime_to_readable(date)}__ 시간표"
+    embed.description = (
+        f"{school_name} __{datetime_to_readable(date[0])} ~"
+        f" {datetime_to_readable(date[-1])}__ 시간표"
+    )
     embed.set_image(url="attachment://timetable.png")
 
     return embed

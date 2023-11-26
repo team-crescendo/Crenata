@@ -1,5 +1,5 @@
 import asyncio
-from datetime import datetime, timedelta
+from datetime import datetime
 from functools import partial
 
 from neispy.client import Neispy
@@ -64,16 +64,10 @@ class TimetableRepositoryImpl(TimetableRepository):
         school_name: str,
         grade: int,
         room: int,
-        date: datetime,
+        dates: list[datetime],
         major: str | None = None,
         department: str | None = None,
     ) -> list[list[Timetable]] | None:
-        # get previous and next weekdays
-        # only monday to friday included current date
-        dates = [
-            date + timedelta(days=i) for i in range(-date.weekday(), 5 - date.weekday())
-        ]
-
         # get all time tables
         time_tables = await asyncio.gather(
             *[
