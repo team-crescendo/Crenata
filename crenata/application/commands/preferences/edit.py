@@ -1,14 +1,14 @@
-from discord import app_commands
 from discord.interactions import Interaction
 
 from crenata.application.client import Crenata
+from crenata.application.strings import ApplicationStrings
 from crenata.application.utils import InteractionLock
 from crenata.core.preferences.domain.entity import Preferences
 from crenata.core.preferences.usecases.update import UpdatePreferencesUseCase
-from crenata.core.strings import Strings
 from crenata.infrastructure.sqlalchemy.preferences.domain.repository import (
     PreferencesRepositoryImpl,
 )
+from discord import app_commands
 
 
 @app_commands.command(name="변경", description="환경설정을 변경합니다.")
@@ -30,6 +30,6 @@ async def edit(
         )
 
         await interaction.response.send_message(
-            content=Strings.PREFERENCE_EDITED,
+            content=ApplicationStrings.PREFERENCE_EDITED,
             ephemeral=True,
         )

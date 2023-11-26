@@ -1,16 +1,15 @@
-from discord import app_commands
 from discord.interactions import Interaction
 
 from crenata.application.client import Crenata
 from crenata.application.error.exceptions import MustBeGreaterThanZero
 from crenata.application.interaction import major_info_selector, school_page
+from crenata.application.strings import ApplicationStrings
 from crenata.application.utils import InteractionLock
 from crenata.core.majorinfo.usecases.get import GetMajorInfoUseCase
 from crenata.core.school.usecases.get import GetSchoolUseCase
 from crenata.core.schoolinfo.domain.entity import SchoolInfo
 from crenata.core.schoolinfo.usecases.create import CreateSchoolInfoUseCase
 from crenata.core.schoolinfo.usecases.update import UpdateSchoolInfoUseCase
-from crenata.core.strings import Strings
 from crenata.core.user.usecases.get import GetUserUseCase
 from crenata.infrastructure.neispy.majorinfo.domain.repository import (
     MajorInfoRepositoryImpl,
@@ -20,6 +19,7 @@ from crenata.infrastructure.sqlalchemy.schoolinfo.domain.repository import (
     SchoolInfoRepositoryImpl,
 )
 from crenata.infrastructure.sqlalchemy.user.domain.repository import UserRepositoryImpl
+from discord import app_commands
 
 
 @app_commands.command(name="설정", description="학교를 설정합니다.")
@@ -68,7 +68,7 @@ async def setup(
             create_school_info_usecase = CreateSchoolInfoUseCase(school_info_repository)
             await create_school_info_usecase.execute(interaction.user.id, school_info)
             await interaction.edit_original_response(
-                content=Strings.SUCCESSFUL_EDIT,
+                content=ApplicationStrings.SUCCESSFUL_EDIT,
                 embed=None,
                 view=None,
             )
@@ -76,7 +76,7 @@ async def setup(
             update_school_info_usecase = UpdateSchoolInfoUseCase(school_info_repository)
             await update_school_info_usecase.execute(interaction.user.id, school_info)
             await interaction.edit_original_response(
-                content=Strings.SUCCESSFUL_EDIT,
+                content=ApplicationStrings.SUCCESSFUL_EDIT,
                 embed=None,
                 view=None,
             )

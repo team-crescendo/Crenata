@@ -11,12 +11,13 @@ from crenata.application.error.exceptions import (
     NeedGradeAndRoomArgument,
 )
 from crenata.application.interaction import major_info_selector, school_page
+from crenata.application.strings import ApplicationStrings
 from crenata.application.timetable import make_timetable_image
 from crenata.application.utils import ToDatetime, respond
 from crenata.core.majorinfo.usecases.get import GetMajorInfoUseCase
 from crenata.core.school.usecases.get import GetSchoolUseCase
 from crenata.core.schoolinfo.exceptions import SchoolInfoNotFound
-from crenata.core.strings import Strings
+from crenata.core.strings import CoreStrings
 from crenata.core.timetable.usecases.get import GetWeekTimetableUseCase
 from crenata.core.user.usecases.get import GetUserUseCase
 from crenata.infrastructure.neispy.majorinfo.domain.repository import (
@@ -112,14 +113,14 @@ async def timetable(
     if not timetable_info:
         await respond(
             interaction,
-            content=Strings.TIMETABLE_NOT_FOUND,
+            content=CoreStrings.TIMETABLE_NOT_FOUND,
             edit_arg={"embed": None, "view": None},
         )
         return
 
     await respond(
         interaction,
-        content=Strings.TIMETABLE_LOADING,
+        content=ApplicationStrings.TIMETABLE_LOADING,
         edit_arg={"embed": None, "view": None},
     )
 
@@ -132,4 +133,4 @@ async def timetable(
         ephemeral=ephemeral,
     )
 
-    await interaction.edit_original_response(content=Strings.TIMETABLE_LOADED)
+    await interaction.edit_original_response(content=ApplicationStrings.TIMETABLE_LOADED)
