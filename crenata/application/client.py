@@ -17,7 +17,7 @@ class Crenata(Client):
         self.config = CrenataConfig()
 
     async def startup(self) -> None:
-        self.neispy = Neispy()
+        self.neispy = Neispy(self.config.NEIS_API_KEY)
         self.database = await Database.setup(self.config.DB_URL)
 
     async def closeup(self) -> None:
