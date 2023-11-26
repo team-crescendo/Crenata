@@ -12,7 +12,7 @@ from crenata.application.error.exceptions import (
 )
 from crenata.application.error.handler import ErrorHandler
 from crenata.application.utils import respond
-from crenata.core.meal.exceptions import MealNameNotFound
+from crenata.core.meal.exceptions import MealNameNotFound, MealNotFound
 from crenata.core.schoolinfo.exceptions import SchoolInfoNotFound
 from crenata.core.timetable.exceptions import TimetableNotFound
 from crenata.core.user.exceptions import DuplicateUser, UserNotFound
@@ -42,6 +42,7 @@ async def confirmed(
     NeedGradeAndRoomArgument,
     UserCancelled,
     ViewTimeout,
+    MealNotFound,
 )
 async def superposition(
     interaction: Interaction[Crenata],
@@ -53,7 +54,8 @@ async def superposition(
     | MustBeGreaterThanZero
     | NeedGradeAndRoomArgument
     | UserCancelled
-    | ViewTimeout,
+    | ViewTimeout
+    | MealNotFound,
 ) -> None:
     await respond(
         interaction, content=error.message, edit_arg={"embed": None, "view": None}
