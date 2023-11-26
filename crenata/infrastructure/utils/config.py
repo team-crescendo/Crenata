@@ -95,4 +95,4 @@ class CrenataConfig(dict[str, Any]):
         if not self.USE_ENV:
             self.update({k.upper(): v for k, v in vars(args).items()})
         if self.CONFIG:
-            self.load_config_
+            self.load_config_with_config_json(self.CONFIG)
