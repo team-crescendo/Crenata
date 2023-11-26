@@ -1,3 +1,4 @@
+from discord import app_commands
 from discord.interactions import Interaction
 
 from crenata.application.client import Crenata
@@ -8,7 +9,6 @@ from crenata.core.strings import Strings
 from crenata.infrastructure.sqlalchemy.preferences.domain.repository import (
     PreferencesRepositoryImpl,
 )
-from discord import app_commands
 
 
 @app_commands.command(name="변경", description="환경설정을 변경합니다.")

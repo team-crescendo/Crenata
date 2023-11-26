@@ -1,3 +1,5 @@
+from discord import Embed, Interaction, app_commands
+
 from crenata.application.client import Crenata
 from crenata.application.utils import InteractionLock
 from crenata.application.view.confirm import Confirm
@@ -5,7 +7,6 @@ from crenata.core.strings import Strings
 from crenata.core.user.usecases.delete import DeleteUserUseCase
 from crenata.core.user.usecases.get import GetUserUseCase
 from crenata.infrastructure.sqlalchemy.user.domain.repository import UserRepositoryImpl
-from discord import Embed, Interaction, app_commands
 
 
 @app_commands.command(name="탈퇴", description="탈퇴합니다.")

@@ -3,11 +3,11 @@ from functools import partial
 from types import TracebackType
 from typing import Any
 
+from discord import Interaction
 from discord.app_commands import Transformer
 
 from crenata.application.error.exceptions import DateParseError, InteractionLocked
 from crenata.infrastructure.utils.datetime import to_datetime, to_relative_date
-from discord import Interaction
 
 
 class ToDatetime(Transformer):

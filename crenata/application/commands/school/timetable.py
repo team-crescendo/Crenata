@@ -1,6 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
+from discord import File, app_commands
 from discord.interactions import Interaction
 from neispy.utils import KST
 
@@ -26,7 +27,6 @@ from crenata.infrastructure.neispy.timetable.domain.repository import (
     TimetableRepositoryImpl,
 )
 from crenata.infrastructure.sqlalchemy.user.domain.repository import UserRepositoryImpl
-from discord import File, app_commands
 
 
 @app_commands.command(name="시간표", description="시간표를 가져옵니다.")
