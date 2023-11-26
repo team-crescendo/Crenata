@@ -1,7 +1,6 @@
 from datetime import datetime
 from typing import Literal, Optional
 
-from discord import app_commands, ui
 from discord.interactions import Interaction
 from neispy.utils import KST
 
@@ -12,10 +11,12 @@ from crenata.application.utils import ToDatetime, respond
 from crenata.core.meal.exceptions import MealNameNotFound
 from crenata.core.meal.usecases.get import GetMealUseCase
 from crenata.core.school.usecases.get import GetSchoolUseCase
+from crenata.core.schoolinfo.exceptions import SchoolInfoNotFound
 from crenata.core.user.usecases.get import GetUserUseCase
 from crenata.infrastructure.neispy.meal.domain.repository import MealRepositoryImpl
 from crenata.infrastructure.neispy.school.domain.repository import SchoolRepositoryImpl
 from crenata.infrastructure.sqlalchemy.user.domain.repository import UserRepositoryImpl
+from discord import app_commands, ui
 
 
 class AllergyUI(ui.Select[ui.View]):
@@ -48,7 +49,8 @@ async def meal(
         user_repository = UserRepositoryImpl(interaction.client.database)
         user = await GetUserUseCase(user_repository).execute(interaction.user.id)
         school_info = user.school_info
-        assert school_info
+        if school_info is None:
+            raise SchoolInfoNotFound
         is_private = user.preferences.private
 
     else:

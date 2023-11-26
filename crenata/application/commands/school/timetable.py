@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 from typing import Optional
 
-from discord import File, app_commands
 from discord.interactions import Interaction
 from neispy.utils import KST
 
@@ -16,6 +15,7 @@ from crenata.application.timetable import make_timetable_image
 from crenata.application.utils import ToDatetime, respond
 from crenata.core.majorinfo.usecases.get import GetMajorInfoUseCase
 from crenata.core.school.usecases.get import GetSchoolUseCase
+from crenata.core.schoolinfo.exceptions import SchoolInfoNotFound
 from crenata.core.strings import Strings
 from crenata.core.timetable.usecases.get import GetWeekTimetableUseCase
 from crenata.core.user.usecases.get import GetUserUseCase
@@ -27,6 +27,7 @@ from crenata.infrastructure.neispy.timetable.domain.repository import (
     TimetableRepositoryImpl,
 )
 from crenata.infrastructure.sqlalchemy.user.domain.repository import UserRepositoryImpl
+from discord import File, app_commands
 
 
 @app_commands.command(name="시간표", description="시간표를 가져옵니다.")
@@ -50,7 +51,8 @@ async def timetable(
         user_repository = UserRepositoryImpl(interaction.client.database)
         user = await GetUserUseCase(user_repository).execute(interaction.user.id)
         school_info = user.school_info
-        assert school_info
+        if school_info is None:
+            raise SchoolInfoNotFound
 
         is_private = user.preferences.private
         ephemeral = user.preferences.ephemeral
