@@ -1,14 +1,13 @@
-from discord import Interaction, ui
-
 from crenata.application.client import Crenata
 from crenata.application.embeds import CrenataEmbed
 from crenata.application.embeds.school import school_embed_builder
 from crenata.application.error.exceptions import UserCancelled
+from crenata.application.strings import ApplicationStrings
 from crenata.application.view.paginator import SelectablePaginator
 from crenata.application.view.selector import Selector
 from crenata.core.majorinfo.domain.entity import MajorInfo
 from crenata.core.school.domain.entity import School
-from crenata.core.strings import Strings
+from discord import Interaction, ui
 
 
 class MajorInfoUI(ui.Select[ui.View]):
@@ -30,7 +29,7 @@ class MajorInfoUI(ui.Select[ui.View]):
                 return
 
             await interaction.response.send_message(
-                Strings.NOT_INTERACTED_USER, ephemeral=True
+                ApplicationStrings.NOT_INTERACTED_USER, ephemeral=True
             )
             return
 
