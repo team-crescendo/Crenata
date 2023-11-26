@@ -35,7 +35,7 @@ class AllergyUI(ui.Select[ui.View]):
             await interaction.response.edit_message(view=self.view)
 
 
-@app_commands.command(name="급식", description="급식 식단표를 가져와요.")
+@app_commands.command(name="급식", description="급식 식단표를 가져옵니다.")
 async def meal(
     interaction: Interaction[Crenata],
     school_name: Optional[str] = None,
