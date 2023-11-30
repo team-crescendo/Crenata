@@ -10,22 +10,20 @@ def parse_args(parser: ArgumentParser, argv: list[str]) -> Namespace:
     """
     config = parser.add_argument_group("config")
 
-    config.add_argument(
-        "--token", type=str, default="", help="디스코드 봇 토큰 입니다. (기본값: '')"
-    )
+    config.add_argument("--token", type=str, default="", help="디스코드 봇 토큰입니다. (기본값: '')")
 
     config.add_argument(
         "--neis-api-key",
         type=str,
         default="",
-        help="open.neis.go.kr의 API키 입니다. (기본값: '')",
+        help="open.neis.go.kr의 API 키입니다. (기본값: '')",
     )
 
     config.add_argument(
         "--test-guild-id",
         type=int,
         default=0,
-        help="테스트 할 길드 ID입니다 (기본값: 0)",
+        help="테스트할 길드 ID입니다. (기본값: 0)",
     )
 
     config.add_argument(
@@ -39,7 +37,7 @@ def parse_args(parser: ArgumentParser, argv: list[str]) -> Namespace:
         "--db-url",
         type=str,
         default="sqlite+aiosqlite:///:memory:",
-        help="SQLAlchemy 에서 사용하는 DB URL입니다. (기본값: 'sqlite+aiosqlite:///:memory:')",
+        help="SQLAlchemy에서 사용하는 DB URL입니다. (기본값: 'sqlite+aiosqlite:///:memory:')",
     )
 
     config.add_argument(

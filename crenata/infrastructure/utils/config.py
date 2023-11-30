@@ -88,9 +88,9 @@ class CrenataConfig(dict[str, Any]):
 
     def update_with_args(self, args: Namespace) -> None:
         """
-        명령줄 인수로 받은 Config값들로 업데이트합니다.
+        명령줄 인수로 받은 Config 값들로 업데이트합니다.
 
-        만약 ``USE_ENV``가 ``True``일경우 명령줄 인수는 무시됩니다.
+        만약 ``USE_ENV``가 ``True``일 경우 명령줄 인수는 무시됩니다.
         """
         if not self.USE_ENV:
             self.update({k.upper(): v for k, v in vars(args).items()})

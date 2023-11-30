@@ -12,8 +12,8 @@ from crenata.infrastructure.sqlalchemy.preferences.domain.repository import (
 
 
 @app_commands.command(name="변경", description="환경설정을 변경합니다.")
-@app_commands.describe(private="학교 이름을 비공개로 할 지 여부입니다.")
-@app_commands.describe(ephemeral="자기 자신에게만 보이게 할 지 여부입니다.")
+@app_commands.describe(private="학교 이름을 비공개로 할지 여부입니다.")
+@app_commands.describe(ephemeral="자기 자신에게만 보이게 할지 여부입니다.")
 async def edit(
     interaction: Interaction[Crenata],
     private: bool,
