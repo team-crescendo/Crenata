@@ -21,7 +21,7 @@ Crenata는 자원봉사자로 유지되는 오픈 소스 프로젝트이며 모�
   - [실행](#실행)
     - [명령줄 인수](#명령줄-인수)
     - [JSON 전달](#json-전달)
-        - [VSCode Debugger](#vscode-debugger)
+      - [VSCode Debugger](#vscode-debugger)
     - [환경 변수](#환경-변수)
   - [배포](#배포)
 
@@ -74,13 +74,13 @@ python -m venv .venv
 
 Windows
 
-``` powershell
+```powershell
 .venv/Scripts/Activate.ps1
 ```
 
 Linux/macOS
 
-``` sh
+```sh
 . .venv/bin/activate
 ```
 
@@ -88,14 +88,14 @@ Linux/macOS
 
 Windows
 
-``` powershell
+```powershell
 .venv/Scripts/pip install -U pip setuptools
 .venv/Scripts/pip install poetry
 ```
 
 Linux/macOS
 
-``` sh
+```sh
 .venv/bin/pip install -U pip setuptools
 .venv/bin/pip install poetry
 ```
@@ -106,7 +106,7 @@ Linux/macOS
 poetry install
 ```
 
-또한 개발을 위해서는 ``aiosqlite`` 종속성이 필요할 수도 있습니다.
+또한 개발을 위해서는 `aiosqlite` 종속성이 필요할 수도 있습니다.
 
 Crenata는 PostgreSQL을 권장하지만, 개발 환경에서 DB를 구성하기에는 부담스러운 부분이 있습니다.
 
@@ -148,13 +148,13 @@ poetry run pytest
 
 [black](https://github.com/psf/black) 및 [isort](https://github.com/PyCQA/isort)를 사용하여 코드 스타일을 일관성 있게 유지 하고 있습니다.
 
-가상환경에서는 ``.vscode\settings.json`` 에서 isort의 경로를 다음과 같이 수정해 주어야 할 수도 있습니다.
+가상환경에서는 `.vscode\settings.json` 에서 isort의 경로를 다음과 같이 수정해 주어야 할 수도 있습니다.
 
 Windows
 
 ```json
 {
-    "python.sortImports.path": "${workspaceRoot}/.venv/Scripts/isort.exe"
+  "python.sortImports.path": "${workspaceRoot}/.venv/Scripts/isort.exe"
 }
 ```
 
@@ -162,7 +162,7 @@ Linux/macOS
 
 ```json
 {
-    "python.sortImports.path": "${workspaceRoot}/.venv/bin/isort.exe"
+  "python.sortImports.path": "${workspaceRoot}/.venv/bin/isort.exe"
 }
 ```
 
@@ -203,16 +203,16 @@ python -m crenata --config <YOUR_CONFIG_PATH>
 // 다음 파일을 .vscode/launch.json에 저장하세요.
 // tests 폴더에 있는 config.json 파일을 참고하세요.
 {
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Crenata",
-            "type": "python",
-            "request": "launch",
-            "module": "crenata",
-            "args": "--config <YOUR_CONFIG_PATH>"
-        }
-    ]
+  version: "0.2.0",
+  configurations: [
+    {
+      name: "Crenata",
+      type: "python",
+      request: "launch",
+      module: "crenata",
+      args: "--config <YOUR_CONFIG_PATH>",
+    },
+  ],
 }
 ```
 
@@ -235,17 +235,16 @@ docker build -t crenata .  # 이미지 빌드
 
 ```yml
 # docker-compose.yml
-    - CRENATA_USE_ENV=true
+- CRENATA_USE_ENV=true
 
-    - CRENATA_TOKEN=토큰
-    - CRENATA_NEIS_API_KEY=나이스 API 키
-    - CRENATA_TEST_GUILD_ID=테스트 서버 ID
-    - CRENATA_PRODUCTION=프로덕션 여부
-    - CRENATA_DB_URL=postgresql+asyncpg://<유저>:<비번>@db/crenata
+- CRENATA_TOKEN=토큰
+- CRENATA_NEIS_API_KEY=나이스 API 키
+- CRENATA_TEST_GUILD_ID=테스트 서버 ID
+- CRENATA_PRODUCTION=프로덕션 여부
+- CRENATA_DB_URL=postgresql+asyncpg://<유저>:<비번>@db/crenata
 
-
-      - POSTGRES_USER=<유저>
-      - POSTGRES_PASSWORD=<비번
+- POSTGRES_USER=<유저>
+- POSTGRES_PASSWORD=<비번>
 ```
 
 ```sh
