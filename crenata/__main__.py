@@ -1,10 +1,9 @@
 from argparse import ArgumentParser
 from sys import argv
 
-from discord import Intents
-
 from crenata.application import create_app
 from crenata.infrastructure.utils.argparser import parse_args
+from discord import Intents
 
 if __name__ == "__main__":
     parser = ArgumentParser("crenata")

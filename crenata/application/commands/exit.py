@@ -1,8 +1,8 @@
 from crenata.application.client import Crenata
 from crenata.application.embeds.exit import exit_embed_builder
+from crenata.application.strings import ApplicationStrings
 from crenata.application.utils import InteractionLock
 from crenata.application.view.confirm import Confirm
-from crenata.application.strings import ApplicationStrings
 from crenata.core.user.usecases.delete import DeleteUserUseCase
 from crenata.core.user.usecases.get import GetUserUseCase
 from crenata.infrastructure.sqlalchemy.user.domain.repository import UserRepositoryImpl
@@ -25,7 +25,9 @@ async def exit(interaction: Interaction[Crenata]) -> None:
             if view.is_confirm:
                 await DeleteUserUseCase(user_repository).execute(user)
                 await interaction.edit_original_response(
-                    content=ApplicationStrings.UNREGISTER_COMPLETED, embed=None, view=None
+                    content=ApplicationStrings.UNREGISTER_COMPLETED,
+                    embed=None,
+                    view=None,
                 )
                 return
 

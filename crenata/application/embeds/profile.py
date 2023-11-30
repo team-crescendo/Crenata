@@ -1,8 +1,7 @@
-from discord import Member, User
-
 from crenata.application.embeds import CrenataEmbed
 from crenata.application.utils import follow_private_preference
 from crenata.core.schoolinfo.domain.entity import SchoolInfo
+from discord import Member, User
 
 
 def profile_embed_builder(

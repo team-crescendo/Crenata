@@ -1,4 +1,3 @@
-from discord import app_commands
 from discord.interactions import Interaction
 
 from crenata.application.client import Crenata
@@ -6,6 +5,7 @@ from crenata.application.embeds.school import detail_school_school_embed_builder
 from crenata.application.interaction import school_page
 from crenata.core.school.usecases.get import GetSchoolUseCase
 from crenata.infrastructure.neispy.school.domain.repository import SchoolRepositoryImpl
+from discord import app_commands
 
 
 @app_commands.command(name="검색", description="학교를 검색합니다.")

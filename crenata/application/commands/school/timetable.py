@@ -133,4 +133,6 @@ async def timetable(
         ephemeral=ephemeral,
     )
 
-    await interaction.edit_original_response(content=ApplicationStrings.TIMETABLE_LOADED)
+    await interaction.edit_original_response(
+        content=ApplicationStrings.TIMETABLE_LOADED
+    )

@@ -1,9 +1,8 @@
-from discord import Interaction, app_commands
-
 from crenata.application.client import Crenata
 from crenata.application.embeds.profile import profile_embed_builder
 from crenata.core.user.usecases.get import GetUserUseCase
 from crenata.infrastructure.sqlalchemy.user.domain.repository import UserRepositoryImpl
+from discord import Interaction, app_commands
 
 
 @app_commands.command(name="프로필", description="내 프로필을 확인합니다.")

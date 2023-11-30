@@ -1,7 +1,8 @@
 from typing import TYPE_CHECKING, Any, Callable, Coroutine, Generic, TypeVar
 
-from discord import Interaction
 from discord._types import ClientT
+
+from discord import Interaction
 
 if TYPE_CHECKING:
     Error = TypeVar(
