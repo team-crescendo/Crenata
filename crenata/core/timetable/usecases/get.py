@@ -1,3 +1,4 @@
+import asyncio
 from datetime import datetime
 
 from crenata.core.timetable.domain.entity import Timetable
@@ -52,18 +53,23 @@ class GetWeekTimetableUseCase:
         major: str | None = None,
         department: str | None = None,
     ) -> list[list[Timetable]]:
-        nullable_timetable = await self.timetable_repository.get_week_timetable(
-            edu_office_code,
-            standard_school_code,
-            school_name,
-            grade,
-            room,
-            dates,
-            major,
-            department,
+        nullable_timetable = await asyncio.gather(
+            *[
+                self.timetable_repository.get_timetable(
+                    edu_office_code,
+                    standard_school_code,
+                    school_name,
+                    grade,
+                    room,
+                    date=date,
+                    major=major,
+                    department=department,
+                )
+                for date in dates
+            ]
         )
 
-        if nullable_timetable is None:
+        if all(time_table is None for time_table in nullable_timetable):
             raise TimetableNotFound
 
         return nullable_timetable

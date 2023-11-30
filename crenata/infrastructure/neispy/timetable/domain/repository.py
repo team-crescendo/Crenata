@@ -1,4 +1,3 @@
-import asyncio
 from datetime import datetime
 from functools import partial
 
@@ -56,36 +55,3 @@ class TimetableRepositoryImpl(TimetableRepository):
         head = next(iter(r.__dict__.values()))[1]
 
         return [TimetableAdapter.from_neispy(timetable) for timetable in head.row]
-
-    async def get_week_timetable(
-        self,
-        edu_office_code: str,
-        standard_school_code: str,
-        school_name: str,
-        grade: int,
-        room: int,
-        dates: list[datetime],
-        major: str | None = None,
-        department: str | None = None,
-    ) -> list[list[Timetable]] | None:
-        # get all time tables
-        time_tables = await asyncio.gather(
-            *[
-                self.get_timetable(
-                    edu_office_code,
-                    standard_school_code,
-                    school_name,
-                    grade,
-                    room,
-                    date=date,
-                    major=major,
-                    department=department,
-                )
-                for date in dates
-            ]
-        )
-        # check all results is None
-        if all(time_table is None for time_table in time_tables):
-            time_tables = None
-
-        return time_tables
