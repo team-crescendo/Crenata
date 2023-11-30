@@ -1,3 +1,4 @@
+from discord import app_commands
 from discord.interactions import Interaction
 
 from crenata.application.client import Crenata
@@ -19,7 +20,6 @@ from crenata.infrastructure.sqlalchemy.schoolinfo.domain.repository import (
     SchoolInfoRepositoryImpl,
 )
 from crenata.infrastructure.sqlalchemy.user.domain.repository import UserRepositoryImpl
-from discord import app_commands
 
 
 @app_commands.command(name="설정", description="학교를 설정합니다.")

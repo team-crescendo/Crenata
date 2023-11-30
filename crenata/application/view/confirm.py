@@ -1,7 +1,8 @@
 from typing import Any
 
-from crenata.application.view import CrenataView
 from discord import ButtonStyle, Interaction, ui
+
+from crenata.application.view import CrenataView
 
 
 class Confirm(CrenataView):

@@ -1,3 +1,5 @@
+from discord import Interaction
+
 from crenata.application.client import Crenata
 from crenata.application.error.exceptions import (
     DateParseError,
@@ -14,7 +16,6 @@ from crenata.core.meal.exceptions import MealNameNotFound, MealNotFound
 from crenata.core.schoolinfo.exceptions import SchoolInfoNotFound
 from crenata.core.timetable.exceptions import TimetableNotFound
 from crenata.core.user.exceptions import DuplicateUser, UserNotFound
-from discord import Interaction
 
 error_handler: ErrorHandler[Crenata] = ErrorHandler()
 
