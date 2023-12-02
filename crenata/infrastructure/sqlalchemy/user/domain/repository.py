@@ -37,7 +37,10 @@ class UserRepositoryImpl(UserRepository):
     async def delete_user(self, user: User) -> None:
         async with self.database.session_maker() as session:
             async with session.begin():
-                await session.delete(UserSchema.discord_id == user.discord_id)
+                user_schema = await session.scalar(
+                    select(UserSchema).where(UserSchema.discord_id == user.discord_id)
+                )
+                await session.delete(user_schema)
 
     async def get_all_same_school_users(self, school_info: SchoolInfo) -> list[User]:
         async with self.database.session_maker() as session:

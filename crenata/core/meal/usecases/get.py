@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Literal, Optional
+from typing import Literal
 
 from crenata.core.meal.domain.entity import Meal
 from crenata.core.meal.domain.repository import MealRepository
@@ -15,7 +15,7 @@ class GetMealUseCase:
         edu_office_code: str,
         standard_school_code: str,
         date: datetime,
-        meal_name: Optional[Literal["조식", "중식", "석식"]] = None,
+        meal_name: Literal["조식", "중식", "석식"] = "중식",
     ) -> list[Meal]:
         meals = await self.meal_repository.get_meal(
             edu_office_code, standard_school_code, date
