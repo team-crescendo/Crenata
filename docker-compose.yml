@@ -2,26 +2,27 @@ version: '3'
 
 services:
   crenata:
-    image: crenata
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
       - CRENATA_USE_ENV=true
-
       - CRENATA_TOKEN=
       - CRENATA_NEIS_API_KEY=
       - CRENATA_TEST_GUILD_ID=
       - CRENATA_PRODUCTION=
-      - CRENATA_DB_URL=postgresql+asyncpg://user:password@db/crenata
+      - CRENATA_DB_URL=postgresql+asyncpg://crenata:password@db/crenata
 
   db:
     image: postgres
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "crenata" ]
     environment:
-      - POSTGRES_USER=user
+      - POSTGRES_USER=crenata
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=crenata
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:
       - 127.0.0.1:5432:5432
-
-volumes:
-  postgres:
