@@ -1,7 +1,7 @@
 from datetime import datetime
 from functools import partial
 from types import TracebackType
-from typing import Any, ValuesView
+from typing import Any, Optional, ValuesView
 
 from discord import Interaction
 from discord.app_commands import Transformer
@@ -44,9 +44,9 @@ class InteractionLock:
 
     async def __aexit__(
         self,
-        type: type[BaseException] | None,
-        value: BaseException | None,
-        traceback: TracebackType | None,
+        type: Optional[type[BaseException]],
+        value: Optional[BaseException],
+        traceback: Optional[TracebackType],
     ) -> None:
         await self.release()
 

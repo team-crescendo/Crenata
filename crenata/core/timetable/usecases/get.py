@@ -1,5 +1,6 @@
 import asyncio
 from datetime import datetime
+from typing import Optional
 
 from crenata.core.timetable.domain.entity import Timetable
 from crenata.core.timetable.domain.repository import TimetableRepository
@@ -18,8 +19,8 @@ class GetTimetableUseCase:
         grade: int,
         room: int,
         date: datetime,
-        major: str | None = None,
-        department: str | None = None,
+        major: Optional[str] = None,
+        department: Optional[str] = None,
     ) -> list[Timetable]:
         nullable_timetable = await self.timetable_repository.get_timetable(
             edu_office_code,
@@ -50,8 +51,8 @@ class GetWeekTimetableUseCase:
         grade: int,
         room: int,
         dates: list[datetime],
-        major: str | None = None,
-        department: str | None = None,
+        major: Optional[str] = None,
+        department: Optional[str] = None,
     ) -> list[list[Timetable]]:
         nullable_timetable = await asyncio.gather(
             *[

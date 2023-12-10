@@ -1,4 +1,5 @@
 from dataclasses import asdict
+from typing import Optional
 
 from sqlalchemy import select, update
 
@@ -12,7 +13,7 @@ class SchoolInfoRepositoryImpl(SchoolInfoRepository):
     def __init__(self, database: Database) -> None:
         self.database = database
 
-    async def get_school_info(self, user_id: int) -> SchoolInfo | None:
+    async def get_school_info(self, user_id: int) -> Optional[SchoolInfo]:
         async with self.database.session_maker() as session:
             async with session.begin():
                 stmt = select(SchoolInfoSchema).where(

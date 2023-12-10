@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any
+from typing import Any, Optional
 
 from discord import Colour, Embed
 from discord.types.embed import EmbedType
@@ -11,13 +11,13 @@ class CrenataEmbed(Embed):
     def __init__(
         self,
         *,
-        colour: int | Colour | None = None,
-        color: int | Colour | None = 5681003,
-        title: Any | None = None,
+        colour: Optional[int | Colour] = None,
+        color: Optional[int | Colour] = 5681003,
+        title: Optional[Any] = None,
         type: EmbedType = "rich",
-        url: Any | None = None,
-        description: Any | None = None,
-        timestamp: datetime | None = None,
+        url: Optional[Any] = None,
+        description: Optional[Any] = None,
+        timestamp: Optional[datetime] = None,
     ):
         super().__init__(
             colour=colour,

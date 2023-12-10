@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from functools import cached_property
+from typing import Optional
 
 from discord import ButtonStyle, Interaction
 from discord.ui import Button, button
@@ -18,7 +19,7 @@ class Paginator(CrenataView):
     def __init__(
         self,
         executor_id: int,
-        timeout: float | None = 60,
+        timeout: Optional[float] = 60,
         *,
         embeds: list[CrenataEmbed] = [],
     ):
