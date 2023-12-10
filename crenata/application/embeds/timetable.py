@@ -11,9 +11,9 @@ def timetable_embed_builder(
     embed = CrenataEmbed()
 
     (school_name,) = follow_private_preference(
-        is_private=private,
+        private,
         school_name=school_name,
-    ).values()
+    )
 
     embed.title = "🗓️ 시간표"
     embed.description = (

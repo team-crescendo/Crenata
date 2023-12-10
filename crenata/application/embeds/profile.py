@@ -24,8 +24,8 @@ def profile_embed_builder(
             school_name,
             grade_room,
         ) = follow_private_preference(
-            is_private=private, school_name=school_info.name, grade_room=grade_room
-        ).values()
+            private, school_name=school_info.name, grade_room=grade_room
+        )
 
         my_school_info = f"**[학교]** {school_name}\n**[학년/반]** {grade_room}\n\n"
 

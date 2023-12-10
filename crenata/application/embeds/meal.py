@@ -29,8 +29,8 @@ def meal_embed_builder(meals: list[Meal], is_private: bool) -> CrenataEmbed:
     for meal in meals:
         if not embed.title and not embed.description:
             (school_name,) = follow_private_preference(
-                is_private=is_private, school_name=meal.school_name
-            ).values()
+                is_private, school_name=meal.school_name
+            )
 
             embed.title = f'"{school_name}" 의 급식 정보'
             embed.description = f"__{datetime_to_readable(meal.date)}__ 급식"
