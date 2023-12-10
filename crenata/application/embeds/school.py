@@ -31,8 +31,6 @@ def _parse_homepage_url(url: str) -> Optional[str]:
 
         return f"http://{url}"
 
-    return None
-
 
 def _handle_english_school_name(school_name: Optional[str]) -> str:
     if school_name:
