@@ -45,29 +45,41 @@ async def meal(
 ) -> None:
     if not date:
         date = datetime.now(tz=KST)
-    if school_name is None:
+
+    if not school_name:
         user_repository = UserRepositoryImpl(interaction.client.database)
-        user = await GetUserUseCase(user_repository).execute(interaction.user.id)
-        school_info = user.school_info
-        if school_info is None:
+        get_user_usecase = GetUserUseCase(user_repository)
+
+        user = await get_user_usecase.execute(interaction.user.id)
+
+        if not user.school_info:
             raise SchoolInfoNotFound
+
+        school_info = user.school_info
         is_private = user.preferences.private
 
     else:
         school_repository = SchoolRepositoryImpl(interaction.client.neispy)
-        school_infos = await GetSchoolUseCase(school_repository).execute(school_name)
+        get_school_usecase = GetSchoolUseCase(school_repository)
+
+        school_infos = await get_school_usecase.execute(school_name)
+
         school_info = await school_page(interaction, school_infos)
+
         is_private = True
 
     meal_repository = MealRepositoryImpl(interaction.client.neispy)
-    get_meal_use_case = GetMealUseCase(meal_repository)
-    meal = await get_meal_use_case.execute(
+    get_meal_usecase = GetMealUseCase(meal_repository)
+
+    meal = await get_meal_usecase.execute(
         school_info.edu_office_code, school_info.standard_school_code, date, meal_time
     )
+
     if not meal:
         raise MealNameNotFound
 
-    embed = meal_embed_builder(meal, is_private=is_private)
+    embed = meal_embed_builder(meal, is_private)
+
     view = ui.View()
     select_allergy_ui = AllergyUI(interaction.user.id)
     view.add_item(select_allergy_ui)

@@ -1,5 +1,6 @@
 from datetime import datetime
 from functools import partial
+from typing import Optional
 
 from neispy.client import Neispy
 from neispy.error import DataNotFound
@@ -22,17 +23,21 @@ class TimetableRepositoryImpl(TimetableRepository):
         grade: int,
         room: int,
         date: datetime,
-        major: str | None = None,
-        department: str | None = None,
-    ) -> list[Timetable] | None:
+        major: Optional[str] = None,
+        department: Optional[str] = None,
+    ) -> Optional[list[Timetable]]:
         if school_name.endswith("초등학교"):
             func = self.neispy.elsTimetable
+
         elif school_name.endswith("중학교"):
             func = self.neispy.misTimetable
+
         elif school_name.endswith("고등학교"):
             func = self.neispy.hisTimetable
+
             if major and department:
                 func = partial(func, **{"ORD_SC_NM": department, "DDDEP_NM": major})
+
         else:
             return None
 
@@ -49,6 +54,7 @@ class TimetableRepositoryImpl(TimetableRepository):
                 GRADE=str(grade),
                 CLASS_NM=str(room),
             )
+
         except DataNotFound:
             return None
 

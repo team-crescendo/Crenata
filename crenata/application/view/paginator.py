@@ -1,9 +1,9 @@
-from functools import cached_property
-from typing import Any
+from __future__ import annotations
 
-from discord.enums import ButtonStyle
-from discord.interactions import Interaction
-from discord.ui.button import button
+from functools import cached_property
+
+from discord import ButtonStyle, Interaction
+from discord.ui import Button, button
 
 from crenata.application.embeds import CrenataEmbed
 from crenata.application.view import CrenataView
@@ -23,6 +23,7 @@ class Paginator(CrenataView):
         embeds: list[CrenataEmbed] = [],
     ):
         super().__init__(executor_id, timeout)
+
         self.embeds = [
             embed.apply_page(i, len(embeds)) for i, embed in enumerate(embeds, 1)
         ]
@@ -33,7 +34,7 @@ class Paginator(CrenataView):
         return len(self.embeds)
 
     @button(label="이전", style=ButtonStyle.primary, emoji="◀")
-    async def prev(self, interaction: Interaction, _: Any) -> None:
+    async def prev(self, interaction: Interaction, _: Button[Paginator]) -> None:
         self.index -= 1
 
         if self.index < 0:
@@ -42,7 +43,7 @@ class Paginator(CrenataView):
         await interaction.response.edit_message(embed=self.embeds[self.index])
 
     @button(label="다음", style=ButtonStyle.primary, emoji="▶️")
-    async def next(self, interaction: Interaction, _: Any) -> None:
+    async def next(self, interaction: Interaction, _: Button[Paginator]) -> None:
         self.index += 1
 
         if self.index >= self.total:

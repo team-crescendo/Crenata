@@ -9,6 +9,7 @@ def _add_emoji(string: str) -> str:
     조식, 중식, 석식에 맞는 이모지를 추가해 주는 함수입니다.
     """
     emoji = {"조식": "⛅", "중식": "☀️", "석식": "🌙"}
+
     return f"{emoji.get(string, '❓')} {string}"
 
 
@@ -24,6 +25,7 @@ def meal_embed_builder(meals: list[Meal], is_private: bool) -> CrenataEmbed:
     급식 검색 결과를 Embed로 만들어 주는 함수입니다.
     """
     embed = CrenataEmbed()
+
     embed.set_author(name="🔍 급식 검색 결과")
 
     for meal in meals:

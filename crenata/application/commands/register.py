@@ -9,9 +9,10 @@ from crenata.infrastructure.sqlalchemy.user.domain.repository import UserReposit
 
 @app_commands.command(name="가입", description="가입합니다.")
 async def register(interaction: Interaction[Crenata]) -> None:
-    repository = UserRepositoryImpl(interaction.client.database)
-    usecase = CreateUserUseCase(repository)
-    await usecase.execute(User.default(interaction.user.id))
+    user_repository = UserRepositoryImpl(interaction.client.database)
+    create_user_usecase = CreateUserUseCase(user_repository)
+
+    await create_user_usecase.execute(User.default(interaction.user.id))
 
     embed = Embed(title=ApplicationStrings.REGISTER_COMPLETED)
 

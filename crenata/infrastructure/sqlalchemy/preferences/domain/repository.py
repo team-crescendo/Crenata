@@ -21,7 +21,9 @@ class PreferencesRepositoryImpl(PreferencesRepository):
                 stmt = select(PreferencesSchema).where(
                     PreferencesSchema.discord_id == user_id
                 )
+
                 preferences = await session.scalar(stmt)
+
                 return preferences.to_entity() if preferences else None
 
     async def update_preferences(self, user_id: int, preferences: Preferences) -> None:

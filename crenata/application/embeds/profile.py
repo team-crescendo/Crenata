@@ -6,10 +6,7 @@ from crenata.core.schoolinfo.domain.entity import SchoolInfo
 
 
 def profile_embed_builder(
-    user: User | Member,
-    school_info: SchoolInfo | None,
-    private: bool,
-    ephemeral: bool,
+    user: User | Member, school_info: SchoolInfo | None, private: bool, ephemeral: bool
 ) -> CrenataEmbed:
     embed = CrenataEmbed(title=user.name)
 

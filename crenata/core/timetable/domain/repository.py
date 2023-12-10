@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from datetime import datetime
+from typing import Optional
 
 from crenata.core.timetable.domain.entity import Timetable
 
@@ -14,7 +15,7 @@ class TimetableRepository(ABC):
         grade: int,
         room: int,
         date: datetime,
-        major: str | None = None,
-        department: str | None = None,
-    ) -> list[Timetable] | None:
+        major: Optional[str] = None,
+        department: Optional[str] = None,
+    ) -> Optional[list[Timetable]]:
         ...

@@ -14,22 +14,28 @@ from crenata.infrastructure.sqlalchemy.user.domain.repository import UserReposit
 async def exit(interaction: Interaction[Crenata]) -> None:
     async with InteractionLock(interaction):
         user_repository = UserRepositoryImpl(interaction.client.database)
+        get_user_usecase = GetUserUseCase(user_repository)
 
-        user = await GetUserUseCase(user_repository).execute(interaction.user.id)
+        user = await get_user_usecase.execute(interaction.user.id)
 
         embed = exit_embed_builder()
 
         view = Confirm(interaction.user.id)
+
         await interaction.response.send_message(embed=embed, view=view, ephemeral=True)
 
         if not await view.wait():
             if view.is_confirm:
-                await DeleteUserUseCase(user_repository).execute(user)
+                delete_user_usecase = DeleteUserUseCase(user_repository)
+
+                await delete_user_usecase.execute(user)
+
                 await interaction.edit_original_response(
                     content=ApplicationStrings.UNREGISTER_COMPLETED,
                     embed=None,
                     view=None,
                 )
+
                 return
 
         await interaction.edit_original_response(

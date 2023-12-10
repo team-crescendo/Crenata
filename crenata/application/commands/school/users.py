@@ -11,14 +11,16 @@ from crenata.infrastructure.sqlalchemy.user.domain.repository import UserReposit
 @app_commands.command(name="유저", description="나와 학교가 같은 유저 수를 가져옵니다.")
 async def users(interaction: Interaction[Crenata]) -> None:
     user_repository = UserRepositoryImpl(interaction.client.database)
-    user = await GetUserUseCase(user_repository).execute(interaction.user.id)
+    get_user_usecase = GetUserUseCase(user_repository)
 
-    if user.school_info is None:
+    user = await get_user_usecase.execute(interaction.user.id)
+
+    if not user.school_info:
         raise SchoolInfoNotFound
 
-    users = await GetAllSameSchoolUsersUseCase(user_repository).execute(
-        user.school_info
-    )
+    get_all_same_school_users_usecase = GetAllSameSchoolUsersUseCase(user_repository)
+
+    users = await get_all_same_school_users_usecase.execute(user.school_info)
 
     embed = school_users_embed_builder(
         user.school_info.name, len(users), user.preferences.private

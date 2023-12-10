@@ -32,7 +32,7 @@ class GetTimetableUseCase:
             department,
         )
 
-        if nullable_timetable is None:
+        if not nullable_timetable:
             raise TimetableNotFound
 
         return nullable_timetable
@@ -69,7 +69,7 @@ class GetWeekTimetableUseCase:
             ]
         )
 
-        if all(time_table is None for time_table in nullable_timetable):
+        if all(not time_table for time_table in nullable_timetable):
             raise TimetableNotFound
 
         return nullable_timetable

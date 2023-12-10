@@ -9,8 +9,9 @@ from crenata.infrastructure.sqlalchemy.user.domain.repository import UserReposit
 @app_commands.command(name="프로필", description="내 프로필을 확인합니다.")
 async def profile(interaction: Interaction[Crenata]) -> None:
     user_repository = UserRepositoryImpl(interaction.client.database)
+    get_user_usecase = GetUserUseCase(user_repository)
 
-    user = await GetUserUseCase(user_repository).execute(interaction.user.id)
+    user = await get_user_usecase.execute(interaction.user.id)
 
     is_private = user.preferences.private
     is_empheral = user.preferences.ephemeral

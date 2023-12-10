@@ -21,9 +21,7 @@ error_handler: ErrorHandler[Crenata] = ErrorHandler()
 
 
 @error_handler.handle_this_exception(
-    DuplicateUser,
-    NotInteractedUser,
-    SchoolInfoNotFound,
+    DuplicateUser, NotInteractedUser, SchoolInfoNotFound
 )
 async def confirmed(
     interaction: Interaction[Crenata],

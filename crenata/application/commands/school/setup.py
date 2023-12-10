@@ -34,14 +34,17 @@ async def setup(
             raise MustBeGreaterThanZero
 
         user_repository = UserRepositoryImpl(interaction.client.database)
-        school_info_repository = SchoolInfoRepositoryImpl(interaction.client.database)
+        get_user_usecase = GetUserUseCase(user_repository)
 
-        user = await GetUserUseCase(user_repository).execute(interaction.user.id)
+        user = await get_user_usecase.execute(interaction.user.id)
 
         school_repository = SchoolRepositoryImpl(interaction.client.neispy)
         get_school_usecase = GetSchoolUseCase(school_repository)
+
         schools = await get_school_usecase.execute(school_name)
+
         school = await school_page(interaction, schools, ephemeral=True)
+
         school_info = SchoolInfo(
             name=school.name,
             grade=grade,
@@ -51,32 +54,37 @@ async def setup(
             department=None,
             major=None,
         )
+
         if (
             school.highschool_category in ["특목고", "특성화고"]
             and school.highschool_general_or_business != "일반계"
         ):
             major_info_repository = MajorInfoRepositoryImpl(interaction.client.neispy)
-            major_info_usecase = GetMajorInfoUseCase(major_info_repository)
-            major_infos = await major_info_usecase.execute(
+            get_major_info_usecase = GetMajorInfoUseCase(major_info_repository)
+
+            major_infos = await get_major_info_usecase.execute(
                 school.edu_office_code, school.standard_school_code
             )
+
             major_info = await major_info_selector(interaction, major_infos)
+
             school_info.department = major_info.department
             school_info.major = major_info.major
 
-        if user.school_info is None:
+        school_info_repository = SchoolInfoRepositoryImpl(interaction.client.database)
+
+        if not user.school_info:
             create_school_info_usecase = CreateSchoolInfoUseCase(school_info_repository)
             await create_school_info_usecase.execute(interaction.user.id, school_info)
+
             await interaction.edit_original_response(
-                content=ApplicationStrings.SUCCESSFUL_EDIT,
-                embed=None,
-                view=None,
+                content=ApplicationStrings.SUCCESSFUL_EDIT, embed=None, view=None
             )
+
         else:
             update_school_info_usecase = UpdateSchoolInfoUseCase(school_info_repository)
             await update_school_info_usecase.execute(interaction.user.id, school_info)
+
             await interaction.edit_original_response(
-                content=ApplicationStrings.SUCCESSFUL_EDIT,
-                embed=None,
-                view=None,
+                content=ApplicationStrings.SUCCESSFUL_EDIT, embed=None, view=None
             )

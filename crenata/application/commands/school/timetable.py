@@ -45,37 +45,42 @@ async def timetable(
     department: Optional[str] = None,
     date: Optional[app_commands.Transform[datetime, ToDatetime]] = None,
 ) -> None:
-    if date is None:
+    if not date:
         date = datetime.now(KST)
 
-    if school_name is None:
+    if not school_name:
         user_repository = UserRepositoryImpl(interaction.client.database)
-        user = await GetUserUseCase(user_repository).execute(interaction.user.id)
-        school_info = user.school_info
-        if school_info is None:
+        get_user_usecase = GetUserUseCase(user_repository)
+
+        user = await get_user_usecase.execute(interaction.user.id)
+
+        if not user.school_info:
             raise SchoolInfoNotFound
 
+        school_info = user.school_info
         is_private = user.preferences.private
         ephemeral = user.preferences.ephemeral
         major = school_info.major
         department = school_info.department
 
-        if grade is not None and room is not None:
-            if grade < 1 or room < 1:
-                raise MustBeGreaterThanZero
-        else:
-            grade = school_info.grade
-            room = school_info.room
+        grade = grade or school_info.grade
+        room = room or school_info.room
+
+        if grade < 1 or room < 1:
+            raise MustBeGreaterThanZero
 
     else:
-        if grade is None or room is None:
+        if grade is None or room is None:  # 0 is falsy
             raise NeedGradeAndRoomArgument
 
         if grade < 1 or room < 1:
             raise MustBeGreaterThanZero
 
         school_repository = SchoolRepositoryImpl(interaction.client.neispy)
-        school_infos = await GetSchoolUseCase(school_repository).execute(school_name)
+        get_school_usecase = GetSchoolUseCase(school_repository)
+
+        school_infos = await get_school_usecase.execute(school_name)
+
         school_info = await school_page(interaction, school_infos)
 
         is_private = True
@@ -86,11 +91,14 @@ async def timetable(
             and school_info.highschool_general_or_business != "일반계"
         ):
             major_info_repository = MajorInfoRepositoryImpl(interaction.client.neispy)
-            major_info_usecase = GetMajorInfoUseCase(major_info_repository)
-            major_infos = await major_info_usecase.execute(
+            get_major_info_usecase = GetMajorInfoUseCase(major_info_repository)
+
+            major_infos = await get_major_info_usecase.execute(
                 school_info.edu_office_code, school_info.standard_school_code
             )
+
             major_info = await major_info_selector(interaction, major_infos)
+
             major = major_info.major
             department = major_info.department
 
@@ -99,7 +107,9 @@ async def timetable(
     ]
 
     timetable_repository = TimetableRepositoryImpl(interaction.client.neispy)
-    timetable_info = await GetWeekTimetableUseCase(timetable_repository).execute(
+    get_week_timetable_usecase = GetWeekTimetableUseCase(timetable_repository)
+
+    timetable_info = await get_week_timetable_usecase.execute(
         school_info.edu_office_code,
         school_info.standard_school_code,
         school_info.name,
@@ -116,6 +126,7 @@ async def timetable(
             content=CoreStrings.TIMETABLE_NOT_FOUND,
             edit_arg={"embed": None, "view": None},
         )
+
         return
 
     await respond(
@@ -125,12 +136,11 @@ async def timetable(
     )
 
     image = await make_timetable_image(timetable_info, date)
+
     embed = timetable_embed_builder(school_info.name, dates, is_private)
 
     await interaction.followup.send(
-        file=File(image, filename="timetable.png"),
-        embed=embed,
-        ephemeral=ephemeral,
+        file=File(image, filename="timetable.png"), embed=embed, ephemeral=ephemeral
     )
 
     await interaction.edit_original_response(

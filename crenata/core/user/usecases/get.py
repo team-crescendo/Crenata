@@ -10,8 +10,10 @@ class GetUserUseCase:
 
     async def execute(self, user_id: int) -> User:
         user = await self.user_repository.get_user(user_id)
-        if user is None:
+
+        if not user:
             raise UserNotFound
+
         return user
 
 
@@ -21,4 +23,5 @@ class GetAllSameSchoolUsersUseCase:
 
     async def execute(self, school_info: SchoolInfo) -> list[User]:
         users = await self.user_repository.get_all_same_school_users(school_info)
+
         return users

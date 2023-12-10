@@ -23,24 +23,17 @@ class UserSchema(Base, Schema):
 
     discord_id: Mapped[int] = mapped_column(BigInteger, unique=True, nullable=False)
     preferences: Mapped[PreferencesSchema] = relationship(
-        uselist=False,
-        cascade="all, delete",
-        passive_deletes=True,
+        uselist=False, cascade="all, delete", passive_deletes=True
     )
     school_info: Mapped[Optional[SchoolInfoSchema]] = relationship(
-        uselist=False,
-        cascade="all, delete",
-        passive_deletes=True,
-        default=None,
+        uselist=False, cascade="all, delete", passive_deletes=True, default=None
     )
 
     def to_entity(self) -> User:
         return User(
             discord_id=self.discord_id,
             preferences=self.preferences.to_entity(),
-            school_info=(
-                self.school_info.to_entity() if self.school_info is not None else None
-            ),
+            school_info=(self.school_info.to_entity() if self.school_info else None),
         )
 
     @classmethod
@@ -52,7 +45,7 @@ class UserSchema(Base, Schema):
             ),
             school_info=(
                 SchoolInfoSchema.from_entity(user.discord_id, user.school_info)
-                if user.school_info is not None
+                if user.school_info
                 else None
             ),
         )

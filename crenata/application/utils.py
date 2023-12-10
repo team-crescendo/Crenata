@@ -11,7 +11,7 @@ from crenata.infrastructure.utils.datetime import to_datetime, to_relative_date
 
 
 class ToDatetime(Transformer):
-    async def transform(self, interaction: Interaction, date: str) -> datetime:
+    async def transform(self, _: Interaction, date: str) -> datetime:
         try:
             return to_relative_date(date) or to_datetime(date)
         except ValueError:
@@ -33,6 +33,7 @@ class InteractionLock:
     async def acquire(self) -> None:
         if self.interaction.user.id in self.__locked:
             raise InteractionLocked
+
         self.__locked.add(self.interaction.user.id)
 
     async def release(self) -> None:
@@ -53,6 +54,7 @@ class InteractionLock:
 def follow_private_preference(is_private: bool, /, **kwargs: str) -> ValuesView[str]:
     if is_private:
         kwargs = {key: "비공개" for key, _ in kwargs.items()}
+
     return kwargs.values()
 
 
@@ -64,6 +66,7 @@ async def respond(
 ) -> None:
     if Interaction.response.is_done():
         func = partial(Interaction.edit_original_response, **edit_arg)
+
     else:
         func = partial(Interaction.response.send_message, **send_arg)
 

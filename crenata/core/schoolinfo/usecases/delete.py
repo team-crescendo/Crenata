@@ -3,13 +3,15 @@ from crenata.core.schoolinfo.exceptions import SchoolInfoNotFound
 
 
 class DeleteSchoolInfoUseCase:
-    def __init__(self, schoolinfo_repository: SchoolInfoRepository) -> None:
-        self.schoolinfo_repository = schoolinfo_repository
+    def __init__(self, school_info_repository: SchoolInfoRepository) -> None:
+        self.school_info_repository = school_info_repository
 
     async def execute(self, user_id: int) -> None:
-        nullable_schoolinfo = await self.schoolinfo_repository.get_schoolinfo(user_id)
+        nullable_school_info = await self.school_info_repository.get_school_info(
+            user_id
+        )
 
-        if nullable_schoolinfo is None:
+        if not nullable_school_info:
             raise SchoolInfoNotFound
 
-        await self.schoolinfo_repository.delete_schoolinfo(user_id)
+        await self.school_info_repository.delete_school_info(user_id)

@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Optional
+
 from sqlalchemy.orm import Mapped, mapped_column
 
 from crenata.core.schoolinfo.domain.entity import SchoolInfo
@@ -19,8 +21,8 @@ class SchoolInfoSchema(Base, ForeignKeySchema):
 
     edu_office_code: Mapped[str] = mapped_column()
     standard_school_code: Mapped[str] = mapped_column()
-    department: Mapped[str | None] = mapped_column()
-    major: Mapped[str | None] = mapped_column()
+    department: Mapped[Optional[str]] = mapped_column()
+    major: Mapped[Optional[str]] = mapped_column()
 
     def to_entity(self) -> SchoolInfo:
         return SchoolInfo(

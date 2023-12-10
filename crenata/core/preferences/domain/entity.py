@@ -10,7 +10,4 @@ class Preferences:
 
     @classmethod
     def default(cls) -> Preferences:
-        return cls(
-            private=True,
-            ephemeral=True,
-        )
+        return cls(private=True, ephemeral=True)

@@ -52,6 +52,7 @@ class CrenataConfig(dict[str, Any]):
                 "NEIS_API_KEY": "",
             }
         )
+
         self.load_environment_vars()
 
     def __getattr__(self, attr: Any) -> Any:
@@ -74,6 +75,7 @@ class CrenataConfig(dict[str, Any]):
                     try:
                         self[key[len(self.prefix) :]] = converter(value)
                         break
+
                     except ValueError:
                         ...
 
@@ -84,7 +86,6 @@ class CrenataConfig(dict[str, Any]):
         with open(path, "r") as f:
             config = loads(f.read())
             self.update(config)
-        return None
 
     def update_with_args(self, args: Namespace) -> None:
         """
@@ -94,5 +95,6 @@ class CrenataConfig(dict[str, Any]):
         """
         if not self.USE_ENV:
             self.update({k.upper(): v for k, v in vars(args).items()})
+
         if self.CONFIG:
             self.load_config_with_config_json(self.CONFIG)

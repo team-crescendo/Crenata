@@ -9,6 +9,8 @@ class GetSchoolUseCase:
 
     async def execute(self, school_name: str) -> list[School]:
         schools = await self.school_repository.search_school(school_name)
-        if schools is None:
+
+        if not schools:
             raise SchoolNotFound
+
         return schools

@@ -1,7 +1,7 @@
 from crenata.core.schoolinfo.domain.entity import SchoolInfo
 
 
-def test_schoolinfo():
+def test_school_info():
     school_info = SchoolInfo(
         name="테스트 초등학교",
         grade=6,

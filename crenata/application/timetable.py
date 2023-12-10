@@ -43,7 +43,7 @@ def render_mpl_table(
     ax: Optional[plt.Axes] = None,
     **kwargs: Any
 ) -> tuple[Figure, plt.Axes]:
-    if ax is None:
+    if not ax:
         size = (np.array(data.shape[::-1]) + np.array([0, 1])) * np.array(
             [col_width, row_height]
         )
@@ -65,23 +65,29 @@ def render_mpl_table(
         cell.set_edgecolor(edge_color)
         if k[0] == 0 or k[1] < header_columns:
             cell.set_text_props(weight="bold", color="w")
+
             # if cell text is current weekday
             cell_text = cell.get_text().get_text()
+
             if cell_text == to_weekday(date):
                 current_weekday_position = k
                 cell.set_text_props(weight="bold", color="#000000")
+
             cell.set_facecolor(header_color)
+
         else:
             cell.set_facecolor(row_colors[k[0] % len(row_colors)])
 
     # 요일에 맞는 시간표가 없을 경우 종료
     if not current_weekday_position:
         return ax.get_figure(), ax
+
     # 현재 요일에 맞는 시간표 하이라이팅
     for k, cell in mpl_table.get_celld().items():
         # 인덱스 컬럼은 무시한다.
         if k[0] == 0:
             continue
+
         if current_weekday_position[1] == k[1]:
             cell.set_facecolor(highlight_color[k[0] % len(highlight_color)])
 
@@ -115,8 +121,11 @@ async def make_timetable_image(
         "center",
     )
     fig, _ = render_mpl_table(df, date, cellLoc="center", font_size=16)
+
     await asyncio.to_thread(
         fig.savefig, image, format="png", bbox_inches="tight", dpi=350
     )
+
     image.seek(0)
+
     return image

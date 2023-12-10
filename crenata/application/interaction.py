@@ -1,4 +1,5 @@
-from discord import Interaction, ui
+from discord import Interaction
+from discord.ui import Select, View
 
 from crenata.application.client import Crenata
 from crenata.application.embeds import CrenataEmbed
@@ -11,10 +12,12 @@ from crenata.core.majorinfo.domain.entity import MajorInfo
 from crenata.core.school.domain.entity import School
 
 
-class MajorInfoUI(ui.Select[ui.View]):
+class MajorInfoUI(Select[View]):
     def __init__(self, executor_id: int, major_infos: list[MajorInfo]) -> None:
         self.executor_id = executor_id
+
         super().__init__(placeholder="학과")
+
         for n, major_info in enumerate(major_infos, 1):
             value = f"{n}. 계열: {major_info.department} 학과: {major_info.major}"
             self.add_option(
@@ -27,11 +30,13 @@ class MajorInfoUI(ui.Select[ui.View]):
             if user.id == self.executor_id:
                 self.placeholder = self.values[0]
                 await interaction.response.edit_message(view=self.view)
+
                 return
 
             await interaction.response.send_message(
                 ApplicationStrings.NOT_INTERACTED_USER, ephemeral=True
             )
+
             return
 
 
@@ -65,11 +70,11 @@ async def major_info_selector(
     major_info_ui = MajorInfoUI(interaction.user.id, major_infos)
     view = Selector(interaction.user.id)
     view.add_item(major_info_ui)
+
     await interaction.edit_original_response(
         view=view,
         embed=CrenataEmbed(
-            title="특성화고 또는 특목고인 것으로 추정됩니다.",
-            description="학과를 선택해 주시길 바랍니다.",
+            title="특성화고 또는 특목고인 것으로 추정됩니다.", description="학과를 선택해 주시길 바랍니다."
         ),
     )
 

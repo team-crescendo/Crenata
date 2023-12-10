@@ -28,6 +28,7 @@ class GetMealUseCase:
             for meal in meals:
                 if meal.name == meal_name:
                     return [meal]
+
             else:
                 raise MealNameNotFound
 

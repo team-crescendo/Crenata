@@ -1,3 +1,5 @@
+from typing import Optional
+
 from sqlalchemy.orm import selectinload
 from sqlalchemy.sql import select
 
@@ -13,7 +15,7 @@ class UserRepositoryImpl(UserRepository):
     def __init__(self, database: Database) -> None:
         self.database = database
 
-    async def get_user(self, user_id: int) -> User | None:
+    async def get_user(self, user_id: int) -> Optional[User]:
         async with self.database.session_maker() as session:
             async with session.begin():
                 stmt = (
@@ -24,14 +26,18 @@ class UserRepositoryImpl(UserRepository):
                         selectinload(UserSchema.school_info),
                     )
                 )
+
                 user_schema = await session.scalar(stmt)
+
                 return user_schema.to_entity() if user_schema else None
 
     async def create_user(self, user: User) -> User:
         async with self.database.session_maker() as session:
             async with session.begin():
                 user_schema = UserSchema.from_entity(user)
+
                 session.add(user_schema)
+
                 return user_schema.to_entity()
 
     async def delete_user(self, user: User) -> None:
@@ -40,6 +46,7 @@ class UserRepositoryImpl(UserRepository):
                 user_schema = await session.scalar(
                     select(UserSchema).where(UserSchema.discord_id == user.discord_id)
                 )
+
                 await session.delete(user_schema)
 
     async def get_all_same_school_users(self, school_info: SchoolInfo) -> list[User]:
@@ -57,7 +64,9 @@ class UserRepositoryImpl(UserRepository):
                         selectinload(UserSchema.school_info),
                     )
                 )
+
                 user_schemas = await session.execute(query)
+
                 return [
                     user_schema.to_entity()
                     for user_schema in user_schemas.scalars().all()
