@@ -45,16 +45,16 @@ async def timetable(
     department: Optional[str] = None,
     date: Optional[app_commands.Transform[datetime, ToDatetime]] = None,
 ) -> None:
-    if not date:
+    if date is None:
         date = datetime.now(KST)
 
-    if not school_name:
+    if school_name is None:
         user_repository = UserRepositoryImpl(interaction.client.database)
         get_user_usecase = GetUserUseCase(user_repository)
 
         user = await get_user_usecase.execute(interaction.user.id)
 
-        if not user.school_info:
+        if user.school_info is None:
             raise SchoolInfoNotFound
 
         school_info = user.school_info
@@ -70,7 +70,7 @@ async def timetable(
             raise MustBeGreaterThanZero
 
     else:
-        if grade is None or room is None:  # 0 is falsy
+        if grade is None or room is None:
             raise NeedGradeAndRoomArgument
 
         if grade < 1 or room < 1:

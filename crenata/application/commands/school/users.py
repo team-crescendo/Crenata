@@ -15,7 +15,7 @@ async def users(interaction: Interaction[Crenata]) -> None:
 
     user = await get_user_usecase.execute(interaction.user.id)
 
-    if not user.school_info:
+    if user.school_info is None:
         raise SchoolInfoNotFound
 
     get_all_same_school_users_usecase = GetAllSameSchoolUsersUseCase(user_repository)

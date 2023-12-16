@@ -12,7 +12,7 @@ class UpdateSchoolInfoUseCase:
             user_id
         )
 
-        if not nullable_school_info:
+        if nullable_school_info is None:
             raise SchoolInfoNotFound
 
         await self.school_info_repository.update_school_info(user_id, school_info)

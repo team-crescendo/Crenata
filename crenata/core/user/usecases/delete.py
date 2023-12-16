@@ -10,7 +10,7 @@ class DeleteUserUseCase:
     async def execute(self, user: User) -> None:
         nullable_user = await self.user_repository.get_user(user.discord_id)
 
-        if not nullable_user:
+        if nullable_user is None:
             raise UserNotFound
 
         await self.user_repository.delete_user(nullable_user)

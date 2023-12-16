@@ -9,12 +9,12 @@ class GetUserUseCase:
         self.user_repository = user_repository
 
     async def execute(self, user_id: int) -> User:
-        user = await self.user_repository.get_user(user_id)
+        nullable_user = await self.user_repository.get_user(user_id)
 
-        if not user:
+        if nullable_user is None:
             raise UserNotFound
 
-        return user
+        return nullable_user
 
 
 class GetAllSameSchoolUsersUseCase:

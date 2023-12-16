@@ -14,7 +14,7 @@ class GetMajorInfoUseCase:
             edu_office_code, standard_school_code
         )
 
-        if not nullable_majorinfo:
+        if nullable_majorinfo is None:
             raise MajorInfoNotFound
 
         return nullable_majorinfo

@@ -21,7 +21,7 @@ class GetMealUseCase:
             edu_office_code, standard_school_code, date
         )
 
-        if not meals:
+        if meals:
             raise MealNotFound
 
         if meal_name:

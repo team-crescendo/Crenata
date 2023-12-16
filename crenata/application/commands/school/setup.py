@@ -73,7 +73,7 @@ async def setup(
 
         school_info_repository = SchoolInfoRepositoryImpl(interaction.client.database)
 
-        if not user.school_info:
+        if user.school_info is None:
             create_school_info_usecase = CreateSchoolInfoUseCase(school_info_repository)
             await create_school_info_usecase.execute(interaction.user.id, school_info)
 

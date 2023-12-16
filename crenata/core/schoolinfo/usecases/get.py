@@ -12,7 +12,7 @@ class GetSchoolInfoUseCase:
             user_id
         )
 
-        if not nullable_school_info:
+        if nullable_school_info is None:
             raise SchoolInfoNotFound
 
         return nullable_school_info

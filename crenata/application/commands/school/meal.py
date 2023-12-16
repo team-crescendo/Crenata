@@ -43,16 +43,16 @@ async def meal(
     meal_time: Literal["조식", "중식", "석식"] = "중식",
     date: Optional[app_commands.Transform[datetime, ToDatetime]] = None,
 ) -> None:
-    if not date:
+    if date is None:
         date = datetime.now(tz=KST)
 
-    if not school_name:
+    if school_name is None:
         user_repository = UserRepositoryImpl(interaction.client.database)
         get_user_usecase = GetUserUseCase(user_repository)
 
         user = await get_user_usecase.execute(interaction.user.id)
 
-        if not user.school_info:
+        if user.school_info is None:
             raise SchoolInfoNotFound
 
         school_info = user.school_info
