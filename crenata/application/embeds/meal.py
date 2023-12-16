@@ -29,7 +29,7 @@ def meal_embed_builder(meals: list[Meal], is_private: bool) -> CrenataEmbed:
     embed.set_author(name="🔍 급식 검색 결과")
 
     for meal in meals:
-        if embed.title is None and embed.description is None:
+        if not embed.title and not embed.description:
             (school_name,) = follow_private_preference(
                 is_private, school_name=meal.school_name
             )
