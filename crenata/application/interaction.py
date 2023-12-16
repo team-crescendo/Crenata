@@ -74,7 +74,8 @@ async def major_info_selector(
     await interaction.edit_original_response(
         view=view,
         embed=CrenataEmbed(
-            title="특성화고 또는 특목고인 것으로 추정됩니다.", description="학과를 선택해 주시길 바랍니다."
+            title="특성화고 또는 특목고인 것으로 추정됩니다.",
+            description="학과를 선택해 주시길 바랍니다.",
         ),
     )
 

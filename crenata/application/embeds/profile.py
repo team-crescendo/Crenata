@@ -33,10 +33,7 @@ def profile_embed_builder(
 
     embed.add_field(
         name="🏫 내 학교 정보",
-        value=(
-            f"{my_school_info}> `/학교 설정`으로 학교 정보 설정 또는 변경이"
-            " 가능합니다.\n\n-----"
-        ),
+        value=f"{my_school_info}> `/학교 설정`으로 학교 정보 설정 또는 변경이 가능합니다.\n\n-----",
         inline=False,
     )
 

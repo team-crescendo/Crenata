@@ -20,7 +20,10 @@ def parse_args(parser: ArgumentParser, argv: list[str]) -> Namespace:
     )
 
     config.add_argument(
-        "--test-guild-id", type=int, default=0, help="테스트할 길드 ID입니다. (기본값: 0)"
+        "--test-guild-id",
+        type=int,
+        default=0,
+        help="테스트할 길드 ID입니다. (기본값: 0)",
     )
 
     config.add_argument(
