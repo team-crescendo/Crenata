@@ -1,6 +1,6 @@
 import asyncio
 from datetime import datetime
-from typing import Optional
+from typing import Optional, cast
 
 from crenata.core.timetable.domain.entity import Timetable
 from crenata.core.timetable.domain.repository import TimetableRepository
@@ -62,15 +62,15 @@ class GetWeekTimetableUseCase:
                     school_name,
                     grade,
                     room,
-                    date=date,
-                    major=major,
-                    department=department,
+                    date,
+                    major,
+                    department,
                 )
                 for date in dates
             ]
         )
 
-        if all(not time_table for time_table in nullable_timetable):
+        if not all(timetable for timetable in nullable_timetable):
             raise TimetableNotFound
 
-        return nullable_timetable
+        return cast(list[list[Timetable]], nullable_timetable)
