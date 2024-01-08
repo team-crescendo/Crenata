@@ -25,7 +25,9 @@ class ErrorHandler(Generic[ClientT]):
 
         return self.mapped_handlers.get(exception_class)
 
-    def handle_this_exception(self, *error_types: type[Error]) -> Callable[
+    def handle_this_exception(
+        self, *error_types: type[Error]
+    ) -> Callable[
         [Callable[[Interaction[ClientT], Error], Coroutine[Any, Any, None]]],
         Callable[[Interaction[ClientT], Error], Coroutine[Any, Any, None]],
     ]:
