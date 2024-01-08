@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Optional
+from typing import Optional
 
 from discord import Interaction
 from discord.interactions import Interaction
@@ -20,9 +20,9 @@ class CrenataView(View):
         super().__init__(timeout=timeout)
 
         self.executor_id = executor_id
-        self.error_handler: ErrorHandler[Any] = ErrorHandler()
+        self.error_handler = ErrorHandler()
 
-    def set_error_handler(self, handler: ErrorHandler[Any]) -> None:
+    def set_error_handler(self, handler: ErrorHandler) -> None:
         self.error_handler = handler
 
     async def interaction_check(self, interaction: Interaction) -> bool:
