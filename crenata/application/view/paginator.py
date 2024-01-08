@@ -51,4 +51,5 @@ class Paginator(CrenataView):
         await interaction.response.edit_message(embed=self.embeds[self.index])
 
 
-class SelectablePaginator(Paginator, Selector): ...
+class SelectablePaginator(Paginator, Selector):
+    ...
