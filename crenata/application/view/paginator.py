@@ -1,5 +1,5 @@
 from functools import cached_property
-from typing import Any, Optional
+from typing import Optional
 
 from discord import ButtonStyle, Interaction
 from discord.ui import Button, button
@@ -33,7 +33,7 @@ class Paginator(CrenataView):
         return len(self.embeds)
 
     @button(label="이전", style=ButtonStyle.primary, emoji="◀")
-    async def prev(self, interaction: Interaction, _: Button[Any]) -> None:
+    async def prev(self, interaction: Interaction, _: Button[CrenataView]) -> None:
         self.index -= 1
 
         if self.index < 0:
@@ -42,7 +42,7 @@ class Paginator(CrenataView):
         await interaction.response.edit_message(embed=self.embeds[self.index])
 
     @button(label="다음", style=ButtonStyle.primary, emoji="▶️")
-    async def next(self, interaction: Interaction, _: Button[Any]) -> None:
+    async def next(self, interaction: Interaction, _: Button[CrenataView]) -> None:
         self.index += 1
 
         if self.index >= self.total:
