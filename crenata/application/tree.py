@@ -21,4 +21,5 @@ class CrenataCommandTree(CommandTree[ClientT]):
     ) -> None:
         await self.error_handler.on_error(interaction, error)
 
-    async def interaction_check(self, interaction: Interaction[ClientT]) -> bool: ...
+    async def interaction_check(self, interaction: Interaction[ClientT]) -> bool:
+        ...
