@@ -31,9 +31,10 @@ class Crenata(Client):
     async def setup_hook(self) -> None:
         if self.config.PRODUCTION:
             await self.tree.sync()
-
         else:
-            await self.tree.sync(guild=Object(self.config.TEST_GUILD_ID))
+            test_guild = Object(self.config.TEST_GUILD_ID)
+            self.tree.copy_global_to(guild=test_guild)
+            await self.tree.sync(guild=test_guild)
 
     async def close(self) -> None:
         await self.closeup()
