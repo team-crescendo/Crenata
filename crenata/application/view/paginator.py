@@ -20,12 +20,14 @@ class Paginator(CrenataView):
         timeout: Optional[float] = 60,
         *,
         embeds: list[CrenataEmbed] = [],
+        views: lists[CrenataEmbed] = [],
     ):
         super().__init__(executor_id, timeout)
 
         self.embeds = [
             embed.apply_page(i, len(embeds)) for i, embed in enumerate(embeds, 1)
         ]
+        self.views = views
         self.index = 0
 
     @cached_property
@@ -39,7 +41,7 @@ class Paginator(CrenataView):
         if self.index < 0:
             self.index = self.total - 1
 
-        await interaction.response.edit_message(embed=self.embeds[self.index])
+        await interaction.response.edit_message(embed=self.embeds[self.index], view=self.views[self.index])
 
     @button(label="다음", style=ButtonStyle.primary, emoji="▶️")
     async def next(self, interaction: Interaction, _: Button[CrenataView]) -> None:
@@ -48,7 +50,7 @@ class Paginator(CrenataView):
         if self.index >= self.total:
             self.index = 0
 
-        await interaction.response.edit_message(embed=self.embeds[self.index])
+        await interaction.response.edit_message(embed=self.embeds[self.index], view=self.views[self.index])
 
 
 class SelectablePaginator(Paginator, Selector):
