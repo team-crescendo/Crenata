@@ -29,7 +29,13 @@ def profile_embed_builder(
             private, school_name=school_info.name, grade_room=grade_room
         )
 
-        my_school_info = f"**[학교]** {school_name}\n**[학년/반]** {grade_room}\n\n"
+        my_school_info = f"**[학교]** {school_name}\n**[학년/반]** {grade_room}\n"
+
+        if school_info.major:
+            (major,) = follow_private_preference(private, major=school_info.major)
+            my_school_info += f"**[학과]** {major}\n\n"
+        else:
+            my_school_info += "\n"
 
     embed.add_field(
         name="🏫 내 학교 정보",
