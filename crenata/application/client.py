@@ -25,7 +25,7 @@ class Crenata(Client):
         if self.neispy.session and not self.neispy.session.closed:
             await self.neispy.session.close()
 
-        if getattr(self.database, "database", None):
+        if getattr(self, "database", None):
             await self.database.engine.dispose()
 
     async def setup_hook(self) -> None:
