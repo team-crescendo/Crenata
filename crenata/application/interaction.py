@@ -1,18 +1,18 @@
 from discord import Interaction
-from discord.ui import Select, View
+from discord.ui import Select
 
 from crenata.application.client import Crenata
 from crenata.application.embeds import CrenataEmbed
 from crenata.application.embeds.school import school_embed_builder
 from crenata.application.error.exceptions import UserCancelled
 from crenata.application.strings import ApplicationStrings
+from crenata.application.view import CrenataView
 from crenata.application.view.paginator import SelectablePaginator
-from crenata.application.view.selector import Selector
 from crenata.core.majorinfo.domain.entity import MajorInfo
 from crenata.core.school.domain.entity import School
 
 
-class MajorInfoUI(Select[View]):
+class MajorInfoUI(Select[CrenataView]):
     def __init__(self, executor_id: int, major_infos: list[MajorInfo]) -> None:
         self.executor_id = executor_id
 
@@ -67,20 +67,37 @@ async def major_info_selector(
     """
     특목고, 특성화고의 경우 학과를 선택할 수 있는 페이지를 보여줍니다.
     """
-    major_info_ui = MajorInfoUI(interaction.user.id, major_infos)
-    view = Selector(interaction.user.id)
-    view.add_item(major_info_ui)
+    sliced_major_infos = [
+        major_infos[i : i + 25] for i in range(0, len(major_infos), 25)
+    ]
+
+    components = [
+        MajorInfoUI(interaction.user.id, sliced_major_info)
+        for sliced_major_info in sliced_major_infos
+    ]
+
+    embeds = [
+        CrenataEmbed(
+            title="특성화고 또는 특목고인 것으로 추정됩니다.",
+            description="학과를 선택해 주시길 바랍니다.",
+        )
+        for _ in range(len(components))
+    ]
+
+    view = SelectablePaginator(
+        interaction.user.id, embeds=embeds, components=components
+    )
+    view.add_item(components[0])
 
     await interaction.edit_original_response(
         view=view,
-        embed=CrenataEmbed(
-            title="특성화고 또는 특목고인 것으로 추정됩니다.",
-            description="학과를 선택해 주시길 바랍니다.",
-        ),
+        embed=embeds[0],
     )
 
     if not await view.wait():
         if view.is_confirm:
-            return major_infos[int(major_info_ui.values[0][0]) - 1]
+            return sliced_major_infos[view.index][
+                int(view.components[view.index].values[0][0]) - 1
+            ]
 
     raise UserCancelled
