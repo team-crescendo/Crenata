@@ -14,4 +14,6 @@ class CoreStrings:
     MEAL_NAME_NOT_FOUND = "해당하는 식사 명을 찾을 수 없습니다. 조식, 중식, 석식 중에 다시 선택해 주시길 바랍니다."
     PREFERENCES_NOT_FOUND = "환경설정을 찾을 수 없습니다."
 
-    SCHOOL_INFO_NOT_FOUND = "학교 정보를 찾을 수 없습니다. 학교를 먼저 등록해 주시기 바랍니다."
+    SCHOOL_INFO_NOT_FOUND = (
+        "학교 정보를 찾을 수 없습니다. 학교를 먼저 등록해 주시기 바랍니다."
+    )

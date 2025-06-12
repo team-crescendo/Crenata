@@ -14,9 +14,8 @@ class TimetableAdapter(Timetable):
     @classmethod
     def from_neispy(
         cls,
-        timetable: ElsTimeTableRow
-        | MisTimeTableRow
-        | HisTimeTableRow
-        | SpsTimeTableRow,
+        timetable: (
+            ElsTimeTableRow | MisTimeTableRow | HisTimeTableRow | SpsTimeTableRow
+        ),
     ) -> Timetable:
         return cls(subject=timetable.ITRT_CNTNT, date=to_datetime(timetable.ALL_TI_YMD))
