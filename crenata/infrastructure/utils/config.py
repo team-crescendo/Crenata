@@ -3,6 +3,7 @@ Crenata의 Config입니다.
 
 모든 설정값은 이곳에서 참조되어야 합니다.
 """
+
 from argparse import Namespace
 from json import loads
 from os import environ

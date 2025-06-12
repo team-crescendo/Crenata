@@ -17,5 +17,4 @@ class TimetableRepository(ABC):
         date: datetime,
         major: Optional[str] = None,
         department: Optional[str] = None,
-    ) -> Optional[list[Timetable]]:
-        ...
+    ) -> Optional[list[Timetable]]: ...

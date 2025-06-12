@@ -1,6 +1,7 @@
 """
 명령줄 인수를 파싱하는 모듈입니다.
 """
+
 from argparse import ArgumentParser, Namespace
 
 
@@ -10,7 +11,9 @@ def parse_args(parser: ArgumentParser, argv: list[str]) -> Namespace:
     """
     config = parser.add_argument_group("config")
 
-    config.add_argument("--token", type=str, default="", help="디스코드 봇 토큰입니다. (기본값: '')")
+    config.add_argument(
+        "--token", type=str, default="", help="디스코드 봇 토큰입니다. (기본값: '')"
+    )
 
     config.add_argument(
         "--neis-api-key",
