@@ -14,7 +14,7 @@ SQLAlchemy = "^2.0.15"
 pandas = "^2.3.0"
 matplotlib = "^3.10.3"
 asyncpg = "^0.30.0"
-pillow = "^11.2.1"
+pillow = "^11.3.0"
 
 [tool.poetry.group.style.dependencies]
 black = "^24.3.0"
