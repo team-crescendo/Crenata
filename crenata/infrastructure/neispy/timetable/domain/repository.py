@@ -39,7 +39,7 @@ class TimetableRepositoryImpl(TimetableRepository):
                 func = partial(func, **{"ORD_SC_NM": department, "DDDEP_NM": major})
 
         else:
-            return None
+            func = self.neispy.spsTimetable
 
         ay = date.year if date.month > 2 else date.year - 1
         sem = 1 if 2 < date.month < 8 else 2
