@@ -40,11 +40,19 @@ class AllergyUI(ui.Select[ui.View]):
 async def meal(
     interaction: Interaction[Crenata],
     school_name: Optional[str] = None,
-    meal_time: Literal["조식", "중식", "석식"] = "중식",
+    meal_time: Literal["조식", "중식", "석식", "아침", "점심", "저녁"] = "중식",
     date: Optional[app_commands.Transform[datetime, ToDatetime]] = None,
 ) -> None:
+    convert_table = {
+        "아침": "조식",
+        "점심": "중식",
+        "저녁": "석식",
+    }
     if date is None:
         date = datetime.now(tz=KST)
+
+    if meal_time in convert_table:
+        meal_time = convert_table[meal_time]
 
     if school_name is None:
         user_repository = UserRepositoryImpl(interaction.client.database)
