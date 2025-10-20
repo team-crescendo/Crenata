@@ -55,9 +55,10 @@ class UserRepositoryImpl(UserRepository):
                 query = (
                     select(UserSchema)
                     .where(
-                        SchoolInfoSchema.edu_office_code == school_info.edu_office_code,
-                        SchoolInfoSchema.standard_school_code
-                        == school_info.standard_school_code,
+                        UserSchema.school_info.has(
+                            edu_office_code=school_info.edu_office_code,
+                            standard_school_code=school_info.standard_school_code,
+                        )
                     )
                     .options(
                         selectinload(UserSchema.preferences),
